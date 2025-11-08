@@ -1,466 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Something Games | Game Studio</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Something Games — Crafting Experiences</title>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            overflow-x: hidden;
-        }
+  <!-- SEO + Social -->
+  <meta name="description" content="Something Games — indie studio crafting cinematic, memorable game experiences. Rearriva VR and more coming soon." />
+  <meta property="og:title" content="Something Games — Crafting Experiences" />
+  <meta property="og:description" content="Indie studio building cinematic, memorable game experiences. Check out Rearriva VR and our upcoming projects." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="./" />
+  <meta property="og:image" content="placeholder-share.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" href="data:,">
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10, 10, 10, 0.8);
-            backdrop-filter: blur(10px);
-        }
+  <style>
+    :root{
+      --bg:#0a0a0a;
+      --card:#0f0f12;
+      --muted:rgba(255,255,255,0.7);
+      --accent-1:#667eea;
+      --accent-2:#7b61ff;
+      --glass: rgba(255,255,255,0.04);
+      --radius:18px;
+      --gap:clamp(1rem,2.4vw,2rem);
+      --nav-height:76px;
+    }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
+    /* reset */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
+      background: radial-gradient(1200px 500px at 10% 10%, rgba(120,66,255,0.06), transparent 6%),
+                  radial-gradient(1000px 400px at 90% 80%, rgba(102,126,234,0.04), transparent 8%),
+                  var(--bg);
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      overflow-x:hidden;
+      padding-top: var(--nav-height);
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 3rem;
-            list-style: none;
-        }
+    /* NAV */
+    nav{
+      position:fixed;
+      left:0;right:0;top:0;
+      height:var(--nav-height);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding:0 5%;
+      z-index:1200;
+      background: linear-gradient(180deg, rgba(10,10,10,0.85), rgba(10,10,10,0.6));
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand{
+      display:flex;gap:0.75rem;align-items:center;font-weight:700;letter-spacing:-0.4px;
+      font-size:1.05rem;
+    }
+    .brand .logo-dot{
+      width:12px;height:12px;border-radius:50%;
+      background: linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      box-shadow:0 6px 22px rgba(99,66,255,0.15), inset 0 -4px 12px rgba(255,255,255,0.03);
+    }
 
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: opacity 0.3s;
-        }
+    .nav-links{
+      display:flex;gap:1.6rem;align-items:center;
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;font-weight:600;font-size:.95rem;
+      transition:opacity .18s,transform .18s;
+    }
+    .nav-links a:hover{opacity:0.8;transform:translateY(-2px)}
 
-        .nav-links a:hover {
-            opacity: 0.6;
-        }
+    /* Mobile nav toggle */
+    .menu-btn{
+      display:none;
+      width:44px;height:44px;border-radius:10px;border:none;
+      background:transparent;color:var(--muted);cursor:pointer;font-size:1.3rem;
+      align-items:center;justify-content:center;
+    }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
+    /* HERO */
+    .hero{
+      min-height:calc(100vh - var(--nav-height));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:6vw 5%;
+      position:relative;
+      overflow:visible;
+    }
 
-        .hero-content {
-            text-align: center;
-            z-index: 2;
-            padding: 0 2rem;
-        }
+    .hero-inner{
+      max-width:1100px;
+      width:100%;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap: clamp(1.2rem,2.8vw,2.6rem);
+      align-items:center;
+      transform:translateZ(0);
+    }
 
-        .hero h1 {
-            font-size: clamp(3rem, 8vw, 7rem);
-            font-weight: 800;
-            letter-spacing: -2px;
-            margin-bottom: 1.5rem;
-            line-height: 1;
-            animation: fadeInUp 1s ease;
-        }
+    .hero-copy h1{
+      font-size:clamp(2.4rem,6.6vw,4.6rem);
+      margin:0 0 .5rem 0;
+      letter-spacing:-1px;
+      line-height:1;
+      font-weight:800;
+      text-transform:uppercase;
+      background: linear-gradient(90deg, #fff, #e9e9ff 40%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+    }
+    .hero-copy p{
+      color:var(--muted);
+      margin: 0 0 1.4rem 0;
+      font-size:clamp(1rem,1.6vw,1.15rem);
+    }
 
-        .hero p {
-            font-size: clamp(1.2rem, 2vw, 1.5rem);
-            opacity: 0.7;
-            margin-bottom: 3rem;
-            animation: fadeInUp 1s ease 0.2s backwards;
-        }
+    .ctas{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn{
+      display:inline-flex;align-items:center;gap:.6rem;
+      padding:.85rem 1.15rem;border-radius:999px;font-weight:700;border:0;cursor:pointer;
+      text-decoration:none;color:#0a0a0a;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      box-shadow: 0 10px 30px rgba(123,97,255,0.14);
+      transition: transform .16s, box-shadow .16s, filter .16s;
+    }
+    .btn.secondary{
+      background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.06);
+      box-shadow:none;
+    }
+    .btn:hover{transform:translateY(-4px)}
 
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: #fff;
-            color: #0a0a0a;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 1s ease 0.4s backwards;
-        }
+    /* hero visual card */
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:20px;padding:12px;box-shadow: 0 14px 60px rgba(2,2,6,0.6);
+      border: 1px solid rgba(255,255,255,0.03);
+      display:flex;flex-direction:column;gap:12px;align-items:stretch;
+      overflow:hidden;
+    }
+    .hero-preview{
+      width:100%;height:280px;border-radius:12px;overflow:hidden;position:relative;background:#111;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .hero-preview img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(.95) saturate(1.05)}
+    .meta-strip{display:flex;align-items:center;gap:10px;padding:8px 10px;font-size:.9rem;color:var(--muted)}
 
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
-        }
+    /* SECTIONS */
+    section{padding: clamp(3rem,6vw,5rem) 5%}
+    .container{max-width:1200px;margin:0 auto}
 
-        /* Background Animation */
-        .bg-gradient {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.3) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-        }
+    .section-title{
+      font-size:clamp(1.8rem,3.6vw,2.6rem);
+      margin:0 0 1.4rem 0;
+      font-weight:800;
+    }
 
-        /* Games Section */
-        .games-section {
-            padding: 8rem 5%;
-            position: relative;
-        }
+    /* GAMES GRID */
+    .games-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(.9rem,2vw,1.6rem);
+      margin-top:1.6rem;
+    }
 
-        .section-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            margin-bottom: 4rem;
-            text-align: center;
-            letter-spacing: -1px;
-        }
+    .game-card{
+      background:var(--glass);
+      border-radius:var(--radius);
+      overflow:hidden;
+      position:relative;
+      border:1px solid rgba(255,255,255,0.03);
+      transition: transform .34s cubic-bezier(.2,.9,.2,1), box-shadow .34s;
+      cursor:default;
+    }
+    .game-card:hover{
+      transform: translateY(-14px) scale(1.01);
+      box-shadow: 0 30px 80px rgba(12,12,18,0.6);
+    }
 
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
+    .game-thumb{
+      height:220px;background:linear-gradient(135deg,#667eea,#764ba2);
+      display:flex;align-items:center;justify-content:center;position:relative;
+      overflow:hidden;
+    }
+    .game-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+    .game-card:hover .game-thumb img{transform: scale(1.06) rotate(.6deg)}
 
-        .game-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: transform 0.4s, box-shadow 0.4s;
-            cursor: pointer;
-        }
+    .game-content{padding:1.2rem 1.4rem}
+    .game-content h3{margin:0;font-size:1.2rem}
+    .game-content p{margin:.55rem 0 0;color:var(--muted);font-size:.95rem}
 
-        .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
-        }
+    .badge-coming{
+      position:absolute;left:12px;top:12px;padding:.45rem .6rem;border-radius:999px;
+      background:rgba(0,0,0,0.35);backdrop-filter: blur(4px);font-weight:700;font-size:.8rem;color:rgba(255,255,255,.9);
+      border:1px solid rgba(255,255,255,0.04)
+    }
 
-        .game-image {
-            width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: 700;
-            position: relative;
-            overflow: hidden;
-        }
+    /* Trailer overlay */
+    .play-overlay{
+      position:absolute;right:12px;bottom:12px;padding:.45rem .6rem;border-radius:10px;
+      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color:#081;display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.85rem;
+      transform:translateY(6px);opacity:0;transition:opacity .22s,transform .22s;
+    }
+    .game-card:hover .play-overlay{opacity:1;transform:translateY(0)}
 
-        .rearriva-img {
-            background-image: url('rearriva.png.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns: 1fr 420px;gap:clamp(1rem,2.4vw,2rem);align-items:center}
+    .about-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:1.6rem;border-radius:14px;border:1px solid rgba(255,255,255,0.02)}
+    .about-card p{color:var(--muted)}
 
-        .coming-soon {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.08) 100%);
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-        }
+    /* PRIVACY TEASER */
+    .privacy-teaser{display:flex;align-items:center;gap:1rem;padding:1rem;border-radius:12px;border:1px dashed rgba(255,255,255,0.03);
+      background:linear-gradient(90deg, rgba(102,126,234,0.02), transparent);color:var(--muted);}
 
-        .coming-soon span {
-            font-size: 1.5rem;
-            font-weight: 700;
-            opacity: 0.4;
-            letter-spacing: 3px;
-        }
+    /* FOOTER */
+    footer{padding:2.4rem 5%;text-align:center;color:rgba(255,255,255,0.5);border-top:1px solid rgba(255,255,255,0.03);}
 
-        .game-info {
-            padding: 2rem;
-        }
+    /* Responsive */
+    @media (max-width:1100px){
+      .hero-inner{grid-template-columns:1fr 340px}
+      .games-grid{grid-template-columns:repeat(2, 1fr)}
+      .about-grid{grid-template-columns:1fr}
+    }
+    @media (max-width:720px){
+      .hero-inner{grid-template-columns:1fr}
+      .hero-card{order:2}
+      .menu-btn{display:flex}
+      .nav-links{display:none}
+      .games-grid{grid-template-columns:1fr}
+      .brand{font-size:.98rem}
+    }
 
-        .game-info h3 {
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
+    /* reveal animations */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
+    .reveal.show{opacity:1;transform:none}
 
-        .game-info p {
-            opacity: 0.7;
-            line-height: 1.6;
-        }
-
-        /* About Section */
-        .about-section {
-            padding: 8rem 5%;
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .about-content h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 2rem;
-            font-weight: 700;
-        }
-
-        .about-content p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            opacity: 0.8;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Privacy Policy Section */
-        .privacy-section {
-            padding: 8rem 5%;
-            background: #0a0a0a;
-        }
-
-        .privacy-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .privacy-content h2 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-align: center;
-        }
-
-        .effective-date {
-            text-align: center;
-            opacity: 0.6;
-            font-size: 1rem;
-            margin-bottom: 3rem;
-        }
-
-        .privacy-intro {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 3rem;
-            border-left: 4px solid #667eea;
-        }
-
-        .privacy-intro p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            opacity: 0.9;
-            margin: 0;
-        }
-
-        .policy-section {
-            margin-bottom: 3rem;
-        }
-
-        .policy-section h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .policy-section p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            opacity: 0.8;
-            margin-bottom: 1rem;
-        }
-
-        .policy-section ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 1.5rem 0;
-        }
-
-        .policy-section ul li {
-            padding: 0.8rem 0 0.8rem 2rem;
-            position: relative;
-            opacity: 0.8;
-            line-height: 1.6;
-        }
-
-        .policy-section ul li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .email-link {
-            color: #667eea;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        .email-link:hover {
-            opacity: 0.7;
-        }
-
-        .contact-email {
-            font-size: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 4rem 5%;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        footer p {
-            opacity: 0.5;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.1);
-            }
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .mobile-menu {
-                display: block;
-                font-size: 1.5rem;
-                cursor: pointer;
-            }
-
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    /* reduced motion respect */
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important}
+      .game-card:hover{transform:none;box-shadow:none}
+    }
+  </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="logo">SOMETHING GAMES</div>
-        <ul class="nav-links">
-            <li><a href="#games">Games</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="privacy-policy.html">Privacy</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="mobile-menu">☰</div>
-    </nav>
+  <nav>
+    <div class="brand" aria-hidden="false">
+      <div class="logo-dot" aria-hidden="true"></div>
+      SOMETHING GAMES
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="bg-gradient"></div>
-        <div class="hero-content">
-            <h1>CRAFTING EXPERIENCES</h1>
-            <p>We create games that move people</p>
-            <a href="#games" class="cta-button">Explore Our Games</a>
+    <div class="nav-links" role="navigation" aria-label="primary">
+      <a href="#games">Games</a>
+      <a href="#about">About</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="#contact">Contact</a>
+    </div>
+
+    <button class="menu-btn" aria-expanded="false" aria-controls="mobile-menu" id="menuBtn" title="Open menu">☰</button>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" role="banner">
+    <div class="hero-inner container">
+      <div class="hero-copy">
+        <h1 class="reveal">Crafting experiences</h1>
+        <p class="reveal" style="transition-delay:.06s">We design atmospheric, memorable games that stick with players.</p>
+        <div class="ctas reveal" style="transition-delay:.12s">
+          <a class="btn" href="#games">Explore Our Games</a>
+          <a class="btn secondary" href="privacy-policy.html">Privacy</a>
         </div>
-    </section>
+      </div>
 
-    <!-- Games Section -->
-    <section class="games-section" id="games">
-        <h2 class="section-title">Our Games</h2>
-        <div class="games-grid">
-            <div class="game-card">
-                <div class="game-image rearriva-img"></div>
-                <div class="game-info">
-                    <h3>Rearriva VR</h3>
-                    <p>A thrilling Gorilla Tag fan game where horror meets parkour. Outsmart eerie creatures, explore mysterious maps, and survive the stalkers watching your every move.</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-image coming-soon">
-                    <span>COMING SOON</span>
-                </div>
-                <div class="game-info">
-                    <h3>In Development</h3>
-                    <p>Something exciting is brewing. Stay tuned for our next adventure.</p>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-image coming-soon">
-                    <span>COMING SOON</span>
-                </div>
-                <div class="game-info">
-                    <h3>In Development</h3>
-                    <p>More experiences on the horizon. The journey continues.</p>
-                </div>
-            </div>
+      <div class="hero-card reveal" style="transition-delay:.18s" aria-hidden="false">
+        <div class="hero-preview">
+          <!-- lazy loaded image -->
+          <img data-src="placeholder-rearriva.jpg" alt="Rearriva VR preview" class="lazy" loading="lazy" />
         </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="about-content">
-            <h2>About Us</h2>
-            <p>Something Games is an independent game studio dedicated to creating memorable gaming experiences that resonate with players around the world.</p>
-            <p>We believe in pushing creative boundaries, embracing innovation, and crafting games that leave a lasting impact.</p>
-            <p>Based somewhere between imagination and reality, we're building something special.</p>
+        <div class="meta-strip">
+          <div style="flex:1">
+            <div style="font-weight:800">Rearriva VR</div>
+            <div style="font-size:.9rem;color:var(--muted)">Horror · Parkour · Multiplayer (fan project)</div>
+          </div>
+          <div style="font-size:.85rem;color:var(--muted)">Playtime: 15–30 min</div>
         </div>
-    </section>
+      </div>
+    </div>
+  </header>
 
-    <!-- Footer -->
-    <footer id="contact">
-        <p>&copy; 2025 Something Games. All rights reserved.</p>
-        <p style="margin-top: 1rem;"><a href="privacy-policy.html" style="color: #fff; opacity: 0.5; text-decoration: none;">Privacy Policy</a></p>
-        <p style="margin-top: 0.5rem; opacity: 0.3;">Crafting experiences, one game at a time.</p>
-    </footer>
+  <!-- GAMES -->
+  <section id="games" aria-labelledby="games-title">
+    <div class="container">
+      <h2 id="games-title" class="section-title reveal">Our Games</h2>
 
-    <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+      <div class="games-grid" id="gamesGrid">
+        <!-- Rearriva -->
+        <article class="game-card reveal">
+          <div class="game-thumb">
+            <img data-src="placeholder-rearriva.jpg" alt="Rearriva VR thumbnail" class="lazy" loading="lazy" />
+            <div class="badge-coming">Live</div>
+            <div class="play-overlay">▶ Trailer</div>
+          </div>
+          <div class="game-content">
+            <h3>Rearriva VR</h3>
+            <p>Horror meets parkour — survive stalking creatures, explore eerie levels, and use the environment to your advantage.</p>
+          </div>
+        </article>
 
-        // Parallax effect on hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero-content');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-                hero.style.opacity = 1 - (scrolled / 600);
-            }
-        });
-    </script>
+        <!-- In Development 1 -->
+        <article class="game-card reveal">
+          <div class="game-thumb">
+            <img data-src="placeholder-dev1.jpg" alt="In development" class="lazy" loading="lazy" />
+            <div class="badge-coming">Coming Soon</div>
+            <div class="play-overlay">⧉ Preview</div>
+          </div>
+          <div class="game-content">
+            <h3>Project — Unknown</h3>
+            <p>We're experimenting with tense co-op mechanics and cinematic lighting. Stay tuned for a reveal.</p>
+          </div>
+        </article>
+
+        <!-- In Development 2 -->
+        <article class="game-card reveal">
+          <div class="game-thumb">
+            <img data-src="placeholder-dev2.jpg" alt="In development" class="lazy" loading="lazy" />
+            <div class="badge-coming">Coming Soon</div>
+            <div class="play-overlay">⧉ Preview</div>
+          </div>
+          <div class="game-content">
+            <h3>Project — Experimental</h3>
+            <p>Chaotic systems, emergent gameplay — something weird and fun that pushes players to improvise.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="container about-grid">
+      <div class="about-card reveal">
+        <h2 id="about-title" class="section-title">About Us</h2>
+        <p>Something Games is an independent studio focused on atmosphere, movement, and player-first design. We build with love, test relentlessly, and ship small, polished experiences.</p>
+        <p style="margin-top:.6rem;color:var(--muted)">We value player feedback, responsible moderation, and privacy — check our policy for more details.</p>
+
+        <div style="margin-top:1rem" class="privacy-teaser">
+          <div style="font-weight:800">Privacy</div>
+          <div style="flex:1;color:var(--muted)">We minimize data collection. Read the full policy.</div>
+          <a href="privacy-policy.html" class="btn" style="padding:.55rem .8rem;font-weight:700">Read</a>
+        </div>
+      </div>
+
+      <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
+        <div style="width:100%;max-width:420px">
+          <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
+            <img data-src="placeholder-studio.jpg" alt="Studio art" class="lazy" loading="lazy" style="width:100%;height:260px;object-fit:cover;border-radius:8px;display:block" />
+            <div style="padding-top:.8rem;color:var(--muted);font-size:.95rem">Based somewhere between imagination and reality — building immersive experiences.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact" class="reveal" style="transition-delay:.04s">
+    <div class="container" style="display:flex;flex-direction:column;align-items:center;gap:.8rem">
+      <div style="font-weight:700">Something Games © 2025</div>
+      <div style="color:var(--muted)">Crafting experiences, one game at a time.</div>
+      <div style="margin-top:.6rem;color:var(--muted)">Contact: <a href="mailto:ildegonzoalez@gmail.com" style="color:var(--accent-1);text-decoration:none">ildegonzoalez@gmail.com</a></div>
+      <div style="margin-top:.8rem"><a href="privacy-policy.html" style="color:rgba(255,255,255,0.55);text-decoration:none">Privacy Policy</a></div>
+    </div>
+  </footer>
+
+  <!-- Mobile menu (inserted programmatically) -->
+  <div id="mobile-menu" aria-hidden="true" style="display:none"></div>
+
+  <script>
+    // Basic helpers
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+
+    // MENU: create accessible mobile menu
+    const menuBtn = $('#menuBtn');
+    const mobileMenu = $('#mobile-menu');
+    menuBtn && menuBtn.addEventListener('click', () => {
+      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+      if (!expanded) openMobileMenu(); else closeMobileMenu();
+    });
+
+    function openMobileMenu(){
+      menuBtn.setAttribute('aria-expanded','true');
+      if (mobileMenu) {
+        mobileMenu.style.display='block';
+        mobileMenu.setAttribute('aria-hidden','false');
+        mobileMenu.innerHTML = `
+          <div style="position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85));backdrop-filter:blur(6px);padding:calc(var(--nav-height) + 20px) 6%;display:flex;flex-direction:column;gap:18px;z-index:2000">
+            <a href="#games" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Games</a>
+            <a href="#about" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">About</a>
+            <a href="privacy-policy.html" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Privacy</a>
+            <a href="#contact" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Contact</a>
+            <button id="closeMobile" style="margin-top:auto;padding:.75rem;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:700">Close</button>
+          </div>`;
+        document.body.style.overflow = 'hidden';
+        $('#closeMobile').addEventListener('click', closeMobileMenu);
+      }
+    }
+    function closeMobileMenu(){
+      menuBtn.setAttribute('aria-expanded','false');
+      if (mobileMenu){
+        mobileMenu.style.display='none';
+        mobileMenu.setAttribute('aria-hidden','true');
+        mobileMenu.innerHTML = '';
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const target = a.getAttribute('href');
+        if (target && target.startsWith('#')) {
+          e.preventDefault();
+          const el = document.querySelector(target);
+          if (!el) { closeMobileMenu(); return; }
+          el.scrollIntoView({behavior:'smooth',block:'start'});
+          closeMobileMenu();
+        }
+      });
+    });
+
+    // Intersection Observer for reveal + lazy load images
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry=>{
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+
+    document.querySelectorAll('.reveal').forEach(el=>{
+      io.observe(el);
+    });
+
+    // Lazy load images
+    const lazyImgs = [...document.querySelectorAll('img.lazy')];
+    const imgObserver = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(entry=>{
+        if (entry.isIntersecting){
+          const img = entry.target;
+          const src = img.getAttribute('data-src');
+          if (src){
+            img.src = src;
+            img.removeAttribute('data-src');
+            img.classList.remove('lazy');
+          }
+          obs.unobserve(img);
+        }
+      });
+    }, {rootMargin: '200px 0px'});
+
+    lazyImgs.forEach(i => imgObserver.observe(i));
+
+    // Parallax subtle effect on scroll for hero copy
+    const heroCopy = document.querySelector('.hero-copy');
+    window.addEventListener('scroll', ()=> {
+      if (!heroCopy) return;
+      const y = window.scrollY;
+      heroCopy.style.transform = `translateY(${Math.min(y * 0.08, 18)}px)`;
+    }, {passive:true});
+
+    // Accessibility: close mobile menu with Escape
+    window.addEventListener('keydown', e=>{
+      if (e.key === 'Escape') closeMobileMenu();
+    });
+
+    // small: mark reveal elements with slight stagger
+    document.querySelectorAll('.reveal').forEach((el,i)=>{
+      el.style.transitionDelay = (i * 40) + 'ms';
+    });
+  </script>
 </body>
 </html>
