@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Something Games | Game Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+            margin-bottom: 1.5rem;
+            line-height: 1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            opacity: 0.7;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: #fff;
+            color: #0a0a0a;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Background Animation */
+        .bg-gradient {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(88, 28, 135, 0.3) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        /* Games Section */
+        .games-section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 4rem;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.4s, box-shadow 0.4s;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 255, 255, 0.1);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .game-card:nth-child(2) .game-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .game-card:nth-child(3) .game-image {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .game-info {
+            padding: 2rem;
+        }
+
+        .game-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-info p {
+            opacity: 0.7;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-section {
+            padding: 8rem 5%;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Privacy Policy Section */
+        .privacy-section {
+            padding: 8rem 5%;
+            background: #0a0a0a;
+        }
+
+        .privacy-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .privacy-content h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .effective-date {
+            text-align: center;
+            opacity: 0.6;
+            font-size: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .privacy-intro {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .privacy-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .policy-section {
+            margin-bottom: 3rem;
+        }
+
+        .policy-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .policy-section p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .policy-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 1.5rem 0;
+        }
+
+        .policy-section ul li {
+            padding: 0.8rem 0 0.8rem 2rem;
+            position: relative;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .policy-section ul li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .email-link {
+            color: #667eea;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .email-link:hover {
+            opacity: 0.7;
+        }
+
+        .contact-email {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">SOMETHING GAMES</div>
+        <ul class="nav-links">
+            <li><a href="#games">Games</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#privacy">Privacy</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="mobile-menu">☰</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="bg-gradient"></div>
+        <div class="hero-content">
+            <h1>CRAFTING EXPERIENCES</h1>
+            <p>We create games that move people</p>
+            <a href="#games" class="cta-button">Explore Our Games</a>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games-section" id="games">
+        <h2 class="section-title">Our Games</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <div class="game-image rearriva-img"></div>
+                <div class="game-info">
+                    <h3>Rearriva VR</h3>
+                    <p>A thrilling Gorilla Tag fan game where horror meets parkour. Outsmart eerie creatures, explore mysterious maps, and survive the stalkers watching your every move.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-image coming-soon">
+                    <span>COMING SOON</span>
+                </div>
+                <div class="game-info">
+                    <h3>In Development</h3>
+                    <p>Something exciting is brewing. Stay tuned for our next adventure.</p>
+                </div>
+            </div>
+            <div class="game-card">
+                <div class="game-image coming-soon">
+                    <span>COMING SOON</span>
+                </div>
+                <div class="game-info">
+                    <h3>In Development</h3>
+                    <p>More experiences on the horizon. The journey continues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section" id="about">
+        <div class="about-content">
+            <h2>About Us</h2>
+            <p>Something Games is an independent game studio dedicated to creating memorable gaming experiences that resonate with players around the world.</p>
+            <p>We believe in pushing creative boundaries, embracing innovation, and crafting games that leave a lasting impact.</p>
+            <p>Based somewhere between imagination and reality, we're building something special.</p>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Section -->
+    <section class="privacy-section" id="privacy">
+        <div class="privacy-content">
+            <h2>Privacy Policy – Rearriva VR</h2>
+            <p class="effective-date">Effective Date: November 4, 2025</p>
+            
+            <div class="privacy-intro">
+                <p>Rearriva VR ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect information when you play Rearriva VR on supported VR platforms.</p>
+            </div>
+
+            <div class="policy-section">
+                <h3>1. Information We Collect</h3>
+                <p>Rearriva VR minimizes personal data collection. We may collect the following types of information:</p>
+                <ul>
+                    <li>Platform-provided data, such as Oculus/Meta user ID or display name</li>
+                    <li>Gameplay data, including playtime, in-game actions, and player behavior</li>
+                    <li>Crash reports and bug logs to improve stability and performance</li>
+                </ul>
+                <p>We do not collect personal identifiers such as your real name, physical address, or payment information.</p>
+            </div>
+
+            <div class="policy-section">
+                <h3>2. How We Use Your Information</h3>
+                <p>We use the collected information to:</p>
+                <ul>
+                    <li>Improve gameplay experience and app performance</li>
+                    <li>Detect and prevent cheating or abuse</li>
+                    <li>Support moderation and enforce community guidelines</li>
+                    <li>Analyze crashes and collect feedback for development improvements</li>
+                </ul>
+            </div>
+
+            <div class="policy-section">
+                <h3>3. Data Sharing</h3>
+                <p>We do not sell your information. We may share limited data with trusted third-party services (such as analytics or platform moderation tools), only as necessary for app functionality, safety, or compliance.</p>
+            </div>
+
+            <div class="policy-section">
+                <h3>4. Children's Privacy</h3>
+                <p>Rearriva VR is intended for users aged 13 and older. We do not knowingly collect personal data from children under 13. If we become aware that such data has been collected without verified parental consent, we will delete it promptly.</p>
+            </div>
+
+            <div class="policy-section">
+                <h3>5. Your Rights</h3>
+                <p>All users have the right to:</p>
+                <ul>
+                    <li>Access the personal data we hold about you</li>
+                    <li>Request correction or deletion of your data</li>
+                    <li>Opt out of certain types of data collection where applicable</li>
+                </ul>
+                <p>To exercise any of these rights, contact us at: <a href="mailto:ildegonzoalez@gmail.com" class="email-link">ildegonzoalez@gmail.com</a></p>
+            </div>
+
+            <div class="policy-section">
+                <h3>6. Updates to This Policy</h3>
+                <p>We may update this Privacy Policy from time to time. If significant changes are made, we will notify users through in-app messaging or platform updates.</p>
+            </div>
+
+            <div class="policy-section">
+                <h3>7. Contact Us</h3>
+                <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
+                <p class="contact-email">📧 <a href="mailto:ildegonzoalez@gmail.com" class="email-link">ildegonzoalez@gmail.com</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>&copy; 2025 Something Games. All rights reserved.</p>
+        <p style="margin-top: 1rem;"><a href="#privacy" style="color: #fff; opacity: 0.5; text-decoration: none;">Privacy Policy</a></p>
+        <p style="margin-top: 0.5rem; opacity: 0.3;">Crafting experiences, one game at a time.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-content');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                hero.style.opacity = 1 - (scrolled / 600);
+            }
+        });
+    </script>
+</body>
+</html>
