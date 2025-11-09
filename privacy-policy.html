@@ -4,194 +4,356 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Rearriva VR | Something Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root{
+          --cave-dark:#0d0d1a;
+          --cave-blue:#00d4ff;
+          --cave-purple:#d946ef;
+          --cave-pink:#ff006e;
+          --neon-orange:#ff6b35;
+          --warning-red:#ff0033;
+          --pixel-green:#00ff88;
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{
+          font-family:'VT323',monospace;
+          background:#000;
+          color:#fff;
+          overflow-x:hidden;
+          position:relative;
+          line-height:1.8;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.6;
+        /* GLITCH BACKGROUND */
+        .glitch-bg{
+          position:fixed;
+          top:0;
+          left:0;
+          width:100%;
+          height:100%;
+          background:
+            linear-gradient(45deg, transparent 48%, var(--cave-blue) 49%, var(--cave-blue) 51%, transparent 52%),
+            linear-gradient(-45deg, transparent 48%, var(--cave-purple) 49%, var(--cave-purple) 51%, transparent 52%);
+          background-size:20px 20px;
+          opacity:0.03;
+          z-index:0;
+          animation:bgScroll 20s linear infinite;
+        }
+        @keyframes bgScroll{0%{background-position:0 0}100%{background-position:100px 100px}}
+
+        /* CAVE LIGHTING */
+        .cave-lights{
+          position:fixed;
+          width:100%;
+          height:100%;
+          pointer-events:none;
+          z-index:1;
+        }
+        .light{
+          position:absolute;
+          border-radius:50%;
+          filter:blur(80px);
+          opacity:0.2;
+          animation:flicker 3s ease-in-out infinite;
+        }
+        .light-1{
+          width:400px;
+          height:400px;
+          background:var(--cave-blue);
+          top:20%;
+          right:10%;
+        }
+        .light-2{
+          width:350px;
+          height:350px;
+          background:var(--cave-purple);
+          bottom:30%;
+          left:10%;
+          animation-delay:1.5s;
+        }
+        @keyframes flicker{
+          0%,100%{opacity:0.2;transform:scale(1)}
+          50%{opacity:0.35;transform:scale(1.1)}
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        /* SCANLINES */
+        .scanlines{
+          position:fixed;
+          top:0;
+          left:0;
+          width:100%;
+          height:100%;
+          background:repeating-linear-gradient(
+            0deg,
+            rgba(0,0,0,0.15),
+            rgba(0,0,0,0.15) 1px,
+            transparent 1px,
+            transparent 2px
+          );
+          pointer-events:none;
+          z-index:999;
+          opacity:0.5;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            text-decoration: none;
-            color: #fff;
-            transition: opacity 0.3s;
+        /* NAV */
+        nav{
+          position:fixed;
+          top:0;
+          left:0;
+          right:0;
+          padding:1.5rem 5%;
+          z-index:1000;
+          background:rgba(0,0,0,0.9);
+          border-bottom:3px solid var(--cave-blue);
+          box-shadow:0 0 20px rgba(0,212,255,0.5);
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        }
+        .logo{
+          font-family:'Press Start 2P',monospace;
+          font-size:1rem;
+          color:var(--cave-blue);
+          text-shadow:0 0 10px var(--cave-blue);
+          text-decoration:none;
+          transition:all 0.3s;
+        }
+        .logo:hover{
+          text-shadow:0 0 20px var(--cave-blue);
+        }
+        .back-link{
+          font-family:'Press Start 2P',monospace;
+          font-size:0.7rem;
+          color:var(--pixel-green);
+          text-decoration:none;
+          padding:0.7rem 1.5rem;
+          border:2px solid var(--pixel-green);
+          background:#000;
+          transition:all 0.3s;
+        }
+        .back-link:hover{
+          background:var(--pixel-green);
+          color:#000;
+          transform:translate(-3px,-3px);
+          box-shadow:3px 3px 0 var(--pixel-green);
         }
 
-        .logo:hover {
-            opacity: 0.7;
+        /* CONTAINER */
+        .privacy-container{
+          max-width:900px;
+          margin:0 auto;
+          padding:150px 5% 80px;
+          position:relative;
+          z-index:2;
         }
 
-        .back-link {
-            color: #667eea;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: opacity 0.3s;
+        /* HEADER */
+        .header-box{
+          background:rgba(0,0,0,0.8);
+          border:3px solid var(--cave-blue);
+          padding:3rem 2rem;
+          margin-bottom:4rem;
+          box-shadow:0 0 30px var(--cave-blue);
+          text-align:center;
+        }
+        h1{
+          font-family:'Press Start 2P',monospace;
+          font-size:clamp(1.2rem,3vw,1.8rem);
+          margin-bottom:2rem;
+          color:var(--cave-blue);
+          text-shadow:0 0 20px var(--cave-blue);
+          line-height:2;
+        }
+        .effective-date{
+          font-family:'Press Start 2P',monospace;
+          font-size:0.8rem;
+          color:var(--pixel-green);
+          text-shadow:0 0 10px var(--pixel-green);
         }
 
-        .back-link:hover {
-            opacity: 0.7;
+        /* INTRO */
+        .intro-section{
+          background:#000;
+          border:3px solid var(--cave-purple);
+          border-left:6px solid var(--cave-purple);
+          padding:2rem;
+          margin-bottom:3rem;
+          box-shadow:0 0 20px rgba(217,70,239,0.3);
+        }
+        .intro-section p{
+          font-size:1.4rem;
+          line-height:1.8;
+          color:rgba(255,255,255,0.9);
         }
 
-        /* Main Content */
-        .privacy-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 10rem 5% 5rem;
+        /* POLICY SECTIONS */
+        .policy-section{
+          background:rgba(0,0,0,0.6);
+          border:2px solid rgba(0,212,255,0.3);
+          padding:2rem;
+          margin-bottom:2.5rem;
+          position:relative;
+          transition:all 0.3s;
+        }
+        .policy-section:hover{
+          border-color:var(--cave-blue);
+          box-shadow:0 0 20px rgba(0,212,255,0.3);
+        }
+        .policy-section h2{
+          font-family:'Press Start 2P',monospace;
+          font-size:1.1rem;
+          margin-bottom:1.5rem;
+          color:var(--cave-purple);
+          text-shadow:0 0 10px var(--cave-purple);
+          line-height:1.8;
+        }
+        .policy-section p{
+          font-size:1.3rem;
+          line-height:1.8;
+          color:rgba(255,255,255,0.85);
+          margin-bottom:1.5rem;
         }
 
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
-            font-weight: 700;
-            text-align: center;
+        /* LISTS */
+        .policy-section ul{
+          list-style:none;
+          padding:0;
+          margin:1.5rem 0;
+        }
+        .policy-section ul li{
+          padding:1rem 0 1rem 2.5rem;
+          position:relative;
+          font-size:1.3rem;
+          line-height:1.8;
+          color:rgba(255,255,255,0.85);
+          border-left:2px solid var(--pixel-green);
+          margin-bottom:0.5rem;
+          padding-left:1.5rem;
+        }
+        .policy-section ul li:before{
+          content:"►";
+          position:absolute;
+          left:0.5rem;
+          color:var(--pixel-green);
+          text-shadow:0 0 5px var(--pixel-green);
+          animation:blink 2s ease-in-out infinite;
+        }
+        @keyframes blink{
+          0%,100%{opacity:1}
+          50%{opacity:0.3}
         }
 
-        .effective-date {
-            text-align: center;
-            opacity: 0.6;
-            font-size: 1rem;
-            margin-bottom: 4rem;
+        /* EMAIL LINKS */
+        .email-link{
+          color:var(--cave-blue);
+          text-decoration:none;
+          text-shadow:0 0 5px var(--cave-blue);
+          transition:all 0.3s;
+          font-weight:bold;
+        }
+        .email-link:hover{
+          color:var(--pixel-green);
+          text-shadow:0 0 10px var(--pixel-green);
+        }
+        .contact-email{
+          font-size:1.4rem;
+          margin-top:1rem;
+          padding:1rem;
+          background:rgba(0,255,136,0.1);
+          border:2px solid var(--pixel-green);
+          display:inline-block;
         }
 
-        .intro-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 3rem;
-            border-left: 4px solid #667eea;
+        /* FOOTER */
+        footer{
+          padding:3rem 5%;
+          text-align:center;
+          border-top:3px solid var(--cave-blue);
+          background:rgba(0,0,0,0.9);
+          margin-top:4rem;
+          position:relative;
+          z-index:2;
+        }
+        footer p{
+          font-family:'Press Start 2P',monospace;
+          font-size:0.7rem;
+          color:rgba(255,255,255,0.5);
+          margin-bottom:1rem;
+          line-height:2;
+        }
+        footer a{
+          color:var(--cave-blue);
+          text-decoration:none;
+          transition:all 0.3s;
+        }
+        footer a:hover{
+          text-shadow:0 0 10px var(--cave-blue);
         }
 
-        .intro-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            opacity: 0.9;
-            margin: 0;
+        /* DIVIDER */
+        .terminal-divider{
+          border:none;
+          border-top:2px solid var(--cave-blue);
+          margin:3rem 0;
+          box-shadow:0 0 10px rgba(0,212,255,0.5);
         }
 
-        .policy-section {
-            margin-bottom: 3rem;
-        }
-
-        .policy-section h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .policy-section p {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            opacity: 0.8;
-            margin-bottom: 1rem;
-        }
-
-        .policy-section ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 1.5rem 0;
-        }
-
-        .policy-section ul li {
-            padding: 0.8rem 0 0.8rem 2rem;
-            position: relative;
-            opacity: 0.8;
-            line-height: 1.6;
-        }
-
-        .policy-section ul li:before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .email-link {
-            color: #667eea;
-            text-decoration: none;
-            transition: opacity 0.3s;
-        }
-
-        .email-link:hover {
-            opacity: 0.7;
-        }
-
-        .contact-email {
-            font-size: 1.2rem;
-            margin-top: 1rem;
-        }
-
-        /* Footer */
-        footer {
-            padding: 4rem 5%;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 4rem;
-        }
-
-        footer p {
-            opacity: 0.5;
-            margin-bottom: 0.5rem;
-        }
-
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1.5rem 5%;
-            }
-
-            .privacy-container {
-                padding: 8rem 5% 3rem;
-            }
+        /* RESPONSIVE */
+        @media(max-width:768px){
+          nav{
+            flex-direction:column;
+            gap:1rem;
+            padding:1rem 5%;
+          }
+          .privacy-container{
+            padding:120px 5% 60px;
+          }
+          h1{
+            font-size:1rem;
+            line-height:2.2;
+          }
+          .policy-section h2{
+            font-size:0.9rem;
+            line-height:2;
+          }
         }
     </style>
 </head>
 <body>
+
+    <!-- Background Effects -->
+    <div class="glitch-bg"></div>
+    <div class="cave-lights">
+      <div class="light light-1"></div>
+      <div class="light light-2"></div>
+    </div>
+    <div class="scanlines"></div>
+
     <!-- Navigation -->
     <nav>
         <a href="index.html" class="logo">SOMETHING GAMES</a>
-        <a href="index.html" class="back-link">← Back to Home</a>
+        <a href="index.html" class="back-link">← BACK</a>
     </nav>
 
     <!-- Privacy Policy Content -->
     <div class="privacy-container">
-        <h1>Privacy Policy – Rearriva VR</h1>
-        <p class="effective-date">Effective Date: November 4, 2025</p>
+        <div class="header-box">
+            <h1>PRIVACY POLICY<br>REARRIVA VR</h1>
+            <p class="effective-date">>>> EFFECTIVE: NOV 4, 2025</p>
+        </div>
         
         <div class="intro-section">
             <p>Rearriva VR ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect information when you play Rearriva VR on supported VR platforms.</p>
         </div>
 
+        <hr class="terminal-divider">
+
         <div class="policy-section">
-            <h2>1. Information We Collect</h2>
+            <h2>1. INFORMATION WE COLLECT</h2>
             <p>Rearriva VR minimizes personal data collection. We may collect the following types of information:</p>
             <ul>
                 <li>Platform-provided data, such as Oculus/Meta user ID or display name</li>
@@ -202,7 +364,7 @@
         </div>
 
         <div class="policy-section">
-            <h2>2. How We Use Your Information</h2>
+            <h2>2. HOW WE USE YOUR INFORMATION</h2>
             <p>We use the collected information to:</p>
             <ul>
                 <li>Improve gameplay experience and app performance</li>
@@ -213,17 +375,17 @@
         </div>
 
         <div class="policy-section">
-            <h2>3. Data Sharing</h2>
+            <h2>3. DATA SHARING</h2>
             <p>We do not sell your information. We may share limited data with trusted third-party services (such as analytics or platform moderation tools), only as necessary for app functionality, safety, or compliance.</p>
         </div>
 
         <div class="policy-section">
-            <h2>4. Children's Privacy</h2>
+            <h2>4. CHILDREN'S PRIVACY</h2>
             <p>Rearriva VR is intended for users aged 13 and older. We do not knowingly collect personal data from children under 13. If we become aware that such data has been collected without verified parental consent, we will delete it promptly.</p>
         </div>
 
         <div class="policy-section">
-            <h2>5. Your Rights</h2>
+            <h2>5. YOUR RIGHTS</h2>
             <p>All users have the right to:</p>
             <ul>
                 <li>Access the personal data we hold about you</li>
@@ -234,12 +396,12 @@
         </div>
 
         <div class="policy-section">
-            <h2>6. Updates to This Policy</h2>
+            <h2>6. UPDATES TO THIS POLICY</h2>
             <p>We may update this Privacy Policy from time to time. If significant changes are made, we will notify users through in-app messaging or platform updates.</p>
         </div>
 
         <div class="policy-section">
-            <h2>7. Contact Us</h2>
+            <h2>7. CONTACT US</h2>
             <p>If you have any questions or concerns about this Privacy Policy, please contact us at:</p>
             <p class="contact-email">📧 <a href="mailto:somethinggames@gmail.com" class="email-link">somethinggames@gmail.com</a></p>
         </div>
@@ -247,8 +409,32 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2025 Something Games. All rights reserved.</p>
-        <p><a href="index.html" style="color: #fff; opacity: 0.5; text-decoration: none;">Back to Home</a></p>
+        <p>© 2025 SOMETHING GAMES</p>
+        <p>ALL RIGHTS RESERVED</p>
+        <p><a href="index.html">>>> RETURN TO MAIN MENU</a></p>
     </footer>
+
+    <script>
+    // Glitch effect on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('.policy-section');
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.8) {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }
+        });
+    });
+
+    // Initialize sections
+    document.querySelectorAll('.policy-section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'all 0.6s ease';
+    });
+    </script>
+
 </body>
 </html>
