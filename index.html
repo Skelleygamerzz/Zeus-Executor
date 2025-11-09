@@ -8,155 +8,752 @@
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0a0a0f;
-  --card:#11111a;
-  --muted:rgba(255,255,255,0.6);
-  --accent-1:#667eea;
-  --accent-2:#d946ef;
-  --radius:24px;
-  --nav-height:80px;
+  --cave-dark:#0d0d1a;
+  --cave-blue:#00d4ff;
+  --cave-purple:#d946ef;
+  --cave-pink:#ff006e;
+  --neon-orange:#ff6b35;
+  --warning-red:#ff0033;
+  --pixel-green:#00ff88;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;overflow-x:hidden;position:relative}
-a{text-decoration:none;color:inherit;cursor:pointer}
+body{
+  font-family:'VT323',monospace;
+  background:#000;
+  color:#fff;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* GLITCH BACKGROUND */
+.glitch-bg{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:
+    linear-gradient(45deg, transparent 48%, var(--cave-blue) 49%, var(--cave-blue) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, var(--cave-purple) 49%, var(--cave-purple) 51%, transparent 52%);
+  background-size:20px 20px;
+  opacity:0.03;
+  z-index:0;
+  animation:bgScroll 20s linear infinite;
+}
+@keyframes bgScroll{0%{background-position:0 0}100%{background-position:100px 100px}}
+
+/* CAVE LIGHTING EFFECT */
+.cave-lights{
+  position:fixed;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+}
+.light{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(80px);
+  opacity:0.3;
+  animation:flicker 3s ease-in-out infinite;
+}
+.light-1{
+  width:500px;
+  height:500px;
+  background:var(--cave-blue);
+  top:10%;
+  right:10%;
+  animation-delay:0s;
+}
+.light-2{
+  width:400px;
+  height:400px;
+  background:var(--cave-purple);
+  bottom:20%;
+  left:15%;
+  animation-delay:1.5s;
+}
+.light-3{
+  width:350px;
+  height:350px;
+  background:var(--cave-pink);
+  top:50%;
+  left:50%;
+  animation-delay:0.7s;
+}
+@keyframes flicker{
+  0%,100%{opacity:0.3;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(1.1)}
+}
+
+/* SCANLINES */
+.scanlines{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.15),
+    rgba(0,0,0,0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events:none;
+  z-index:999;
+  opacity:0.5;
+}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 6%;z-index:1000;background:rgba(0,0,0,0.5);backdrop-filter:blur(20px)}
-nav .brand{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem}
-nav .brand .dot{width:14px;height:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:0.7}}
-nav .links{display:flex;gap:2rem;font-weight:600}
-nav .back-btn{display:none;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border-radius:999px;transition:0.2s}
-nav .back-btn:hover{background:rgba(255,255,255,0.1)}
+nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  padding:1.5rem 5%;
+  z-index:1000;
+  background:rgba(0,0,0,0.8);
+  border-bottom:3px solid var(--cave-blue);
+  box-shadow:0 0 20px rgba(0,212,255,0.5);
+}
+.nav-content{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{
+  font-family:'Press Start 2P',monospace;
+  font-size:1rem;
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  color:var(--cave-blue);
+  text-shadow:0 0 10px var(--cave-blue);
+  animation:glowPulse 2s ease-in-out infinite;
+}
+@keyframes glowPulse{
+  0%,100%{text-shadow:0 0 10px var(--cave-blue)}
+  50%{text-shadow:0 0 20px var(--cave-blue),0 0 30px var(--cave-blue)}
+}
+.brand-icon{
+  width:40px;
+  height:40px;
+  background:linear-gradient(135deg,var(--cave-blue),var(--cave-purple));
+  clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  animation:rotate 10s linear infinite;
+  box-shadow:0 0 20px var(--cave-blue);
+}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.nav-links{
+  display:flex;
+  gap:2rem;
+  font-family:'Press Start 2P',monospace;
+  font-size:0.8rem;
+}
+.nav-links a{
+  color:#fff;
+  transition:all 0.3s;
+  position:relative;
+  padding:0.5rem 1rem;
+}
+.nav-links a:hover{
+  color:var(--cave-blue);
+  text-shadow:0 0 10px var(--cave-blue);
+}
+.nav-links a::before{
+  content:'>';
+  position:absolute;
+  left:0;
+  opacity:0;
+  transition:all 0.3s;
+}
+.nav-links a:hover::before{
+  opacity:1;
+  left:-15px;
+}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;padding-top:var(--nav-height);padding-left:6%;padding-right:6%;position:relative;gap:3rem}
-.hero .hero-text h1{font-size:clamp(3rem,7vw,5rem);background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent;font-weight:900;line-height:1}
-.hero .hero-text p{font-size:1.2rem;color:var(--muted);margin:1.5rem 0}
-.hero .hero-text .btn{padding:1rem 2rem;border-radius:999px;font-weight:700;margin-right:1rem;transition:0.2s}
-.hero .hero-text .btn-primary{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#000}
-.hero .hero-text .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(102,126,234,0.4)}
-.hero .hero-text .btn-secondary{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)}
-.hero .hero-text .btn-secondary:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px)}
-.hero .hero-img{flex-shrink:0;max-width:480px}
-.hero .hero-img img{width:100%;border-radius:32px;box-shadow:0 30px 80px rgba(0,0,0,0.5);transition:transform 0.3s}
-.hero .hero-img:hover img{transform:scale(1.05)}
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  padding:120px 5% 80px;
+  position:relative;
+  gap:4rem;
+}
+.hero-content{
+  flex:1;
+  max-width:700px;
+  position:relative;
+  z-index:2;
+}
+.hero-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(1.5rem,4vw,3rem);
+  line-height:1.5;
+  margin-bottom:2rem;
+  color:var(--cave-blue);
+  text-shadow:
+    0 0 10px var(--cave-blue),
+    0 0 20px var(--cave-blue),
+    0 0 30px var(--cave-purple);
+  animation:titleGlitch 5s ease-in-out infinite;
+}
+@keyframes titleGlitch{
+  0%,90%,100%{transform:translate(0)}
+  91%{transform:translate(-2px,2px)}
+  93%{transform:translate(2px,-2px)}
+  95%{transform:translate(-2px,-2px)}
+}
+.hero-subtitle{
+  font-size:1.5rem;
+  color:rgba(255,255,255,0.8);
+  margin-bottom:3rem;
+  line-height:1.6;
+  text-shadow:2px 2px 0 rgba(0,0,0,0.5);
+}
+.crt-text{
+  color:var(--pixel-green);
+  text-shadow:0 0 5px var(--pixel-green);
+}
+.btn-group{
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+.btn{
+  font-family:'Press Start 2P',monospace;
+  padding:1rem 2rem;
+  font-size:0.8rem;
+  border:3px solid;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+  text-transform:uppercase;
+}
+.btn::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:rgba(255,255,255,0.2);
+  transition:left 0.3s;
+}
+.btn:hover::before{
+  left:100%;
+}
+.btn-primary{
+  background:var(--cave-blue);
+  border-color:var(--cave-blue);
+  color:#000;
+  box-shadow:0 0 20px var(--cave-blue);
+}
+.btn-primary:hover{
+  background:#000;
+  color:var(--cave-blue);
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--cave-blue),0 0 30px var(--cave-blue);
+}
+.btn-secondary{
+  background:transparent;
+  border-color:var(--cave-purple);
+  color:var(--cave-purple);
+}
+.btn-secondary:hover{
+  background:var(--cave-purple);
+  color:#000;
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--cave-purple),0 0 30px var(--cave-purple);
+}
 
-/* GAMES */
-section{padding:6rem 6%}
-.section-title{font-size:2.8rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent}
-.section-subtitle{color:var(--muted);margin-bottom:3rem;font-size:1.1rem}
-.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
-.game-card{background:var(--card);border-radius:28px;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;position:relative;display:flex;flex-direction:column}
-.game-card:hover{transform:translateY(-10px);box-shadow:0 40px 80px rgba(0,0,0,0.6)}
-.game-card img{width:100%;height:220px;object-fit:cover}
-.game-card .game-info{padding:1.5rem}
-.game-card .game-info h3{font-size:1.5rem;font-weight:800;margin-bottom:0.5rem}
-.game-card .game-info p{color:var(--muted)}
-.game-card .badge{position:absolute;top:15px;left:15px;padding:0.5rem 1rem;border-radius:999px;font-weight:700;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#000}
+/* HERO IMAGE */
+.hero-visual{
+  flex:1;
+  max-width:600px;
+  position:relative;
+  z-index:2;
+}
+.vr-display{
+  position:relative;
+  border:4px solid var(--cave-blue);
+  box-shadow:
+    0 0 20px var(--cave-blue),
+    inset 0 0 20px rgba(0,212,255,0.2);
+  overflow:hidden;
+}
+.vr-display img{
+  width:100%;
+  display:block;
+  filter:contrast(1.2) saturate(1.3);
+}
+.vr-overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0,212,255,0.1) 50%,
+    transparent 100%
+  );
+  pointer-events:none;
+  animation:scan 3s linear infinite;
+}
+@keyframes scan{
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100%)}
+}
+.corner{
+  position:absolute;
+  width:20px;
+  height:20px;
+  border:3px solid var(--warning-red);
+  box-shadow:0 0 10px var(--warning-red);
+}
+.corner-tl{top:-2px;left:-2px;border-right:none;border-bottom:none}
+.corner-tr{top:-2px;right:-2px;border-left:none;border-bottom:none}
+.corner-bl{bottom:-2px;left:-2px;border-right:none;border-top:none}
+.corner-br{bottom:-2px;right:-2px;border-left:none;border-top:none}
+
+/* WARNING BANNER */
+.warning-banner{
+  background:repeating-linear-gradient(
+    45deg,
+    var(--warning-red),
+    var(--warning-red) 10px,
+    #000 10px,
+    #000 20px
+  );
+  padding:1rem;
+  margin:2rem 0;
+  border:3px solid var(--warning-red);
+  box-shadow:0 0 20px var(--warning-red);
+  animation:warningPulse 1s ease-in-out infinite;
+}
+@keyframes warningPulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.8}
+}
+.warning-text{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.9rem;
+  text-align:center;
+  color:#fff;
+  text-shadow:2px 2px 0 #000;
+}
+
+/* GAMES SECTION */
+.section{
+  padding:100px 5%;
+  position:relative;
+  z-index:2;
+}
+.section-header{
+  text-align:center;
+  margin-bottom:5rem;
+}
+.section-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(1.5rem,3vw,2.5rem);
+  margin-bottom:1rem;
+  color:var(--cave-purple);
+  text-shadow:0 0 20px var(--cave-purple);
+}
+.section-subtitle{
+  font-size:1.5rem;
+  color:rgba(255,255,255,0.7);
+}
+
+/* GAME CARDS */
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+  gap:3rem;
+  max-width:1400px;
+  margin:0 auto;
+}
+.game-card{
+  background:#0a0a0a;
+  border:3px solid var(--cave-blue);
+  position:relative;
+  transition:all 0.3s;
+  box-shadow:0 0 20px rgba(0,212,255,0.3);
+}
+.game-card:hover{
+  transform:translate(-8px,-8px);
+  box-shadow:8px 8px 0 var(--cave-blue),0 0 40px var(--cave-blue);
+  border-color:var(--cave-purple);
+}
+.game-img-container{
+  position:relative;
+  overflow:hidden;
+  border-bottom:3px solid var(--cave-blue);
+}
+.game-img-container img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  display:block;
+  filter:contrast(1.2);
+}
+.game-status{
+  position:absolute;
+  top:15px;
+  right:15px;
+  font-family:'Press Start 2P',monospace;
+  font-size:0.7rem;
+  padding:0.7rem 1.2rem;
+  background:#000;
+  border:2px solid;
+  box-shadow:0 0 10px;
+  animation:statusBlink 2s ease-in-out infinite;
+}
+.status-live{
+  color:var(--pixel-green);
+  border-color:var(--pixel-green);
+  box-shadow:0 0 10px var(--pixel-green);
+}
+.status-soon{
+  color:var(--neon-orange);
+  border-color:var(--neon-orange);
+  box-shadow:0 0 10px var(--neon-orange);
+}
+@keyframes statusBlink{
+  0%,100%{opacity:1}
+  50%{opacity:0.7}
+}
+.game-content{
+  padding:2rem;
+}
+.game-content h3{
+  font-family:'Press Start 2P',monospace;
+  font-size:1.3rem;
+  margin-bottom:1rem;
+  color:var(--cave-blue);
+  text-shadow:0 0 10px var(--cave-blue);
+}
+.game-content p{
+  font-size:1.3rem;
+  line-height:1.6;
+  color:rgba(255,255,255,0.8);
+}
 
 /* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
-.about-grid .about-img img{width:100%;border-radius:32px;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
-.about-grid .about-text h2{font-size:2.5rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent}
-.about-grid .about-text p{color:var(--muted);line-height:1.6;margin-bottom:1rem}
-.about-grid .about-text .owners{font-weight:700;color:var(--accent-1)}
+.about-container{
+  max-width:1400px;
+  margin:0 auto;
+  background:rgba(0,0,0,0.5);
+  border:3px solid var(--cave-purple);
+  padding:3rem;
+  box-shadow:0 0 30px var(--cave-purple);
+}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+.about-content h2{
+  font-family:'Press Start 2P',monospace;
+  font-size:1.8rem;
+  margin-bottom:2rem;
+  color:var(--cave-purple);
+  text-shadow:0 0 20px var(--cave-purple);
+  line-height:1.8;
+}
+.about-content p{
+  font-size:1.4rem;
+  line-height:1.8;
+  color:rgba(255,255,255,0.8);
+  margin-bottom:1.5rem;
+}
+.pixel-highlight{
+  color:var(--pixel-green);
+  text-shadow:0 0 5px var(--pixel-green);
+}
+.owners-box{
+  background:#000;
+  border:3px solid var(--cave-blue);
+  padding:1.5rem;
+  margin:2rem 0;
+  box-shadow:0 0 15px var(--cave-blue);
+}
+.owners-box p{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.9rem;
+  color:var(--cave-blue);
+  line-height:2;
+}
+.contact-btns{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.contact-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.7rem;
+  padding:0.8rem 1.5rem;
+  background:#000;
+  border:2px solid var(--pixel-green);
+  color:var(--pixel-green);
+  transition:all 0.3s;
+  text-transform:uppercase;
+}
+.contact-btn:hover{
+  background:var(--pixel-green);
+  color:#000;
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--pixel-green);
+}
+.about-img{
+  position:relative;
+}
+.about-img img{
+  width:100%;
+  border:4px solid var(--cave-pink);
+  box-shadow:0 0 30px var(--cave-pink);
+  filter:contrast(1.2);
+}
 
 /* FOOTER */
-footer{padding:4rem 6%;text-align:center;border-top:1px solid rgba(255,255,255,0.1)}
-footer .links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem}
-footer .links a{color:var(--muted);transition:0.2s}
-footer .links a:hover{color:#fff}
-footer .contact{color:var(--muted);margin-bottom:1rem}
-footer .contact a{color:var(--accent-1);transition:0.2s}
-footer .contact a:hover{color:var(--accent-2)}
-footer .copyright{color:rgba(255,255,255,0.4);font-size:0.9rem}
+footer{
+  padding:3rem 5%;
+  text-align:center;
+  border-top:3px solid var(--cave-blue);
+  background:rgba(0,0,0,0.8);
+  position:relative;
+  z-index:2;
+  box-shadow:0 -5px 20px rgba(0,212,255,0.3);
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  margin-bottom:2rem;
+  flex-wrap:wrap;
+  font-family:'Press Start 2P',monospace;
+  font-size:0.8rem;
+}
+.footer-links a{
+  color:var(--cave-blue);
+  transition:all 0.3s;
+}
+.footer-links a:hover{
+  text-shadow:0 0 10px var(--cave-blue);
+}
+.footer-contact{
+  font-size:1.3rem;
+  margin-bottom:1.5rem;
+  color:rgba(255,255,255,0.7);
+}
+.footer-contact a{
+  color:var(--pixel-green);
+  transition:all 0.3s;
+}
+.footer-contact a:hover{
+  text-shadow:0 0 10px var(--pixel-green);
+}
+.copyright{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.7rem;
+  color:rgba(255,255,255,0.5);
+}
 
 /* RESPONSIVE */
-@media(max-width:1024px){.hero{flex-direction:column}.hero .hero-img{margin-left:0}}
-@media(max-width:768px){nav .links{display:none}.hero-text h1{font-size:2.8rem}}
+@media(max-width:1024px){
+  .hero{flex-direction:column;text-align:center}
+  .about-grid{grid-template-columns:1fr}
+  .about-img{order:-1}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hero-title{font-size:1.2rem}
+  .games-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.3rem}
+}
 </style>
 </head>
 <body>
 
+<!-- Background Effects -->
+<div class="glitch-bg"></div>
+<div class="cave-lights">
+  <div class="light light-1"></div>
+  <div class="light light-2"></div>
+  <div class="light light-3"></div>
+</div>
+<div class="scanlines"></div>
+
+<!-- Navigation -->
 <nav>
-  <div class="brand"><div class="dot"></div>Something Games</div>
-  <div class="links">
-    <a href="#hero">Home</a>
-    <a href="#games">Games</a>
-    <a href="#about">About</a>
-    <a href="privacy-policy.html">Privacy</a>
+  <div class="nav-content">
+    <div class="brand">
+      <div class="brand-icon"></div>
+      <span>SOMETHING GAMES</span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero">HOME</a>
+      <a href="#games">GAMES</a>
+      <a href="#about">ABOUT</a>
+      <a href="privacy-policy.html">PRIVACY</a>
+    </div>
   </div>
-  <div class="back-btn" id="backBtn">← Back</div>
 </nav>
 
-<!-- HERO -->
+<!-- Hero -->
 <section class="hero" id="hero">
-  <div class="hero-text">
-    <h1>Something Games</h1>
-    <p>Indie studio crafting immersive gaming experiences. Featuring our flagship game Rearriva VR.</p>
-    <a href="#games" class="btn btn-primary">Explore Game</a>
-    <a href="#about" class="btn btn-secondary">Learn About Us</a>
+  <div class="hero-content">
+    <h1 class="hero-title">ENTER THE CAVE.<br>IF YOU DARE.</h1>
+    <p class="hero-subtitle">
+      Indie horror VR experiences that will test your courage. 
+      <span class="crt-text">>>> SYSTEM STATUS: ONLINE</span>
+    </p>
+    <div class="warning-banner">
+      <p class="warning-text">⚠ WARNING: INTENSE VR HORROR EXPERIENCE ⚠</p>
+    </div>
+    <div class="btn-group">
+      <a href="#games" class="btn btn-primary">PLAY NOW</a>
+      <a href="#about" class="btn btn-secondary">ABOUT</a>
+    </div>
   </div>
-  <div class="hero-img">
-    <img src="placeholder-rearriva.jpg" alt="Rearriva VR">
+  <div class="hero-visual">
+    <div class="vr-display">
+      <img src="placeholder-rearriva.jpg" alt="Rearriva VR">
+      <div class="vr-overlay"></div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+    </div>
   </div>
 </section>
 
-<!-- GAMES -->
-<section id="games">
-  <h2 class="section-title">Games</h2>
-  <p class="section-subtitle">Our current releases and upcoming projects.</p>
+<!-- Games -->
+<section class="section" id="games">
+  <div class="section-header">
+    <h2 class="section-title">>>> AVAILABLE EXPERIENCES</h2>
+    <p class="section-subtitle">Dare to explore our VR horror worlds</p>
+  </div>
   <div class="games-grid">
     <a href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" class="game-card">
-      <img src="placeholder-rearriva.jpg" alt="Rearriva VR">
-      <div class="badge">Live</div>
-      <div class="game-info">
-        <h3>Rearriva VR</h3>
-        <p>Immersive horror VR experience.</p>
+      <div class="game-img-container">
+        <img src="placeholder-rearriva.jpg" alt="Rearriva VR">
+        <div class="game-status status-live">● LIVE</div>
+      </div>
+      <div class="game-content">
+        <h3>REARRIVA VR</h3>
+        <p>A Gorilla Tag horror experience that will haunt your dreams. Navigate dark caves, avoid the lurking threats, and survive the night.</p>
       </div>
     </a>
     <div class="game-card">
-      <img src="https://via.placeholder.com/480x280?text=Coming+Soon" alt="Coming Soon">
-      <div class="badge">Coming Soon</div>
-      <div class="game-info">
-        <h3>Future Projects</h3>
-        <p>Stay tuned for upcoming releases!</p>
+      <div class="game-img-container">
+        <img src="https://via.placeholder.com/600x400/0a0a0f/ff6b35?text=Coming+Soon" alt="Future Project">
+        <div class="game-status status-soon">◆ SOON</div>
+      </div>
+      <div class="game-content">
+        <h3>PROJECT: CLASSIFIED</h3>
+        <p>Something terrifying is being developed. Stay connected for updates on our next VR horror experience.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ABOUT -->
-<section id="about">
-  <h2 class="section-title">About Something Games</h2>
-  <div class="about-grid">
-    <div class="about-text">
-      <p>We focus on creating unique, immersive experiences. Currently, we have one main release: Rearriva VR.</p>
-      <p class="owners">Owners: i5 / SouthDev & Eno / Sylix</p>
-      <p>Contact us: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> or <a href="https://discord.gg/Vq6mW7YFb" target="_blank">Discord</a></p>
-    </div>
-    <div class="about-img">
-      <img src="placeholder-rearriva.jpg" alt="Studio">
+<!-- About -->
+<section class="section" id="about">
+  <div class="section-header">
+    <h2 class="section-title">>>> ABOUT SOMETHING GAMES</h2>
+  </div>
+  <div class="about-container">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2>WE CREATE NIGHTMARES YOU CAN PLAY</h2>
+        <p>Independent developers focused on <span class="pixel-highlight">immersive VR horror</span> experiences that push the boundaries of fear.</p>
+        <p>Specializing in Gorilla Tag fan games and VR horror, we craft unique experiences that blend movement, atmosphere, and terror.</p>
+        <div class="owners-box">
+          <p>CREATED BY:<br>i5 / SOUTHDEV<br>ENO / SYLIX</p>
+        </div>
+        <div class="contact-btns">
+          <a href="mailto:somethinggames@gmail.com" class="contact-btn">📧 EMAIL</a>
+          <a href="https://discord.gg/Vq6mW7YFb" target="_blank" class="contact-btn">💬 DISCORD</a>
+        </div>
+      </div>
+      <div class="about-img">
+        <img src="placeholder-rearriva.jpg" alt="Studio">
+      </div>
     </div>
   </div>
 </section>
 
+<!-- Footer -->
 <footer>
-  <div class="links">
-    <a href="#games">Games</a>
-    <a href="#about">About</a>
-    <a href="privacy-policy.html">Privacy</a>
+  <div class="footer-links">
+    <a href="#games">GAMES</a>
+    <a href="#about">ABOUT</a>
+    <a href="privacy-policy.html">PRIVACY</a>
   </div>
-  <div class="contact">
-    Contact: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> | <a href="https://discord.gg/Vq6mW7YFb" target="_blank">Discord</a>
+  <div class="footer-contact">
+    CONTACT: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> | 
+    <a href="https://discord.gg/Vq6mW7YFb" target="_blank">Discord</a>
   </div>
-  <div class="copyright">&copy; 2025 Something Games</div>
+  <div class="copyright">© 2025 SOMETHING GAMES - ALL RIGHTS RESERVED</div>
 </footer>
+
+<script>
+// Cave lighting animation on mouse move
+document.addEventListener('mousemove', (e) => {
+  const lights = document.querySelectorAll('.light');
+  lights.forEach((light, i) => {
+    const speed = (i + 1) * 0.02;
+    const x = (e.clientX * speed) - (window.innerWidth / 2 * speed);
+    const y = (e.clientY * speed) - (window.innerHeight / 2 * speed);
+    light.style.transform = `translate(${x}px, ${y}px)`;
+  });
+});
+
+// Glitch effect on title
+const title = document.querySelector('.hero-title');
+setInterval(() => {
+  if (Math.random() > 0.95) {
+    title.style.textShadow = `
+      ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--warning-red),
+      ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--cave-blue)
+    `;
+    setTimeout(() => {
+      title.style.textShadow = '0 0 10px var(--cave-blue), 0 0 20px var(--cave-blue), 0 0 30px var(--cave-purple)';
+    }, 50);
+  }
+}, 100);
+
+// Scroll reveal for game cards
+const observerOptions = {
+  threshold: 0.2,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+      entry.target.style.opacity = '1';
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.game-card').forEach(card => {
+  card.style.opacity = '0';
+  observer.observe(card);
+});
+</script>
 
 </body>
 </html>
