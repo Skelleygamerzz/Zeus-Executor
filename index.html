@@ -3,48 +3,78 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Something Games — Crafting Experiences</title>
-
-  <!-- SEO + Social -->
-  <meta name="description" content="Something Games — indie studio crafting cinematic, memorable game experiences. Rearriva VR and more coming soon." />
-  <meta property="og:title" content="Something Games — Crafting Experiences" />
-  <meta property="og:description" content="Indie studio building cinematic, memorable game experiences. Check out Rearriva VR and our upcoming projects." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="./" />
-  <meta property="og:image" content="placeholder-share.jpg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#0a0a0a" />
+  <title>Privacy Policy — Something Games</title>
+  <meta name="description" content="Privacy Policy for Rearriva VR and Something Games products." />
   <link rel="icon" href="data:,">
-
+  
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+    
     :root{
-      --bg:#0a0a0a;
-      --card:#0f0f12;
-      --muted:rgba(255,255,255,0.7);
+      --bg:#000000;
+      --card:#0a0a0f;
+      --muted:rgba(255,255,255,0.65);
       --accent-1:#667eea;
-      --accent-2:#7b61ff;
-      --glass: rgba(255,255,255,0.04);
-      --radius:18px;
-      --gap:clamp(1rem,2.4vw,2rem);
-      --nav-height:76px;
+      --accent-2:#d946ef;
+      --accent-3:#06b6d4;
+      --glass: rgba(255,255,255,0.03);
+      --radius:24px;
+      --nav-height:80px;
     }
 
-    /* reset */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
     body{
-      margin:0;
-      font-family:inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial;
-      background: radial-gradient(1200px 500px at 10% 10%, rgba(120,66,255,0.06), transparent 6%),
-                  radial-gradient(1000px 400px at 90% 80%, rgba(102,126,234,0.04), transparent 8%),
-                  var(--bg);
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      background:#000;
       color:#fff;
       -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
       overflow-x:hidden;
-      padding-top: var(--nav-height);
+      position:relative;
     }
+
+    /* Animated gradient background */
+    .bg-gradient{
+      position:fixed;
+      inset:0;
+      z-index:0;
+      background:
+        radial-gradient(circle 800px at 20% 30%, rgba(102,126,234,0.15), transparent 50%),
+        radial-gradient(circle 600px at 80% 70%, rgba(217,70,239,0.12), transparent 50%),
+        radial-gradient(circle 900px at 50% 50%, rgba(6,182,212,0.08), transparent 60%),
+        #000;
+      animation: bgShift 20s ease infinite;
+    }
+    @keyframes bgShift{
+      0%,100%{opacity:1}
+      50%{opacity:0.85}
+    }
+
+    /* Floating particles */
+    .particles{
+      position:fixed;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .particle{
+      position:absolute;
+      width:3px;
+      height:3px;
+      background:rgba(255,255,255,0.4);
+      border-radius:50%;
+      animation: float linear infinite;
+      box-shadow:0 0 20px rgba(255,255,255,0.3);
+    }
+    @keyframes float{
+      0%{transform:translateY(100vh) translateX(0) scale(0)}
+      50%{transform:translateY(50vh) translateX(20px) scale(1)}
+      100%{transform:translateY(-20vh) translateX(-20px) scale(0)}
+    }
+
+    /* Content wrapper */
+    .content{position:relative;z-index:10}
 
     /* NAV */
     nav{
@@ -54,441 +84,586 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:1rem;
-      padding:0 5%;
-      z-index:1200;
-      background: linear-gradient(180deg, rgba(10,10,10,0.85), rgba(10,10,10,0.6));
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      padding:0 6%;
+      z-index:1000;
+      background:rgba(0,0,0,0.8);
+      backdrop-filter:blur(20px) saturate(180%);
+      border-bottom:1px solid rgba(255,255,255,0.06);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
     }
+
     .brand{
-      display:flex;gap:0.75rem;align-items:center;font-weight:700;letter-spacing:-0.4px;
-      font-size:1.05rem;
+      display:flex;
+      gap:1rem;
+      align-items:center;
+      font-weight:900;
+      font-size:1.1rem;
+      letter-spacing:-0.5px;
+      text-decoration:none;
+      color:#fff;
     }
-    .brand .logo-dot{
-      width:12px;height:12px;border-radius:50%;
-      background: linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      box-shadow:0 6px 22px rgba(99,66,255,0.15), inset 0 -4px 12px rgba(255,255,255,0.03);
+    .logo-dot{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      box-shadow:0 0 30px rgba(102,126,234,0.6), 0 0 60px rgba(217,70,239,0.4);
+      animation:pulse 2s ease infinite;
+    }
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.1);opacity:0.8}
     }
 
-    .nav-links{
-      display:flex;gap:1.6rem;align-items:center;
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:0.5rem;
+      padding:0.75rem 1.5rem;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:999px;
+      color:#fff;
+      text-decoration:none;
+      font-weight:600;
+      transition:all 0.3s;
+      backdrop-filter:blur(10px);
     }
-    .nav-links a{
-      color:var(--muted);
-      text-decoration:none;font-weight:600;font-size:.95rem;
-      transition:opacity .18s,transform .18s;
-    }
-    .nav-links a:hover{opacity:0.8;transform:translateY(-2px)}
-
-    /* Mobile nav toggle */
-    .menu-btn{
-      display:none;
-      width:44px;height:44px;border-radius:10px;border:none;
-      background:transparent;color:var(--muted);cursor:pointer;font-size:1.3rem;
-      align-items:center;justify-content:center;
+    .back-btn:hover{
+      background:rgba(255,255,255,0.08);
+      transform:translateY(-2px);
+      box-shadow:0 10px 40px rgba(0,0,0,0.4);
     }
 
     /* HERO */
     .hero{
-      min-height:calc(100vh - var(--nav-height));
+      min-height:60vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:6vw 5%;
-      position:relative;
-      overflow:visible;
+      padding:calc(var(--nav-height) + 4rem) 6% 4rem;
+      text-align:center;
     }
 
-    .hero-inner{
-      max-width:1100px;
-      width:100%;
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap: clamp(1.2rem,2.8vw,2.6rem);
+    .hero-content{
+      max-width:900px;
+    }
+
+    .hero-badge{
+      display:inline-flex;
       align-items:center;
-      transform:translateZ(0);
+      gap:0.5rem;
+      padding:0.5rem 1rem;
+      background:rgba(102,126,234,0.1);
+      border:1px solid rgba(102,126,234,0.3);
+      border-radius:999px;
+      font-size:0.85rem;
+      font-weight:700;
+      color:var(--accent-1);
+      margin-bottom:1.5rem;
     }
 
-    .hero-copy h1{
-      font-size:clamp(2.4rem,6.6vw,4.6rem);
-      margin:0 0 .5rem 0;
-      letter-spacing:-1px;
+    .hero h1{
+      font-size:clamp(2.5rem,6vw,5rem);
+      font-weight:900;
       line-height:1;
-      font-weight:800;
-      text-transform:uppercase;
-      background: linear-gradient(90deg, #fff, #e9e9ff 40%);
+      letter-spacing:-2px;
+      margin:0 0 1.5rem;
+      background:linear-gradient(135deg,#fff 0%,#a78bfa 50%,#ec4899 100%);
       -webkit-background-clip:text;
       background-clip:text;
-      color: transparent;
+      color:transparent;
     }
-    .hero-copy p{
+
+    .hero p{
+      font-size:1.2rem;
       color:var(--muted);
-      margin: 0 0 1.4rem 0;
-      font-size:clamp(1rem,1.6vw,1.15rem);
+      line-height:1.6;
+      margin:0;
     }
 
-    .ctas{display:flex;gap:1rem;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;align-items:center;gap:.6rem;
-      padding:.85rem 1.15rem;border-radius:999px;font-weight:700;border:0;cursor:pointer;
-      text-decoration:none;color:#0a0a0a;background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      box-shadow: 0 10px 30px rgba(123,97,255,0.14);
-      transition: transform .16s, box-shadow .16s, filter .16s;
-    }
-    .btn.secondary{
-      background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.06);
-      box-shadow:none;
-    }
-    .btn:hover{transform:translateY(-4px)}
-
-    /* hero visual card */
-    .hero-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:20px;padding:12px;box-shadow: 0 14px 60px rgba(2,2,6,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
-      display:flex;flex-direction:column;gap:12px;align-items:stretch;
-      overflow:hidden;
-    }
-    .hero-preview{
-      width:100%;height:280px;border-radius:12px;overflow:hidden;position:relative;background:#111;
-      display:flex;align-items:center;justify-content:center;
-    }
-    .hero-preview img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(.95) saturate(1.05)}
-    .meta-strip{display:flex;align-items:center;gap:10px;padding:8px 10px;font-size:.9rem;color:var(--muted)}
-
-    /* SECTIONS */
-    section{padding: clamp(3rem,6vw,5rem) 5%}
-    .container{max-width:1200px;margin:0 auto}
-
-    .section-title{
-      font-size:clamp(1.8rem,3.6vw,2.6rem);
-      margin:0 0 1.4rem 0;
-      font-weight:800;
+    /* POLICY SECTION */
+    .policy-section{
+      padding:4rem 6% 8rem;
     }
 
-    /* GAMES GRID */
-    .games-grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: clamp(.9rem,2vw,1.6rem);
-      margin-top:1.6rem;
+    .policy-container{
+      max-width:900px;
+      margin:0 auto;
     }
 
-    .game-card{
-      background:var(--glass);
+    /* Table of Contents */
+    .toc{
+      background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.08);
       border-radius:var(--radius);
-      overflow:hidden;
+      padding:2rem;
+      margin-bottom:3rem;
+    }
+
+    .toc-title{
+      font-size:1.3rem;
+      font-weight:800;
+      margin:0 0 1.5rem;
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+    }
+
+    .toc-icon{
+      width:32px;
+      height:32px;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      border-radius:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.1rem;
+    }
+
+    .toc-list{
+      list-style:none;
+      display:grid;
+      gap:0.75rem;
+    }
+
+    .toc-list li{
+      display:flex;
+      align-items:center;
+    }
+
+    .toc-list a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      transition:all 0.3s;
+      flex:1;
+      padding:0.75rem 1rem;
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      gap:0.75rem;
+    }
+
+    .toc-list a:hover{
+      color:#fff;
+      background:rgba(255,255,255,0.05);
+      transform:translateX(8px);
+    }
+
+    .toc-number{
+      width:28px;
+      height:28px;
+      background:rgba(102,126,234,0.15);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:0.85rem;
+      font-weight:700;
+      color:var(--accent-1);
+    }
+
+    /* Policy Content */
+    .policy-card{
+      background:linear-gradient(135deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:var(--radius);
+      padding:3rem;
+      margin-bottom:2rem;
       position:relative;
-      border:1px solid rgba(255,255,255,0.03);
-      transition: transform .34s cubic-bezier(.2,.9,.2,1), box-shadow .34s;
-      cursor:default;
-    }
-    .game-card:hover{
-      transform: translateY(-14px) scale(1.01);
-      box-shadow: 0 30px 80px rgba(12,12,18,0.6);
-    }
-
-    .game-thumb{
-      height:220px;background:linear-gradient(135deg,#667eea,#764ba2);
-      display:flex;align-items:center;justify-content:center;position:relative;
       overflow:hidden;
     }
-    .game-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
-    .game-card:hover .game-thumb img{transform: scale(1.06) rotate(.6deg)}
 
-    .game-content{padding:1.2rem 1.4rem}
-    .game-content h3{margin:0;font-size:1.2rem}
-    .game-content p{margin:.55rem 0 0;color:var(--muted);font-size:.95rem}
-
-    .badge-coming{
-      position:absolute;left:12px;top:12px;padding:.45rem .6rem;border-radius:999px;
-      background:rgba(0,0,0,0.35);backdrop-filter: blur(4px);font-weight:700;font-size:.8rem;color:rgba(255,255,255,.9);
-      border:1px solid rgba(255,255,255,0.04)
+    .policy-card::before{
+      content:'';
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      height:4px;
+      background:linear-gradient(90deg,var(--accent-1),var(--accent-2),var(--accent-3));
     }
 
-    /* Trailer overlay */
-    .play-overlay{
-      position:absolute;right:12px;bottom:12px;padding:.45rem .6rem;border-radius:10px;
-      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      color:#081;display:flex;align-items:center;gap:.5rem;font-weight:800;font-size:.85rem;
-      transform:translateY(6px);opacity:0;transition:opacity .22s,transform .22s;
+    .section-number{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      width:48px;
+      height:48px;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      border-radius:12px;
+      font-size:1.5rem;
+      font-weight:900;
+      color:#000;
+      margin-bottom:1rem;
+      box-shadow:0 10px 30px rgba(102,126,234,0.3);
     }
-    .game-card:hover .play-overlay{opacity:1;transform:translateY(0)}
 
-    /* ABOUT */
-    .about-grid{display:grid;grid-template-columns: 1fr 420px;gap:clamp(1rem,2.4vw,2rem);align-items:center}
-    .about-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:1.6rem;border-radius:14px;border:1px solid rgba(255,255,255,0.02)}
-    .about-card p{color:var(--muted)}
+    .policy-card h2{
+      font-size:2rem;
+      font-weight:800;
+      margin:0 0 1.5rem;
+      color:#fff;
+    }
 
-    /* PRIVACY TEASER */
-    .privacy-teaser{display:flex;align-items:center;gap:1rem;padding:1rem;border-radius:12px;border:1px dashed rgba(255,255,255,0.03);
-      background:linear-gradient(90deg, rgba(102,126,234,0.02), transparent);color:var(--muted);}
+    .policy-card p{
+      font-size:1.05rem;
+      line-height:1.8;
+      color:var(--muted);
+      margin:0 0 1.5rem;
+    }
+
+    .policy-card p:last-child{
+      margin-bottom:0;
+    }
+
+    .policy-card ul{
+      list-style:none;
+      margin:1.5rem 0;
+      padding:0;
+    }
+
+    .policy-card li{
+      padding-left:2rem;
+      margin-bottom:1rem;
+      position:relative;
+      font-size:1.05rem;
+      line-height:1.7;
+      color:var(--muted);
+    }
+
+    .policy-card li::before{
+      content:'→';
+      position:absolute;
+      left:0;
+      color:var(--accent-1);
+      font-weight:700;
+      font-size:1.2rem;
+    }
+
+    /* Highlight Cards */
+    .highlight-card{
+      background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(217,70,239,0.1));
+      border:1px solid rgba(102,126,234,0.3);
+      border-radius:16px;
+      padding:1.5rem;
+      margin:2rem 0;
+    }
+
+    .highlight-title{
+      font-weight:800;
+      font-size:1.1rem;
+      color:#fff;
+      margin:0 0 0.75rem;
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+    }
+
+    .highlight-icon{
+      font-size:1.3rem;
+    }
+
+    /* Contact Card */
+    .contact-card{
+      background:linear-gradient(135deg,rgba(102,126,234,0.15),rgba(217,70,239,0.15));
+      border:2px solid rgba(102,126,234,0.3);
+      border-radius:var(--radius);
+      padding:3rem;
+      text-align:center;
+      margin-top:4rem;
+    }
+
+    .contact-icon{
+      width:80px;
+      height:80px;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:2.5rem;
+      margin:0 auto 1.5rem;
+      box-shadow:0 20px 60px rgba(102,126,234,0.4);
+    }
+
+    .contact-card h3{
+      font-size:2rem;
+      font-weight:800;
+      margin:0 0 1rem;
+      color:#fff;
+    }
+
+    .contact-card p{
+      font-size:1.1rem;
+      color:var(--muted);
+      margin:0 0 2rem;
+    }
+
+    .contact-email{
+      display:inline-flex;
+      align-items:center;
+      gap:0.75rem;
+      padding:1rem 2rem;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      border-radius:999px;
+      color:#000;
+      text-decoration:none;
+      font-weight:700;
+      font-size:1.1rem;
+      transition:all 0.3s;
+      box-shadow:0 20px 60px rgba(102,126,234,0.4);
+    }
+
+    .contact-email:hover{
+      transform:translateY(-4px);
+      box-shadow:0 30px 80px rgba(102,126,234,0.6);
+    }
 
     /* FOOTER */
-    footer{padding:2.4rem 5%;text-align:center;color:rgba(255,255,255,0.5);border-top:1px solid rgba(255,255,255,0.03);}
-
-    /* Responsive */
-    @media (max-width:1100px){
-      .hero-inner{grid-template-columns:1fr 340px}
-      .games-grid{grid-template-columns:repeat(2, 1fr)}
-      .about-grid{grid-template-columns:1fr}
-    }
-    @media (max-width:720px){
-      .hero-inner{grid-template-columns:1fr}
-      .hero-card{order:2}
-      .menu-btn{display:flex}
-      .nav-links{display:none}
-      .games-grid{grid-template-columns:1fr}
-      .brand{font-size:.98rem}
+    footer{
+      padding:3rem 6%;
+      border-top:1px solid rgba(255,255,255,0.06);
+      text-align:center;
     }
 
-    /* reveal animations */
-    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease}
-    .reveal.show{opacity:1;transform:none}
+    .footer-links{
+      display:flex;
+      gap:2rem;
+      justify-content:center;
+      margin-bottom:1.5rem;
+      flex-wrap:wrap;
+    }
 
-    /* reduced motion respect */
+    .footer-links a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      transition:color 0.3s;
+    }
+
+    .footer-links a:hover{color:#fff}
+
+    .copyright{
+      color:rgba(255,255,255,0.4);
+      font-size:0.9rem;
+    }
+
+    /* Scroll reveal */
+    .reveal{
+      opacity:0;
+      transform:translateY(40px);
+      transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1),transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.active{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    /* Mobile */
+    @media (max-width:768px){
+      .hero{padding:calc(var(--nav-height) + 2rem) 6% 3rem}
+      .hero h1{font-size:2.5rem}
+      .policy-card{padding:2rem}
+      .toc{padding:1.5rem}
+      .contact-card{padding:2rem}
+    }
+
     @media (prefers-reduced-motion: reduce){
       *{animation:none!important;transition:none!important}
-      .game-card:hover{transform:none;box-shadow:none}
     }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="brand" aria-hidden="false">
-      <div class="logo-dot" aria-hidden="true"></div>
-      SOMETHING GAMES
-    </div>
+  <!-- Background -->
+  <div class="bg-gradient"></div>
+  <div class="particles" id="particles"></div>
 
-    <div class="nav-links" role="navigation" aria-label="primary">
-      <a href="#games">Games</a>
-      <a href="#about">About</a>
-      <a href="privacy-policy.html">Privacy</a>
-      <a href="#contact">Contact</a>
-    </div>
+  <!-- Content -->
+  <div class="content">
+    <nav>
+      <a href="index.html" class="brand">
+        <div class="logo-dot"></div>
+        SOMETHING GAMES
+      </a>
+      <a href="index.html" class="back-btn">
+        <span>←</span>
+        <span>Back to Home</span>
+      </a>
+    </nav>
 
-    <button class="menu-btn" aria-expanded="false" aria-controls="mobile-menu" id="menuBtn" title="Open menu">☰</button>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hero" role="banner">
-    <div class="hero-inner container">
-      <div class="hero-copy">
-        <h1 class="reveal">Crafting experiences</h1>
-        <p class="reveal" style="transition-delay:.06s">We design atmospheric, memorable games that stick with players.</p>
-        <div class="ctas reveal" style="transition-delay:.12s">
-          <a class="btn" href="#games">Explore Our Games</a>
-          <a class="btn secondary" href="privacy-policy.html">Privacy</a>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge reveal">
+          <span>🔒</span>
+          <span>Last Updated: November 4, 2025</span>
         </div>
+        <h1 class="reveal">Privacy Policy</h1>
+        <p class="reveal">Your privacy matters. Here's how we protect your data in Rearriva VR.</p>
       </div>
+    </section>
 
-      <div class="hero-card reveal" style="transition-delay:.18s" aria-hidden="false">
-        <div class="hero-preview">
-          <!-- lazy loaded image -->
-          <img data-src="placeholder-rearriva.jpg" alt="Rearriva VR preview" class="lazy" loading="lazy" />
+    <!-- POLICY CONTENT -->
+    <section class="policy-section">
+      <div class="policy-container">
+        
+        <!-- Table of Contents -->
+        <div class="toc reveal">
+          <div class="toc-title">
+            <div class="toc-icon">📋</div>
+            <span>Quick Navigation</span>
+          </div>
+          <ul class="toc-list">
+            <li><a href="#section1"><span class="toc-number">1</span>Information We Collect</a></li>
+            <li><a href="#section2"><span class="toc-number">2</span>How We Use Your Information</a></li>
+            <li><a href="#section3"><span class="toc-number">3</span>Data Sharing</a></li>
+            <li><a href="#section4"><span class="toc-number">4</span>Children's Privacy</a></li>
+            <li><a href="#section5"><span class="toc-number">5</span>Your Rights</a></li>
+            <li><a href="#section6"><span class="toc-number">6</span>Updates to This Policy</a></li>
+            <li><a href="#section7"><span class="toc-number">7</span>Contact Us</a></li>
+          </ul>
         </div>
-        <div class="meta-strip">
-          <div style="flex:1">
-            <div style="font-weight:800">Rearriva VR</div>
-            <div style="font-size:.9rem;color:var(--muted)">Horror · Parkour · Multiplayer (fan project)</div>
-          </div>
-          <div style="font-size:.85rem;color:var(--muted)">Playtime: 15–30 min</div>
+
+        <!-- Introduction -->
+        <div class="policy-card reveal">
+          <p style="font-size:1.1rem;color:#fff;font-weight:600;">Rearriva VR ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect information when you play Rearriva VR on supported VR platforms.</p>
         </div>
-      </div>
-    </div>
-  </header>
 
-  <!-- GAMES -->
-  <section id="games" aria-labelledby="games-title">
-    <div class="container">
-      <h2 id="games-title" class="section-title reveal">Our Games</h2>
-
-      <div class="games-grid" id="gamesGrid">
-        <!-- Rearriva -->
-        <article class="game-card reveal">
-          <div class="game-thumb">
-            <img data-src="placeholder-rearriva.jpg" alt="Rearriva VR thumbnail" class="lazy" loading="lazy" />
-            <div class="badge-coming">Live</div>
-            <div class="play-overlay">▶ Trailer</div>
-          </div>
-          <div class="game-content">
-            <h3>Rearriva VR</h3>
-            <p>Horror meets parkour — survive stalking creatures, explore eerie levels, and use the environment to your advantage.</p>
-          </div>
-        </article>
-
-        <!-- In Development 1 -->
-        <article class="game-card reveal">
-          <div class="game-thumb">
-            <img data-src="placeholder-dev1.jpg" alt="In development" class="lazy" loading="lazy" />
-            <div class="badge-coming">Coming Soon</div>
-            <div class="play-overlay">⧉ Preview</div>
-          </div>
-          <div class="game-content">
-            <h3>Project — Unknown</h3>
-            <p>We're experimenting with tense co-op mechanics and cinematic lighting. Stay tuned for a reveal.</p>
-          </div>
-        </article>
-
-        <!-- In Development 2 -->
-        <article class="game-card reveal">
-          <div class="game-thumb">
-            <img data-src="placeholder-dev2.jpg" alt="In development" class="lazy" loading="lazy" />
-            <div class="badge-coming">Coming Soon</div>
-            <div class="play-overlay">⧉ Preview</div>
-          </div>
-          <div class="game-content">
-            <h3>Project — Experimental</h3>
-            <p>Chaotic systems, emergent gameplay — something weird and fun that pushes players to improvise.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about" aria-labelledby="about-title">
-    <div class="container about-grid">
-      <div class="about-card reveal">
-        <h2 id="about-title" class="section-title">About Us</h2>
-        <p>Something Games is an independent studio focused on atmosphere, movement, and player-first design. We build with love, test relentlessly, and ship small, polished experiences.</p>
-        <p style="margin-top:.6rem;color:var(--muted)">We value player feedback, responsible moderation, and privacy — check our policy for more details.</p>
-
-        <div style="margin-top:1rem" class="privacy-teaser">
-          <div style="font-weight:800">Privacy</div>
-          <div style="flex:1;color:var(--muted)">We minimize data collection. Read the full policy.</div>
-          <a href="privacy-policy.html" class="btn" style="padding:.55rem .8rem;font-weight:700">Read</a>
-        </div>
-      </div>
-
-      <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
-        <div style="width:100%;max-width:420px">
-          <div style="background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)">
-            <img data-src="placeholder-studio.jpg" alt="Studio art" class="lazy" loading="lazy" style="width:100%;height:260px;object-fit:cover;border-radius:8px;display:block" />
-            <div style="padding-top:.8rem;color:var(--muted);font-size:.95rem">Based somewhere between imagination and reality — building immersive experiences.</div>
+        <!-- Section 1 -->
+        <div class="policy-card reveal" id="section1">
+          <div class="section-number">1</div>
+          <h2>Information We Collect</h2>
+          <p>Rearriva VR minimizes personal data collection. We may collect the following types of information:</p>
+          <ul>
+            <li>Platform-provided data, such as Oculus/Meta user ID or display name</li>
+            <li>Gameplay data, including playtime, in-game actions, and player behavior</li>
+            <li>Crash reports and bug logs to improve stability and performance</li>
+          </ul>
+          <div class="highlight-card">
+            <div class="highlight-title">
+              <span class="highlight-icon">✓</span>
+              <span>Privacy First</span>
+            </div>
+            <p style="margin:0;color:var(--muted)">We do not collect personal identifiers such as your real name, physical address, or payment information.</p>
           </div>
         </div>
+
+        <!-- Section 2 -->
+        <div class="policy-card reveal" id="section2">
+          <div class="section-number">2</div>
+          <h2>How We Use Your Information</h2>
+          <p>We use the collected information to:</p>
+          <ul>
+            <li>Improve gameplay experience and app performance</li>
+            <li>Detect and prevent cheating or abuse</li>
+            <li>Support moderation and enforce community guidelines</li>
+            <li>Analyze crashes and collect feedback for development improvements</li>
+          </ul>
+        </div>
+
+        <!-- Section 3 -->
+        <div class="policy-card reveal" id="section3">
+          <div class="section-number">3</div>
+          <h2>Data Sharing</h2>
+          <p><strong>We do not sell your information.</strong></p>
+          <p>We may share limited data with trusted third-party services (such as analytics or platform moderation tools), only as necessary for app functionality, safety, or compliance.</p>
+        </div>
+
+        <!-- Section 4 -->
+        <div class="policy-card reveal" id="section4">
+          <div class="section-number">4</div>
+          <h2>Children's Privacy</h2>
+          <p>Rearriva VR is intended for users aged <strong>13 and older</strong>.</p>
+          <p>We do not knowingly collect personal data from children under 13. If we become aware that such data has been collected without verified parental consent, we will delete it promptly.</p>
+        </div>
+
+        <!-- Section 5 -->
+        <div class="policy-card reveal" id="section5">
+          <div class="section-number">5</div>
+          <h2>Your Rights</h2>
+          <p>All users have the right to:</p>
+          <ul>
+            <li>Access the personal data we hold about you</li>
+            <li>Request correction or deletion of your data</li>
+            <li>Opt out of certain types of data collection where applicable</li>
+          </ul>
+          <p>To exercise any of these rights, contact us at: <strong>somethinggames@gmail.com</strong></p>
+        </div>
+
+        <!-- Section 6 -->
+        <div class="policy-card reveal" id="section6">
+          <div class="section-number">6</div>
+          <h2>Updates to This Policy</h2>
+          <p>We may update this Privacy Policy from time to time. If significant changes are made, we will notify users through in-app messaging or platform updates.</p>
+        </div>
+
+        <!-- Section 7 / Contact -->
+        <div class="contact-card reveal" id="section7">
+          <div class="contact-icon">💬</div>
+          <h3>Questions or Concerns?</h3>
+          <p>If you have any questions about this Privacy Policy or how we handle your data, we're here to help. Reach out via email or join our Discord community.</p>
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem">
+            <a href="mailto:somethinggames@gmail.com" class="contact-email">
+              <span>📧</span>
+              <span>Email Us</span>
+            </a>
+            <a href="https://discord.gg/Vq6mW7YFbH" target="_blank" rel="noopener noreferrer" class="contact-email" style="background:linear-gradient(135deg,#5865F2,#7289DA)">
+              <span>💬</span>
+              <span>Join Discord</span>
+            </a>
+          </div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CONTACT / FOOTER -->
-  <footer id="contact" class="reveal" style="transition-delay:.04s">
-    <div class="container" style="display:flex;flex-direction:column;align-items:center;gap:.8rem">
-      <div style="font-weight:700">Something Games © 2025</div>
-      <div style="color:var(--muted)">Crafting experiences, one game at a time.</div>
-      <div style="margin-top:.6rem;color:var(--muted)">Contact: <a href="mailto:ildegonzoalez@gmail.com" style="color:var(--accent-1);text-decoration:none">ildegonzoalez@gmail.com</a></div>
-      <div style="margin-top:.8rem"><a href="privacy-policy.html" style="color:rgba(255,255,255,0.55);text-decoration:none">Privacy Policy</a></div>
-    </div>
-  </footer>
-
-  <!-- Mobile menu (inserted programmatically) -->
-  <div id="mobile-menu" aria-hidden="true" style="display:none"></div>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="index.html#games">Games</a>
+        <a href="index.html#about">About</a>
+      </div>
+      <div class="copyright">
+        © 2025 Something Games. All rights reserved.
+      </div>
+    </footer>
+  </div>
 
   <script>
-    // Basic helpers
-    const $ = s => document.querySelector(s);
-    const $$ = s => Array.from(document.querySelectorAll(s));
-
-    // MENU: create accessible mobile menu
-    const menuBtn = $('#menuBtn');
-    const mobileMenu = $('#mobile-menu');
-    menuBtn && menuBtn.addEventListener('click', () => {
-      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-      if (!expanded) openMobileMenu(); else closeMobileMenu();
-    });
-
-    function openMobileMenu(){
-      menuBtn.setAttribute('aria-expanded','true');
-      if (mobileMenu) {
-        mobileMenu.style.display='block';
-        mobileMenu.setAttribute('aria-hidden','false');
-        mobileMenu.innerHTML = `
-          <div style="position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.85));backdrop-filter:blur(6px);padding:calc(var(--nav-height) + 20px) 6%;display:flex;flex-direction:column;gap:18px;z-index:2000">
-            <a href="#games" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Games</a>
-            <a href="#about" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">About</a>
-            <a href="privacy-policy.html" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Privacy</a>
-            <a href="#contact" style="font-size:1.15rem;color:#fff;font-weight:800;text-decoration:none">Contact</a>
-            <button id="closeMobile" style="margin-top:auto;padding:.75rem;border-radius:12px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:700">Close</button>
-          </div>`;
-        document.body.style.overflow = 'hidden';
-        $('#closeMobile').addEventListener('click', closeMobileMenu);
-      }
-    }
-    function closeMobileMenu(){
-      menuBtn.setAttribute('aria-expanded','false');
-      if (mobileMenu){
-        mobileMenu.style.display='none';
-        mobileMenu.setAttribute('aria-hidden','true');
-        mobileMenu.innerHTML = '';
-        document.body.style.overflow = '';
-      }
+    // Particles
+    const particlesContainer = document.getElementById('particles');
+    for(let i=0;i<20;i++){
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random()*100+'%';
+      p.style.animationDuration = (15+Math.random()*15)+'s';
+      p.style.animationDelay = Math.random()*5+'s';
+      particlesContainer.appendChild(p);
     }
 
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const target = a.getAttribute('href');
-        if (target && target.startsWith('#')) {
-          e.preventDefault();
-          const el = document.querySelector(target);
-          if (!el) { closeMobileMenu(); return; }
-          el.scrollIntoView({behavior:'smooth',block:'start'});
-          closeMobileMenu();
-        }
-      });
-    });
-
-    // Intersection Observer for reveal + lazy load images
-    const io = new IntersectionObserver((entries, obs) => {
+    // Scroll reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries)=>{
       entries.forEach(entry=>{
-        if (entry.isIntersecting) {
-          entry.target.classList.add('show');
-          obs.unobserve(entry.target);
+        if(entry.isIntersecting){
+          entry.target.classList.add('active');
         }
       });
-    }, {threshold: 0.12});
+    },{threshold:0.1});
+    revealElements.forEach(el=>revealObserver.observe(el));
 
-    document.querySelectorAll('.reveal').forEach(el=>{
-      io.observe(el);
-    });
-
-    // Lazy load images
-    const lazyImgs = [...document.querySelectorAll('img.lazy')];
-    const imgObserver = new IntersectionObserver((entries, obs)=>{
-      entries.forEach(entry=>{
-        if (entry.isIntersecting){
-          const img = entry.target;
-          const src = img.getAttribute('data-src');
-          if (src){
-            img.src = src;
-            img.removeAttribute('data-src');
-            img.classList.remove('lazy');
-          }
-          obs.unobserve(img);
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+      anchor.addEventListener('click',function(e){
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if(target){
+          target.scrollIntoView({behavior:'smooth',block:'start'});
         }
       });
-    }, {rootMargin: '200px 0px'});
-
-    lazyImgs.forEach(i => imgObserver.observe(i));
-
-    // Parallax subtle effect on scroll for hero copy
-    const heroCopy = document.querySelector('.hero-copy');
-    window.addEventListener('scroll', ()=> {
-      if (!heroCopy) return;
-      const y = window.scrollY;
-      heroCopy.style.transform = `translateY(${Math.min(y * 0.08, 18)}px)`;
-    }, {passive:true});
-
-    // Accessibility: close mobile menu with Escape
-    window.addEventListener('keydown', e=>{
-      if (e.key === 'Escape') closeMobileMenu();
-    });
-
-    // small: mark reveal elements with slight stagger
-    document.querySelectorAll('.reveal').forEach((el,i)=>{
-      el.style.transitionDelay = (i * 40) + 'ms';
     });
   </script>
 </body>
