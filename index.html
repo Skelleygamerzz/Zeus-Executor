@@ -1,1181 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Something Games — Crafting Experiences</title>
-  <meta name="description" content="Something Games — indie studio crafting cinematic, memorable game experiences. Rearriva VR and more coming soon." />
-  <link rel="icon" href="data:,">
-  
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
-    
-    :root{
-      --bg:#000000;
-      --card:#0a0a0f;
-      --muted:rgba(255,255,255,0.65);
-      --accent-1:#667eea;
-      --accent-2:#d946ef;
-      --accent-3:#06b6d4;
-      --glass: rgba(255,255,255,0.03);
-      --radius:24px;
-      --nav-height:80px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Something Games</title>
+<meta name="description" content="Something Games — Indie studio crafting immersive experiences. Featuring Rearriva VR.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Inter',system-ui,-apple-system,sans-serif;
-      background:#000;
-      color:#fff;
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-      position:relative;
-    }
+<style>
+:root{
+  --bg:#0a0a0f;
+  --card:#11111a;
+  --muted:rgba(255,255,255,0.6);
+  --accent-1:#667eea;
+  --accent-2:#d946ef;
+  --accent-3:#06b6d4;
+  --radius:24px;
+  --nav-height:80px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;overflow-x:hidden;position:relative}
 
-    .page{display:none}
-    .page.active{display:block}
+a{text-decoration:none;color:inherit;cursor:pointer}
 
-    /* Animated gradient background */
-    .bg-gradient{
-      position:fixed;
-      inset:0;
-      z-index:0;
-      background:
-        radial-gradient(circle 800px at 20% 30%, rgba(102,126,234,0.15), transparent 50%),
-        radial-gradient(circle 600px at 80% 70%, rgba(217,70,239,0.12), transparent 50%),
-        radial-gradient(circle 900px at 50% 50%, rgba(6,182,212,0.08), transparent 60%),
-        #000;
-      animation: bgShift 20s ease infinite;
-    }
-    @keyframes bgShift{
-      0%,100%{opacity:1}
-      50%{opacity:0.85}
-    }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 6%;z-index:1000;background:rgba(0,0,0,0.5);backdrop-filter:blur(20px)}
+nav .brand{font-weight:900;font-size:1.2rem;display:flex;align-items:center;gap:0.5rem}
+nav .brand .dot{width:14px;height:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:0.7}}
+nav .links{display:flex;gap:2rem;font-weight:600}
+nav .back-btn{display:none;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border-radius:999px;transition:0.2s}
+nav .back-btn:hover{background:rgba(255,255,255,0.1)}
 
-    /* Floating particles */
-    .particles{
-      position:fixed;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-      overflow:hidden;
-    }
-    .particle{
-      position:absolute;
-      width:3px;
-      height:3px;
-      background:rgba(255,255,255,0.4);
-      border-radius:50%;
-      animation: float linear infinite;
-      box-shadow:0 0 20px rgba(255,255,255,0.3);
-    }
-    @keyframes float{
-      0%{transform:translateY(100vh) translateX(0) scale(0)}
-      50%{transform:translateY(50vh) translateX(20px) scale(1)}
-      100%{transform:translateY(-20vh) translateX(-20px) scale(0)}
-    }
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:var(--nav-height);padding-left:6%;padding-right:6%;position:relative}
+.hero .hero-text h1{font-size:clamp(3rem,7vw,5rem);background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent;font-weight:900;line-height:0.9}
+.hero .hero-text p{font-size:1.2rem;color:var(--muted);margin:1.5rem 0}
+.hero .hero-text .btn{padding:1rem 2rem;border-radius:999px;font-weight:700;margin-right:1rem;transition:0.2s}
+.hero .hero-text .btn-primary{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#000}
+.hero .hero-text .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(102,126,234,0.4)}
+.hero .hero-text .btn-secondary{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1)}
+.hero .hero-text .btn-secondary:hover{background:rgba(255,255,255,0.08);transform:translateY(-3px)}
 
-    /* Content wrapper */
-    .content{position:relative;z-index:10}
+.hero .hero-img{margin-left:4rem;flex-shrink:0;position:relative;max-width:480px}
+.hero .hero-img img{width:100%;border-radius:32px;box-shadow:0 30px 80px rgba(0,0,0,0.5);transition:transform 0.3s}
+.hero .hero-img:hover img{transform:scale(1.05)}
 
-    /* NAV */
-    nav{
-      position:fixed;
-      left:0;right:0;top:0;
-      height:var(--nav-height);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 6%;
-      z-index:1000;
-      background:rgba(0,0,0,0.4);
-      backdrop-filter:blur(20px) saturate(180%);
-      border-bottom:1px solid rgba(255,255,255,0.06);
-      transition:background 0.3s;
-    }
-    nav.scrolled{
-      background:rgba(0,0,0,0.8);
-      box-shadow:0 8px 32px rgba(0,0,0,0.4);
-    }
+/* GAMES */
+section{padding:6rem 6%}
+.section-title{font-size:2.8rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent}
+.section-subtitle{color:var(--muted);margin-bottom:3rem;font-size:1.1rem}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem}
+.game-card{background:var(--card);border-radius:28px;overflow:hidden;transition:transform 0.3s,box-shadow 0.3s;cursor:pointer;position:relative}
+.game-card:hover{transform:translateY(-10px);box-shadow:0 40px 80px rgba(0,0,0,0.6)}
+.game-card img{width:100%;height:220px;object-fit:cover}
+.game-card .game-info{padding:1.5rem}
+.game-card .game-info h3{font-size:1.5rem;font-weight:800;margin-bottom:0.5rem}
+.game-card .game-info p{color:var(--muted)}
+.game-card .badge{position:absolute;top:15px;left:15px;padding:0.5rem 1rem;border-radius:999px;font-weight:700;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#000}
 
-    .brand{
-      display:flex;
-      gap:1rem;
-      align-items:center;
-      font-weight:900;
-      font-size:1.1rem;
-      letter-spacing:-0.5px;
-      position:relative;
-      cursor:pointer;
-      color:#fff;
-      text-decoration:none;
-    }
-    .logo-dot{
-      width:14px;
-      height:14px;
-      border-radius:50%;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      box-shadow:0 0 30px rgba(102,126,234,0.6), 0 0 60px rgba(217,70,239,0.4);
-      animation:pulse 2s ease infinite;
-    }
-    @keyframes pulse{
-      0%,100%{transform:scale(1);opacity:1}
-      50%{transform:scale(1.1);opacity:0.8}
-    }
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-grid .about-img img{width:100%;border-radius:32px;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
+.about-grid .about-text h2{font-size:2.5rem;font-weight:900;margin-bottom:1rem;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;color:transparent}
+.about-grid .about-text p{color:var(--muted);line-height:1.6;margin-bottom:1rem}
+.about-grid .about-text .owners{font-weight:700;color:var(--accent-1)}
 
-    .nav-links{display:flex;gap:2rem;align-items:center}
-    .nav-links a{
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:600;
-      font-size:0.95rem;
-      position:relative;
-      padding:0.5rem 0;
-      transition:color 0.3s;
-      cursor:pointer;
-    }
-    .nav-links a::after{
-      content:'';
-      position:absolute;
-      bottom:0;
-      left:0;
-      width:0;
-      height:2px;
-      background:linear-gradient(90deg,var(--accent-1),var(--accent-2));
-      transition:width 0.3s;
-    }
-    .nav-links a:hover{color:#fff}
-    .nav-links a:hover::after{width:100%}
+/* FOOTER */
+footer{padding:4rem 6%;text-align:center;border-top:1px solid rgba(255,255,255,0.1)}
+footer .links{display:flex;justify-content:center;gap:2rem;margin-bottom:1.5rem}
+footer .links a{color:var(--muted);transition:0.2s}
+footer .links a:hover{color:#fff}
+footer .contact{color:var(--muted);margin-bottom:1rem}
+footer .contact a{color:var(--accent-1);transition:0.2s}
+footer .contact a:hover{color:var(--accent-2)}
+footer .copyright{color:rgba(255,255,255,0.4);font-size:0.9rem}
 
-    .back-btn{
-      display:none;
-      align-items:center;
-      gap:0.5rem;
-      padding:0.75rem 1.5rem;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.1);
-      border-radius:999px;
-      color:#fff;
-      text-decoration:none;
-      font-weight:600;
-      transition:all 0.3s;
-      backdrop-filter:blur(10px);
-      cursor:pointer;
-    }
-    .back-btn:hover{
-      background:rgba(255,255,255,0.08);
-      transform:translateY(-2px);
-      box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    }
-
-    .menu-btn{
-      display:none;
-      width:44px;
-      height:44px;
-      background:transparent;
-      border:none;
-      color:var(--muted);
-      font-size:1.5rem;
-      cursor:pointer;
-    }
-
-    /* HERO */
-    .hero{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      padding:var(--nav-height) 6% 4rem;
-      position:relative;
-    }
-
-    .hero-grid{
-      max-width:1400px;
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:1fr 480px;
-      gap:4rem;
-      align-items:center;
-    }
-
-    .hero-copy h1{
-      font-size:clamp(3rem,8vw,6rem);
-      font-weight:900;
-      line-height:0.95;
-      letter-spacing:-2px;
-      margin:0 0 1.5rem;
-      background:linear-gradient(135deg,#fff 0%,#a78bfa 50%,#ec4899 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      animation:textShine 8s ease infinite;
-      background-size:200% auto;
-    }
-    @keyframes textShine{
-      0%,100%{background-position:0% center}
-      50%{background-position:100% center}
-    }
-
-    .hero-copy p{
-      font-size:clamp(1.1rem,2vw,1.3rem);
-      color:var(--muted);
-      margin:0 0 2rem;
-      line-height:1.6;
-      max-width:540px;
-    }
-
-    .ctas{display:flex;gap:1rem;flex-wrap:wrap}
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:0.75rem;
-      padding:1rem 2rem;
-      border-radius:999px;
-      font-weight:700;
-      font-size:1rem;
-      border:none;
-      cursor:pointer;
-      text-decoration:none;
-      position:relative;
-      overflow:hidden;
-      transition:transform 0.2s,box-shadow 0.2s;
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      color:#000;
-      box-shadow:0 20px 60px rgba(102,126,234,0.4);
-    }
-    .btn-primary::before{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);
-      opacity:0;
-      transition:opacity 0.3s;
-    }
-    .btn-primary:hover::before{opacity:1}
-    .btn-primary:hover{
-      transform:translateY(-4px);
-      box-shadow:0 30px 80px rgba(102,126,234,0.6);
-    }
-
-    .btn-secondary{
-      background:rgba(255,255,255,0.05);
-      color:#fff;
-      border:1px solid rgba(255,255,255,0.1);
-      backdrop-filter:blur(10px);
-    }
-    .btn-secondary:hover{
-      transform:translateY(-4px);
-      background:rgba(255,255,255,0.08);
-      box-shadow:0 20px 60px rgba(0,0,0,0.4);
-    }
-
-    /* 3D Tilt Card */
-    .hero-showcase{
-      position:relative;
-      perspective:1500px;
-    }
-    .showcase-card{
-      background:linear-gradient(135deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01));
-      border-radius:32px;
-      padding:20px;
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 30px 100px rgba(0,0,0,0.6);
-      transform-style:preserve-3d;
-      transition:transform 0.1s ease-out;
-      position:relative;
-      overflow:hidden;
-    }
-    .showcase-card::before{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:radial-gradient(circle at var(--mouse-x,50%) var(--mouse-y,50%),rgba(255,255,255,0.08),transparent 60%);
-      opacity:0;
-      transition:opacity 0.3s;
-      pointer-events:none;
-    }
-    .showcase-card:hover::before{opacity:1}
-
-    .showcase-preview{
-      width:100%;
-      height:340px;
-      border-radius:24px;
-      overflow:hidden;
-      position:relative;
-      background:#0a0a0f;
-    }
-    .showcase-preview img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      filter:brightness(0.9) contrast(1.1);
-      transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);
-    }
-    .showcase-card:hover .showcase-preview img{
-      transform:scale(1.08);
-    }
-
-    .showcase-glow{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      opacity:0;
-      filter:blur(60px);
-      transition:opacity 0.6s;
-      z-index:-1;
-    }
-    .showcase-card:hover .showcase-glow{opacity:0.4}
-
-    .showcase-meta{
-      display:flex;
-      align-items:center;
-      gap:1rem;
-      padding:1.5rem;
-    }
-    .showcase-meta h3{
-      font-size:1.3rem;
-      font-weight:800;
-      margin:0 0 0.25rem;
-    }
-    .showcase-meta p{
-      font-size:0.9rem;
-      color:var(--muted);
-      margin:0;
-    }
-    .showcase-badge{
-      margin-left:auto;
-      padding:0.5rem 1rem;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      border-radius:999px;
-      font-weight:700;
-      font-size:0.85rem;
-      color:#000;
-      box-shadow:0 8px 24px rgba(102,126,234,0.4);
-    }
-
-    /* GAMES SECTION */
-    section{
-      padding:8rem 6%;
-      position:relative;
-    }
-    .container{
-      max-width:1400px;
-      margin:0 auto;
-    }
-
-    .section-header{
-      text-align:center;
-      margin-bottom:4rem;
-    }
-    .section-title{
-      font-size:clamp(2.5rem,5vw,4rem);
-      font-weight:900;
-      letter-spacing:-1.5px;
-      margin:0 0 1rem;
-      background:linear-gradient(135deg,#fff,#a78bfa);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .section-subtitle{
-      font-size:1.2rem;
-      color:var(--muted);
-      max-width:600px;
-      margin:0 auto;
-    }
-
-    .games-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
-      gap:2rem;
-    }
-
-    .game-card{
-      background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
-      border-radius:28px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,0.06);
-      transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),box-shadow 0.4s;
-      position:relative;
-      cursor:pointer;
-    }
-    .game-card::before{
-      content:'';
-      position:absolute;
-      inset:0;
-      background:radial-gradient(circle at 50% 0%,rgba(102,126,234,0.1),transparent 70%);
-      opacity:0;
-      transition:opacity 0.4s;
-    }
-    .game-card:hover{
-      transform:translateY(-16px) scale(1.02);
-      box-shadow:0 40px 100px rgba(0,0,0,0.8);
-    }
-    .game-card:hover::before{opacity:1}
-
-    .game-thumb{
-      height:280px;
-      background:linear-gradient(135deg,#667eea,#764ba2);
-      position:relative;
-      overflow:hidden;
-    }
-    .game-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform 0.8s cubic-bezier(0.22,1,0.36,1);
-    }
-    .game-card:hover .game-thumb img{
-      transform:scale(1.15) rotate(1deg);
-    }
-
-    .game-badge{
-      position:absolute;
-      top:20px;
-      left:20px;
-      padding:0.5rem 1rem;
-      background:rgba(0,0,0,0.6);
-      backdrop-filter:blur(10px);
-      border-radius:999px;
-      font-weight:700;
-      font-size:0.85rem;
-      border:1px solid rgba(255,255,255,0.1);
-    }
-    .game-badge.live{
-      background:linear-gradient(135deg,rgba(34,197,94,0.9),rgba(16,185,129,0.9));
-      border-color:rgba(255,255,255,0.2);
-    }
-
-    .game-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(0deg,rgba(0,0,0,0.8),transparent 60%);
-      display:flex;
-      align-items:flex-end;
-      padding:2rem;
-      opacity:0;
-      transition:opacity 0.4s;
-    }
-    .game-card:hover .game-overlay{opacity:1}
-    .play-btn{
-      width:60px;
-      height:60px;
-      border-radius:50%;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:1.5rem;
-      color:#000;
-      box-shadow:0 12px 40px rgba(102,126,234,0.6);
-      animation:playPulse 2s ease infinite;
-    }
-    @keyframes playPulse{
-      0%,100%{transform:scale(1)}
-      50%{transform:scale(1.05)}
-    }
-
-    .game-content{
-      padding:2rem;
-    }
-    .game-content h3{
-      font-size:1.5rem;
-      font-weight:800;
-      margin:0 0 0.75rem;
-    }
-    .game-content p{
-      color:var(--muted);
-      line-height:1.6;
-      margin:0;
-    }
-
-    /* ABOUT */
-    .about-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:4rem;
-      align-items:center;
-    }
-    .about-content h2{
-      font-size:clamp(2rem,4vw,3rem);
-      font-weight:900;
-      margin:0 0 1.5rem;
-      background:linear-gradient(135deg,#fff,#a78bfa);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .about-content p{
-      font-size:1.1rem;
-      color:var(--muted);
-      line-height:1.7;
-      margin:0 0 1.5rem;
-    }
-
-    .about-visual{
-      position:relative;
-      height:500px;
-      border-radius:32px;
-      overflow:hidden;
-      background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(217,70,239,0.1));
-      border:1px solid rgba(255,255,255,0.06);
-    }
-    .about-visual img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:2rem;
-      margin-top:3rem;
-    }
-    .stat-card{
-      background:rgba(255,255,255,0.03);
-      padding:2rem;
-      border-radius:20px;
-      border:1px solid rgba(255,255,255,0.06);
-      text-align:center;
-      transition:transform 0.3s,background 0.3s;
-    }
-    .stat-card:hover{
-      transform:translateY(-8px);
-      background:rgba(255,255,255,0.05);
-    }
-    .stat-number{
-      font-size:3rem;
-      font-weight:900;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-      margin:0 0 0.5rem;
-    }
-    .stat-label{
-      color:var(--muted);
-      font-weight:600;
-    }
-
-    /* <CHANGE> PRIVACY POLICY PAGE STYLES - Added missing CSS for privacy section */
-    .policy-hero{
-      padding:calc(var(--nav-height) + 2rem) 6% 3rem;
-      min-height:50vh;
-      position:relative;
-    }
-
-    .policy-hero h1{
-      font-size:clamp(2.5rem,5vw,4rem);
-      font-weight:900;
-      letter-spacing:-1.5px;
-      margin:0 0 1rem;
-      background:linear-gradient(135deg,#fff,#a78bfa);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-
-    .policy-section{
-      padding:4rem 6%;
-      position:relative;
-    }
-
-    .policy-container{
-      max-width:900px;
-      margin:0 auto;
-    }
-
-    .policy-card{
-      background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
-      border-radius:24px;
-      padding:3rem;
-      border:1px solid rgba(255,255,255,0.06);
-      margin-bottom:2rem;
-      position:relative;
-    }
-
-    .policy-card h2{
-      font-size:1.5rem;
-      font-weight:800;
-      margin:0 0 1rem;
-      display:flex;
-      align-items:center;
-      gap:1rem;
-    }
-
-    .policy-card ul{
-      list-style:none;
-      margin:1.5rem 0;
-      padding-left:0;
-    }
-
-    .policy-card li{
-      color:var(--muted);
-      line-height:1.8;
-      margin:0.75rem 0;
-      padding-left:1.5rem;
-      position:relative;
-    }
-
-    .policy-card li::before{
-      content:'→';
-      position:absolute;
-      left:0;
-      color:var(--accent-1);
-      font-weight:bold;
-    }
-
-    .policy-card p{
-      color:var(--muted);
-      line-height:1.8;
-      margin:0 0 1rem;
-    }
-
-    .section-number{
-      position:absolute;
-      top:2rem;
-      right:2rem;
-      font-size:3rem;
-      font-weight:900;
-      opacity:0.1;
-      color:var(--accent-1);
-    }
-
-    .highlight-box{
-      background:linear-gradient(135deg,rgba(102,126,234,0.1),rgba(102,126,234,0.05));
-      border-left:4px solid var(--accent-1);
-      border-radius:12px;
-      padding:1.5rem;
-      margin:1.5rem 0;
-    }
-
-    .highlight-box h3{
-      font-size:1.1rem;
-      font-weight:800;
-      margin:0 0 0.5rem;
-      display:flex;
-      align-items:center;
-      gap:0.75rem;
-      color:#fff;
-    }
-
-    .highlight-box p{
-      color:var(--muted);
-      margin:0;
-      line-height:1.6;
-    }
-
-    .contact-card{
-      background:linear-gradient(135deg,rgba(102,126,234,0.15),rgba(217,70,239,0.1));
-      border-radius:24px;
-      padding:3rem;
-      border:1px solid rgba(255,255,255,0.1);
-      text-align:center;
-      margin-top:2rem;
-    }
-
-    .contact-icon{
-      font-size:3rem;
-      margin-bottom:1rem;
-    }
-
-    .contact-card h3{
-      font-size:1.5rem;
-      font-weight:800;
-      margin:0 0 1rem;
-    }
-
-    .contact-card p{
-      color:var(--muted);
-      line-height:1.8;
-      margin:0 0 1.5rem;
-    }
-
-    .contact-email{
-      display:inline-flex;
-      align-items:center;
-      gap:0.75rem;
-      padding:0.75rem 1.5rem;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      border-radius:999px;
-      color:#000;
-      text-decoration:none;
-      font-weight:700;
-      transition:transform 0.3s,box-shadow 0.3s;
-      box-shadow:0 12px 40px rgba(102,126,234,0.4);
-      border:none;
-      cursor:pointer;
-      font-size:1rem;
-    }
-
-    .contact-email:hover{
-      transform:translateY(-4px);
-      box-shadow:0 16px 60px rgba(102,126,234,0.6);
-    }
-
-    /* FOOTER */
-    footer{
-      padding:4rem 6%;
-      border-top:1px solid rgba(255,255,255,0.06);
-      text-align:center;
-    }
-    .footer-brand{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:1rem;
-      font-size:1.5rem;
-      font-weight:900;
-      margin-bottom:2rem;
-    }
-    .footer-links{
-      display:flex;
-      gap:2rem;
-      justify-content:center;
-      margin-bottom:2rem;
-    }
-    .footer-links a{
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:600;
-      transition:color 0.3s;
-      cursor:pointer;
-    }
-    .footer-links a:hover{color:#fff}
-    .footer-contact{
-      color:var(--muted);
-      margin-bottom:2rem;
-    }
-    .footer-contact a{
-      color:var(--accent-1);
-      text-decoration:none;
-      transition:color 0.3s;
-    }
-    .footer-contact a:hover{color:var(--accent-2)}
-    .copyright{
-      color:rgba(255,255,255,0.4);
-      font-size:0.9rem;
-    }
-
-    /* Scroll reveal */
-    .reveal{
-      opacity:0;
-      transform:translateY(40px);
-      transition:opacity 0.8s cubic-bezier(0.22,1,0.36,1),transform 0.8s cubic-bezier(0.22,1,0.36,1);
-    }
-    .reveal.active{
-      opacity:1;
-      transform:translateY(0);
-    }
-
-    /* Mobile */
-    @media (max-width:1024px){
-      .hero-grid{grid-template-columns:1fr;gap:3rem}
-      .hero-showcase{order:2}
-      .about-grid{grid-template-columns:1fr}
-      .stats{grid-template-columns:1fr}
-      .games-grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width:768px){
-      .nav-links{display:none}
-      .menu-btn{display:block}
-      section{padding:4rem 6%}
-      .hero{padding:calc(var(--nav-height) + 2rem) 6% 3rem}
-      .policy-hero{padding:calc(var(--nav-height) + 2rem) 6% 3rem;min-height:50vh}
-      .policy-card{padding:2rem}
-      .contact-card{padding:2rem}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none!important;transition:none!important}
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:1024px){.hero{flex-direction:column;gap:3rem}.hero .hero-img{margin-left:0}}
+@media(max-width:768px){nav .links{display:none}.hero-text h1{font-size:2.8rem}}
+</style>
 </head>
 <body>
-  <!-- Background -->
-  <div class="bg-gradient"></div>
-  <div class="particles" id="particles"></div>
 
-  <!-- Content -->
-  <div class="content">
-    <nav id="nav">
-      <div class="brand" onclick="showHome()">
-        <div class="logo-dot"></div>
-        SOMETHING GAMES
+<nav>
+  <div class="brand"><div class="dot"></div>Something Games</div>
+  <div class="links">
+    <a href="home.html">Home</a>
+    <a href="home.html#games">Games</a>
+    <a href="home.html#about">About</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+  <div class="back-btn" id="backBtn">← Back</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <h1>Something Games</h1>
+    <p>Indie studio crafting immersive gaming experiences. Featuring our flagship game Rearriva VR.</p>
+    <a href="#games" class="btn btn-primary">Explore Game</a>
+    <a href="#about" class="btn btn-secondary">Learn About Us</a>
+  </div>
+  <div class="hero-img">
+    <img src="https://via.placeholder.com/480x340" alt="Rearriva VR">
+  </div>
+</section>
+
+<!-- GAMES -->
+<section id="games">
+  <h2 class="section-title">Games</h2>
+  <p class="section-subtitle">Our current releases and upcoming projects.</p>
+  <div class="games-grid">
+    <a href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" class="game-card">
+      <img src="https://via.placeholder.com/480x280" alt="Rearriva VR">
+      <div class="badge">Live</div>
+      <div class="game-info">
+        <h3>Rearriva VR</h3>
+        <p>Immersive horror VR experience.</p>
       </div>
-      <div class="nav-links" id="mainNav">
-        <a onclick="scrollToSection('games')">Games</a>
-        <a onclick="scrollToSection('about')">About</a>
-        <a onclick="scrollToSection('contact')">Contact</a>
-        <a onclick="showPrivacy()">Privacy</a>
+    </a>
+    <div class="game-card">
+      <img src="https://via.placeholder.com/480x280?text=Coming+Soon" alt="Coming Soon">
+      <div class="badge">Coming Soon</div>
+      <div class="game-info">
+        <h3>Future Projects</h3>
+        <p>Stay tuned for upcoming releases!</p>
       </div>
-      <div class="back-btn" id="backBtn" onclick="showHome()">
-        <span>←</span>
-        <span>Back to Home</span>
-      </div>
-      <button class="menu-btn" id="menuBtn">☰</button>
-    </nav>
-
-    <!-- HOME PAGE -->
-    <div id="homePage" class="page active">
-      <!-- HERO -->
-      <section class="hero">
-        <div class="hero-grid">
-          <div class="hero-copy">
-            <h1 class="reveal">CRAFTING EXPERIENCES</h1>
-            <p class="reveal">We design atmospheric, memorable games that stick with players. From horror to experimental mechanics, every project pushes boundaries.</p>
-            <div class="ctas reveal">
-              <a onclick="scrollToSection('games')" class="btn btn-primary">
-                <span>Explore Games</span>
-                <span>→</span>
-              </a>
-              <a onclick="scrollToSection('about')" class="btn btn-secondary">Learn More</a>
-            </div>
-          </div>
-
-          <div class="hero-showcase reveal">
-            <div class="showcase-card" id="showcaseCard">
-              <div class="showcase-glow"></div>
-              <div class="showcase-preview">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80" alt="Rearriva VR" loading="lazy" />
-              </div>
-              <div class="showcase-meta">
-                <div>
-                  <h3>Rearriva VR</h3>
-                  <p>Horror · Parkour · Multiplayer</p>
-                </div>
-                <div class="showcase-badge">LIVE NOW</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- GAMES -->
-      <section id="games">
-        <div class="container">
-          <div class="section-header reveal">
-            <h2 class="section-title">Our Games</h2>
-            <p class="section-subtitle">Immersive experiences designed to challenge, thrill, and inspire</p>
-          </div>
-
-          <div class="games-grid">
-            <article class="game-card reveal">
-              <div class="game-thumb">
-                <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80" alt="Rearriva VR" loading="lazy" />
-                <div class="game-badge live">● LIVE</div>
-                <div class="game-overlay">
-                  <div class="play-btn">▶</div>
-                </div>
-              </div>
-              <div class="game-content">
-                <h3>Rearriva VR</h3>
-                <p>Horror meets parkour in this heart-pounding VR experience. Survive stalking creatures, explore eerie environments, and use every tool at your disposal to escape.</p>
-              </div>
-            </article>
-
-            <article class="game-card reveal">
-              <div class="game-thumb">
-                <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&q=80" alt="Project Unknown" loading="lazy" />
-                <div class="game-badge">COMING SOON</div>
-                <div class="game-overlay">
-                  <div class="play-btn">⧉</div>
-                </div>
-              </div>
-              <div class="game-content">
-                <h3>Project — Unknown</h3>
-                <p>Tense co-op mechanics meet cinematic lighting in our next experimental title. Something dark is brewing.</p>
-              </div>
-            </article>
-
-            <article class="game-card reveal">
-              <div class="game-thumb">
-                <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80" alt="Experimental Project" loading="lazy" />
-                <div class="game-badge">IN DEVELOPMENT</div>
-                <div class="game-overlay">
-                  <div class="play-btn">⧉</div>
-                </div>
-              </div>
-              <div class="game-content">
-                <h3>Project — Experimental</h3>
-                <p>Chaotic systems and emergent gameplay combine to create something weird, fun, and unpredictable. Pure improvisation.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <!-- ABOUT -->
-      <section id="about">
-        <div class="container">
-          <div class="about-grid">
-            <div class="about-content reveal">
-              <h2>About Something Games</h2>
-              <p>We're an independent studio obsessed with atmosphere, movement, and player-first design. Every game we build is crafted with love, tested relentlessly, and polished to perfection.</p>
-              <p>From VR horror to experimental mechanics, we push boundaries and create experiences that players remember long after they put down the controller.</p>
-              <p>We value transparency, player feedback, and responsible development. Our games are built for the community, by people who genuinely care about the craft.</p>
-            </div>
-
-            <div class="about-visual reveal">
-              <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80" alt="Studio workspace" loading="lazy" />
-            </div>
-          </div>
-
-          <div class="stats">
-            <div class="stat-card reveal">
-              <div class="stat-number">3+</div>
-              <div class="stat-label">Games in Development</div>
-            </div>
-            <div class="stat-card reveal">
-              <div class="stat-number">100%</div>
-              <div class="stat-label">Indie Spirit</div>
-            </div>
-            <div class="stat-card reveal">
-              <div class="stat-number">∞</div>
-              <div class="stat-label">Creative Possibilities</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOOTER -->
-      <footer id="contact">
-        <div class="container">
-          <div class="footer-brand">
-            <div class="logo-dot"></div>
-            SOMETHING GAMES
-          </div>
-          <div class="footer-links">
-            <a onclick="scrollToSection('games')">Games</a>
-            <a onclick="scrollToSection('about')">About</a>
-            <a onclick="showPrivacy()">Privacy</a>
-          </div>
-          <div class="footer-contact">
-            Contact us: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a><br>
-            Join our Discord: <a href="https://discord.gg/Vq6mW7YFbH" target="_blank">https://discord.gg/Vq6mW7YFbH</a>
-          </div>
-          <div class="copyright">
-            © 2025 Something Games. Crafting experiences, one game at a time.
-          </div>
-        </div>
-      </footer>
-    </div>
-
-    <!-- PRIVACY PAGE -->
-    <div id="privacyPage" class="page">
-      <div class="policy-hero">
-        <div style="max-width:900px">
-          <h1 class="reveal">Privacy Policy</h1>
-          <p class="reveal">Your privacy matters. Here's how we protect your data in Rearriva VR.</p>
-          <p class="reveal" style="font-size:0.95rem;margin-top:0.5rem">Last Updated: November 4, 2025</p>
-        </div>
-      </div>
-
-      <div class="policy-section">
-        <div class="policy-container">
-          
-          <div class="policy-card reveal">
-            <p style="font-size:1.1rem;color:#fff;font-weight:600;margin:0">Rearriva VR ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect information when you play Rearriva VR on supported VR platforms.</p>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">1</div>
-            <h2>Information We Collect</h2>
-            <p>Rearriva VR minimizes personal data collection. We may collect the following types of information:</p>
-            <ul>
-              <li>Platform-provided data, such as Oculus/Meta user ID or display name</li>
-              <li>Gameplay data, including playtime, in-game actions, and player behavior</li>
-              <li>Crash reports and bug logs to improve stability and performance</li>
-            </ul>
-            <div class="highlight-box">
-              <h3>
-                <span>✓</span>
-                <span>Privacy First</span>
-              </h3>
-              <p>We do not collect personal identifiers such as your real name, physical address, or payment information.</p>
-            </div>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">2</div>
-            <h2>How We Use Your Information</h2>
-            <p>We use the collected information to:</p>
-            <ul>
-              <li>Improve gameplay experience and app performance</li>
-              <li>Detect and prevent cheating or abuse</li>
-              <li>Support moderation and enforce community guidelines</li>
-              <li>Analyze crashes and collect feedback for development improvements</li>
-            </ul>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">3</div>
-            <h2>Data Sharing</h2>
-            <p><strong>We do not sell your information.</strong></p>
-            <p>We may share limited data with trusted third-party services (such as analytics or platform moderation tools), only as necessary for app functionality, safety, or compliance.</p>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">4</div>
-            <h2>Children's Privacy</h2>
-            <p>Rearriva VR is intended for users aged <strong>13 and older</strong>.</p>
-            <p>We do not knowingly collect personal data from children under 13. If we become aware that such data has been collected without verified parental consent, we will delete it promptly.</p>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">5</div>
-            <h2>Your Rights</h2>
-            <p>All users have the right to:</p>
-            <ul>
-              <li>Access the personal data we hold about you</li>
-              <li>Request correction or deletion of your data</li>
-              <li>Opt out of certain types of data collection where applicable</li>
-            </ul>
-            <p>To exercise any of these rights, contact us at: <strong>somethinggames@gmail.com</strong></p>
-          </div>
-
-          <div class="policy-card reveal">
-            <div class="section-number">6</div>
-            <h2>Updates to This Policy</h2>
-            <p>We may update this Privacy Policy from time to time. If significant changes are made, we will notify users through in-app messaging or platform updates.</p>
-          </div>
-
-          <div class="contact-card reveal">
-            <div class="contact-icon">💬</div>
-            <h3>Questions or Concerns?</h3>
-            <p>If you have any questions about this Privacy Policy or how we handle your data, we're here to help. Reach out via email or join our Discord community.</p>
-            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-              <a href="mailto:somethinggames@gmail.com" class="contact-email">
-                <span>📧</span>
-                <span>Email Us</span>
-              </a>
-              <a href="https://discord.gg/Vq6mW7YFbH" target="_blank" rel="noopener noreferrer" class="contact-email" style="background:linear-gradient(135deg,#5865F2,#7289DA)">
-                <span>💬</span>
-                <span>Join Discord</span>
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <footer>
-        <div class="container">
-          <div class="footer-links">
-            <a onclick="showHome()">Home</a>
-            <a onclick="showHome();setTimeout(()=>scrollToSection('games'),100)">Games</a>
-            <a onclick="showHome();setTimeout(()=>scrollToSection('about'),100)">About</a>
-          </div>
-          <div class="copyright">
-            © 2025 Something Games. All rights reserved.
-          </div>
-        </div>
-      </footer>
     </div>
   </div>
+</section>
 
-  <script>
-    // Particles
-    const particlesContainer = document.getElementById('particles');
-    for(let i=0;i<30;i++){
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random()*100+'%';
-      p.style.animationDuration = (15+Math.random()*15)+'s';
-      p.style.animationDelay = Math.random()*5+'s';
-      particlesContainer.appendChild(p);
-    }
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title">About Something Games</h2>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>We focus on creating unique, immersive experiences. Currently, we have one main release: Rearriva VR.</p>
+      <p class="owners">Owners: i5 / SouthDev & Eno / Sylix</p>
+      <p>Contact us: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> or <a href="https://discord.gg/Vq6mW7YFb" target="_blank">Discord</a></p>
+    </div>
+    <div class="about-img">
+      <img src="https://via.placeholder.com/500x500" alt="Studio">
+    </div>
+  </div>
+</section>
 
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll',()=>{
-      if(window.scrollY>50){
-        nav.classList.add('scrolled');
-      }else{
-        nav.classList.remove('scrolled');
-      }
-    },{passive:true});
+<footer>
+  <div class="links">
+    <a href="home.html#games">Games</a>
+    <a href="home.html#about">About</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+  <div class="contact">
+    Contact: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> | <a href="https://discord.gg/Vq6mW7YFb" target="_blank">Discord</a>
+  </div>
+  <div class="copyright">&copy; 2025 Something Games</div>
+</footer>
 
-    // 3D tilt effect
-    const card = document.getElementById('showcaseCard');
-    if(card){
-      card.addEventListener('mousemove',(e)=>{
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width/2;
-        const centerY = rect.height/2;
-        const rotateX = (y - centerY)/20;
-        const rotateY = (centerX - x)/20;
-        card.style.transform = `perspective(1500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        card.style.setProperty('--mouse-x', (x/rect.width*100)+'%');
-        card.style.setProperty('--mouse-y', (y/rect.height*100)+'%');
-      });
-      card.addEventListener('mouseleave',()=>{
-        card.style.transform = 'perspective(1500px) rotateX(0) rotateY(0)';
-      });
-    }
-
-    // Scroll reveal
-    const revealElements = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('active');
-        }
-      });
-    },{threshold:0.1});
-    revealElements.forEach(el=>revealObserver.observe(el));
-
-    // Page navigation
-    function showHome(){
-      document.getElementById('homePage').classList.add('active');
-      document.getElementById('privacyPage').classList.remove('active');
-      document.getElementById('mainNav').style.display = 'flex';
-      document.getElementById('backBtn').style.display = 'none';
-      window.scrollTo(0,0);
-      
-      // Re-observe reveals
-      setTimeout(()=>{
-        document.querySelectorAll('.reveal').forEach(el=>{
-          el.classList.remove('active');
-          revealObserver.observe(el);
-        });
-      },100);
-    }
-
-    function showPrivacy(){
-      document.getElementById('homePage').classList.remove('active');
-      document.getElementById('privacyPage').classList.add('active');
-      document.getElementById('mainNav').style.display = 'none';
-      document.getElementById('backBtn').style.display = 'inline-flex';
-      window.scrollTo(0,0);
-      
-      // Re-observe reveals
-      setTimeout(()=>{
-        document.querySelectorAll('.reveal').forEach(el=>{
-          el.classList.remove('active');
-          revealObserver.observe(el);
-        });
-      },100);
-    }
-
-    function scrollToSection(id){
-      const element = document.getElementById(id);
-      if(element){
-        element.scrollIntoView({behavior:'smooth',block:'start'});
-      }
-    }
-
-    // Mobile menu
-    const menuBtn = document.getElementById('menuBtn');
-    menuBtn?.addEventListener('click',()=>{
-      alert('Mobile menu - add your navigation here');
-    });
-  </script>
 </body>
 </html>
