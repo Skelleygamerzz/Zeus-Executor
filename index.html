@@ -1,201 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Something Games — Crafting Experiences</title>
-<meta name="description" content="Something Games — indie studio crafting cinematic, memorable game experiences. Rearriva VR and more coming soon.">
-<link rel="icon" href="data:,">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Something Games — Crafting Experiences</title>
+  <meta name="description" content="Something Games — indie studio crafting cinematic, memorable game experiences. Rearriva VR coming soon." />
+  <link rel="icon" href="data:,">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-  :root{
-    --bg:#0a0a0f;
-    --accent1:#667eea;
-    --accent2:#d946ef;
-    --accent3:#06b6d4;
-    --text:#ffffff;
-    --muted:rgba(255,255,255,0.65);
-    --radius:24px;
-    --nav-height:80px;
-  }
+  <style>
+    :root{
+      --bg:#000;
+      --card:#0a0a0f;
+      --muted:rgba(255,255,255,0.65);
+      --accent-1:#667eea;
+      --accent-2:#d946ef;
+      --radius:24px;
+      --nav-height:80px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      background:var(--bg);
+      color:#fff;
+      overflow-x:hidden;
+      position:relative;
+    }
+    nav{
+      position:fixed;
+      left:0;right:0;top:0;
+      height:var(--nav-height);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 6%;
+      background:rgba(0,0,0,0.6);
+      backdrop-filter:blur(20px);
+      z-index:1000;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:0.5rem;
+      font-weight:900;
+      font-size:1.1rem;
+      cursor:pointer;
+    }
+    .logo-dot{
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+    }
+    .nav-links a{
+      color:var(--muted);
+      text-decoration:none;
+      margin-left:2rem;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .nav-links a:hover{color:#fff;}
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
-  a{text-decoration:none;color:inherit;cursor:pointer;}
+    .page{display:none;}
+    .page.active{display:block;}
+    section{padding:calc(var(--nav-height) + 3rem) 6rem 4rem;}
+    .hero{min-height:80vh; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center;}
+    .hero h1{font-size:clamp(3rem,8vw,5rem); font-weight:900; background:linear-gradient(135deg,var(--accent-1),var(--accent-2)); -webkit-background-clip:text; color:transparent; margin-bottom:1rem;}
+    .hero p{color:var(--muted); font-size:1.2rem; margin-bottom:2rem;}
 
-  nav{
-    position:fixed;top:0;left:0;right:0;height:var(--nav-height);display:flex;justify-content:space-between;align-items:center;padding:0 6%;background:rgba(0,0,0,0.4);backdrop-filter:blur(20px);z-index:999;transition:background 0.3s, box-shadow 0.3s;
-  }
-  nav.scrolled{background:rgba(0,0,0,0.8);box-shadow:0 8px 32px rgba(0,0,0,0.4);}
-  .brand{font-weight:900;font-size:1.1rem;display:flex;align-items:center;gap:0.75rem;color:#fff;}
-  .logo-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));box-shadow:0 0 30px rgba(102,126,234,0.6),0 0 60px rgba(217,70,239,0.4);animation:pulse 2s infinite;}
-  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1);opacity:0.8}}
+    .btn{
+      display:inline-block;
+      padding:1rem 2rem;
+      border-radius:999px;
+      font-weight:700;
+      text-decoration:none;
+      margin:0.5rem;
+      transition:0.3s;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      color:#000;
+    }
+    .btn-primary:hover{opacity:0.9;}
+    .btn-secondary{
+      background:rgba(255,255,255,0.05);
+      color:#fff;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .btn-secondary:hover{opacity:0.9;}
 
-  .nav-links{display:flex;gap:2rem;font-weight:600;}
-  .nav-links a{color:var(--muted);position:relative;padding:0.5rem 0;transition:color 0.3s;}
-  .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent1),var(--accent2));transition:width 0.3s;}
-  .nav-links a:hover{color:#fff;}
-  .nav-links a:hover::after{width:100%;}
+    .games-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:2rem;
+    }
+    .game-card{
+      background:var(--card);
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.05);
+      transition:transform 0.3s,box-shadow 0.3s;
+    }
+    .game-card:hover{transform:translateY(-8px); box-shadow:0 20px 60px rgba(0,0,0,0.6);}
+    .game-card img{width:100%; height:200px; object-fit:cover;}
+    .game-card-content{padding:1rem;}
+    .game-card-content h3{margin-bottom:0.5rem;}
+    .game-card-content p{color:var(--muted); font-size:0.95rem;}
 
-  .hero{min-height:100vh;padding:var(--nav-height) 6% 4rem;display:flex;align-items:center;}
-  .hero-grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 480px;gap:4rem;align-items:center;}
-  .hero-copy h1{font-size:clamp(3rem,8vw,6rem);font-weight:900;line-height:0.95;letter-spacing:-2px;margin-bottom:1.5rem;background:linear-gradient(135deg,#fff 0%,#a78bfa 50%,#ec4899 100%);-webkit-background-clip:text;background-clip:text;color:transparent;animation:textShine 8s ease infinite;background-size:200% auto;}
-  @keyframes textShine{0%,100%{background-position:0%}50%{background-position:100%}}
-  .hero-copy p{font-size:clamp(1.1rem,2vw,1.3rem);color:var(--muted);margin-bottom:2rem;line-height:1.6;max-width:540px;}
-  .ctas{display:flex;gap:1rem;flex-wrap:wrap;}
-  .btn{padding:1rem 2rem;border-radius:999px;font-weight:700;display:inline-flex;align-items:center;gap:0.75rem;position:relative;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
-  .btn-primary{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#000;box-shadow:0 20px 60px rgba(102,126,234,0.4);}
-  .btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.2),transparent);opacity:0;transition:opacity 0.3s;}
-  .btn-primary:hover::before{opacity:1;}
-  .btn-primary:hover{transform:translateY(-4px);box-shadow:0 30px 80px rgba(102,126,234,0.6);}
-  .btn-secondary{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(10px);}
-  .btn-secondary:hover{transform:translateY(-4px);background:rgba(255,255,255,0.08);box-shadow:0 20px 60px rgba(0,0,0,0.4);}
-
-  section{padding:8rem 6%;}
-  .container{max-width:1400px;margin:0 auto;}
-  .section-header{text-align:center;margin-bottom:4rem;}
-  .section-title{font-size:clamp(2.5rem,5vw,4rem);font-weight:900;background:linear-gradient(135deg,#fff,#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .section-subtitle{font-size:1.2rem;color:var(--muted);max-width:600px;margin:0 auto;}
-
-  .games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:2rem;}
-  .game-card{background:linear-gradient(135deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);transition:transform 0.4s,box-shadow 0.4s;position:relative;cursor:pointer;}
-  .game-thumb{height:280px;overflow:hidden;position:relative;}
-  .game-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.8s;}
-  .game-card:hover .game-thumb img{transform:scale(1.08);}
-  .game-badge{position:absolute;top:20px;left:20px;padding:0.5rem 1rem;background:linear-gradient(135deg,var(--accent1),var(--accent2));border-radius:999px;font-weight:700;color:#000;box-shadow:0 8px 24px rgba(102,126,234,0.4);}
-  .game-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,0.5),transparent 60%);display:flex;align-items:flex-end;padding:2rem;opacity:0;transition:opacity 0.4s;}
-  .game-card:hover .game-overlay{opacity:1;}
-  .play-btn{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#000;box-shadow:0 12px 40px rgba(102,126,234,0.6);animation:playPulse 2s infinite;}
-  @keyframes playPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-
-  footer{padding:4rem 6%;border-top:1px solid rgba(255,255,255,0.06);text-align:center;}
-  .footer-links{display:flex;gap:2rem;justify-content:center;margin-bottom:1rem;}
-  .footer-links a{color:var(--muted);font-weight:600;transition:color 0.3s;}
-  .footer-links a:hover{color:#fff;}
-  .copyright{color:rgba(255,255,255,0.4);font-size:0.9rem;}
-
-  @media(max-width:1024px){.hero-grid{grid-template-columns:1fr;gap:3rem}.games-grid{grid-template-columns:1fr;}}
-  @media(max-width:768px){.nav-links{display:none}}
-</style>
+    footer{padding:4rem 6%; border-top:1px solid rgba(255,255,255,0.05); text-align:center;}
+    footer a{color:var(--accent-1); text-decoration:none;}
+    footer a:hover{color:var(--accent-2);}
+    .back-btn{
+      display:none;
+      position:fixed;
+      top:calc(var(--nav-height)+1rem);
+      left:6%;
+      background:rgba(255,255,255,0.1);
+      padding:0.5rem 1rem;
+      border-radius:999px;
+      cursor:pointer;
+    }
+  </style>
 </head>
 <body>
-  <nav id="nav">
-    <div class="brand" onclick="showHome()"><div class="logo-dot"></div>Something Games</div>
-    <div class="nav-links" id="navLinks">
-      <a onclick="scrollToSection('games')">Games</a>
-      <a onclick="scrollToSection('about')">About</a>
-      <a onclick="showPrivacy()">Privacy</a>
-      <a onclick="scrollToSection('contact')">Contact</a>
-    </div>
-  </nav>
 
-  <!-- HOME PAGE -->
-  <div id="homePage">
-    <section class="hero">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <h1>CRAFTING EXPERIENCES</h1>
-          <p>We design atmospheric, memorable games that stick with players. From horror to experimental mechanics, every project pushes boundaries.</p>
-          <div class="ctas">
-            <a class="btn btn-primary" onclick="scrollToSection('games')">Explore Games →</a>
-            <a class="btn btn-secondary" onclick="scrollToSection('about')">Learn More</a>
-          </div>
-        </div>
-        <div class="hero-copy">
-          <img src="https://raw.githubusercontent.com/southdev/Something-Games/main/placeholder-rearriva.jpg" alt="Rearriva VR" style="border-radius:20px;width:100%;max-width:480px;">
-        </div>
-      </div>
-    </section>
-
-    <!-- GAMES SECTION -->
-    <section id="games">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Our Games</h2>
-          <p class="section-subtitle">Immersive experiences designed to challenge, thrill, and inspire.</p>
-        </div>
-        <div class="games-grid">
-          <a class="game-card" href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" target="_blank">
-            <div class="game-thumb">
-              <img src="https://raw.githubusercontent.com/southdev/Something-Games/main/placeholder-rearriva.jpg" alt="Rearriva VR">
-              <div class="game-overlay"><div class="play-btn">▶</div></div>
-              <div class="game-badge">LIVE</div>
-            </div>
-            <div class="game-content">
-              <h3>Rearriva VR</h3>
-              <p>Horror · Parkour · Multiplayer</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about">
-      <div class="container">
-        <h2 class="section-title">About Something Games</h2>
-        <p>We're an independent studio obsessed with atmosphere, movement, and player-first design. We craft each game meticulously, focusing on fun, immersion, and polish.</p>
-        <p>Owners: i5/southdev & eno/sylix</p>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <div class="container">
-        <h2 class="section-title">Contact Us</h2>
-        <p>Email: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a></p>
-        <p>Discord: <a href="https://discord.gg/Vq6mW7YFbH" target="_blank">Join Discord</a></p>
-      </div>
-    </section>
-
-    <footer>
-      <div class="footer-links">
-        <a onclick="scrollToSection('games')">Games</a>
-        <a onclick="scrollToSection('about')">About</a>
-        <a onclick="showPrivacy()">Privacy</a>
-        <a onclick="scrollToSection('contact')">Contact</a>
-      </div>
-      <div class="copyright">© 2025 Something Games. All rights reserved.</div>
-    </footer>
+<nav>
+  <div class="brand" onclick="showPage('home')">
+    <div class="logo-dot"></div>
+    SOMETHING GAMES
   </div>
+  <div class="nav-links">
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="scrollToSection('games')">Games</a>
+    <a onclick="scrollToSection('about')">About</a>
+    <a onclick="showPage('privacy')">Privacy</a>
+  </div>
+</nav>
 
-  <!-- PRIVACY PAGE -->
-  <div id="privacyPage" style="display:none;padding:6%;min-height:100vh;">
+<button class="back-btn" id="backBtn" onclick="showPage('home')">← Back</button>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <section class="hero">
+    <h1>CRAFTING EXPERIENCES</h1>
+    <p>We design atmospheric, memorable games that stick with players.</p>
+    <div>
+      <a href="#games" class="btn btn-primary">Explore Games</a>
+      <a href="#about" class="btn btn-secondary">Learn More</a>
+    </div>
+  </section>
+
+  <section id="games">
+    <h2>Our Games</h2>
+    <div class="games-grid">
+      <div class="game-card">
+        <a href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" target="_blank">
+          <img src="https://raw.githubusercontent.com/i5-southdev/website-assets/main/placeholder-rearriva.jpg" alt="Rearriva VR">
+        </a>
+        <div class="game-card-content">
+          <h3>Rearriva VR</h3>
+          <p>Horror · Parkour · Multiplayer. <strong>Live Now!</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Something Games</h2>
+    <p>Independent studio run by <strong>i5 / SouthDev</strong> and <strong>Eno / Sylix</strong>. We focus on VR horror and experimental mechanics. Currently we have only one live game: Rearriva VR.</p>
+  </section>
+
+  <footer>
+    <p>Contact us: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> | <a href="https://discord.gg/Vq6mW7YFbH" target="_blank">Discord</a></p>
+    <p>© 2025 Something Games. Crafting experiences.</p>
+  </footer>
+</div>
+
+<!-- PRIVACY PAGE -->
+<div id="privacy" class="page">
+  <section>
     <h1>Privacy Policy</h1>
     <p>Last Updated: November 8, 2025</p>
-    <p>Your privacy matters. Rearriva VR ("we") minimizes data collection. We collect:</p>
-    <ul>
-      <li>Platform-provided user ID / display name</li>
-      <li>Gameplay stats & behavior</li>
-      <li>Crash logs for stability</li>
-    </ul>
-    <p>We do not sell your data. For questions contact <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> or our <a href="https://discord.gg/Vq6mW7YFbH" target="_blank">Discord</a>.</p>
-    <button onclick="showHome()">Back to Home</button>
-  </div>
+    <p>Your privacy matters. We do not collect personal information other than what is required for VR functionality. Data collected may include gameplay stats, crash logs, and platform IDs for Rearriva VR.</p>
+    <p>Contact us for questions: <a href="mailto:somethinggames@gmail.com">somethinggames@gmail.com</a> or <a href="https://discord.gg/Vq6mW7YFbH" target="_blank">Discord</a></p>
+  </section>
+  <footer>
+    <p><a onclick="showPage('home')">Back to Home</a></p>
+    <p>© 2025 Something Games. All rights reserved.</p>
+  </footer>
+</div>
 
 <script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll',()=>{if(window.scrollY>50){nav.classList.add('scrolled');}else{nav.classList.remove('scrolled');}});
+  function showPage(id){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.getElementById('backBtn').style.display = (id==='privacy')?'inline-block':'none';
+    window.scrollTo(0,0);
+  }
 
-  function showPrivacy(){
-    document.getElementById('homePage').style.display='none';
-    document.getElementById('privacyPage').style.display='block';
-    window.scrollTo(0,0);
-  }
-  function showHome(){
-    document.getElementById('homePage').style.display='block';
-    document.getElementById('privacyPage').style.display='none';
-    window.scrollTo(0,0);
-  }
   function scrollToSection(id){
-    const target=document.getElementById(id);
-    if(target){
-      const offset=document.querySelector('nav').offsetHeight;
-      const topPos=target.offsetTop-offset;
-      window.scrollTo({top:topPos,behavior:'smooth'});
-    }
+    showPage('home');
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
   }
 </script>
+
 </body>
 </html>
