@@ -787,6 +787,49 @@ document.querySelectorAll('.game-card').forEach(card => {
   card.style.opacity = '0';
   observer.observe(card);
 });
+
+// Load status from JSON
+async function loadStatus() {
+  try {
+    const response = await fetch('status.json?t=' + new Date().getTime());
+    const data = await response.json();
+    
+    // Update server status
+    const statusEl = document.getElementById('serverStatus');
+    if (data.serverStatus === 'online') {
+      statusEl.textContent = '● ONLINE';
+      statusEl.style.color = 'var(--pixel-green)';
+      statusEl.style.textShadow = '0 0 10px var(--pixel-green)';
+    } else if (data.serverStatus === 'maintenance') {
+      statusEl.textContent = '◆ MAINTENANCE';
+      statusEl.style.color = 'var(--neon-orange)';
+      statusEl.style.textShadow = '0 0 10px var(--neon-orange)';
+    } else {
+      statusEl.textContent = '✖ OFFLINE';
+      statusEl.style.color = 'var(--warning-red)';
+      statusEl.style.textShadow = '0 0 10px var(--warning-red)';
+    }
+    
+    // Update message
+    document.getElementById('statusMessage').textContent = data.message;
+    
+    // Update last update time
+    document.getElementById('lastUpdate').textContent = data.lastUpdate;
+    
+    // Show incident if exists
+    if (data.incident && data.incident.trim() !== '') {
+      document.getElementById('incidentBox').style.display = 'block';
+      document.getElementById('incidentMessage').textContent = data.incident;
+    }
+    
+  } catch (error) {
+    console.error('Could not load status:', error);
+    document.getElementById('statusMessage').textContent = 'Unable to load status. Please check back later.';
+  }
+}
+
+// Load status on page load
+loadStatus();
 </script>
 
 </body>
