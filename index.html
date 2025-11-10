@@ -429,8 +429,12 @@ nav{
   box-shadow:0 0 10px var(--neon-orange);
 }
 @keyframes statusBlink{
+  0%,100%{opacity:1; transform:scale(1)}
+  50%{opacity:0.3; transform:scale(0.9)}
+}
+@keyframes warningPulse{
   0%,100%{opacity:1}
-  50%{opacity:0.7}
+  50%{opacity:0.8}
 }
 .game-content{
   padding:2rem;
@@ -646,30 +650,42 @@ footer{
   </div>
 
   <!-- STATUS SECTION -->
-  <div style="max-width:800px; margin:0 auto 4rem; background:#000; border:3px solid var(--pixel-green); padding:2rem; box-shadow:0 0 30px rgba(0,255,136,0.3); position:relative;">
-    <div style="position:absolute; top:-15px; left:20px; background:#000; padding:0 1rem;">
-      <span style="font-family:'Press Start 2P',monospace; font-size:0.8rem; color:var(--pixel-green); text-shadow:0 0 10px var(--pixel-green);">>>> SYSTEM STATUS</span>
+  <div style="max-width:900px; margin:0 auto 4rem; background:rgba(0,0,0,0.9); border:4px solid var(--pixel-green); padding:0; box-shadow:0 0 40px rgba(0,255,136,0.4), inset 0 0 20px rgba(0,255,136,0.1); position:relative; overflow:hidden;">
+    <!-- Scanline effect -->
+    <div style="position:absolute; width:100%; height:100%; background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,136,0.03) 2px, rgba(0,255,136,0.03) 4px); pointer-events:none; z-index:1;"></div>
+    
+    <!-- Header -->
+    <div style="background:var(--pixel-green); padding:1rem; text-align:center; position:relative; z-index:2;">
+      <span style="font-family:'Press Start 2P',monospace; font-size:1rem; color:#000; letter-spacing:0.2rem; text-shadow:2px 2px 0 rgba(0,0,0,0.2);">>>> SYSTEM STATUS <<<</span>
     </div>
     
-    <div id="statusContainer" style="font-family:'VT323',monospace; font-size:1.4rem; line-height:2;">
-      <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
-        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">SERVER:</span>
-        <span id="serverStatus" style="color:var(--pixel-green); text-shadow:0 0 10px var(--pixel-green); font-weight:bold; animation:blink 2s ease-in-out infinite;">● ONLINE</span>
+    <!-- Content -->
+    <div id="statusContainer" style="padding:2.5rem 2rem; position:relative; z-index:2;">
+      <!-- Server Status -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:1.5rem; margin-bottom:2rem; flex-wrap:wrap;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:1rem; color:#fff; text-shadow:0 0 5px #fff;">SERVER:</span>
+        <div style="display:flex; align-items:center; gap:1rem; background:rgba(0,255,136,0.1); padding:0.8rem 1.5rem; border:2px solid var(--pixel-green); border-radius:4px;">
+          <span id="serverStatusDot" style="font-size:1.5rem; line-height:1; animation:statusBlink 1.5s ease-in-out infinite;">●</span>
+          <span id="serverStatus" style="font-family:'Press Start 2P',monospace; font-size:1rem; letter-spacing:0.1rem;">ONLINE</span>
+        </div>
       </div>
       
-      <div style="margin-bottom:1rem;">
-        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">MESSAGE:</span>
-        <p id="statusMessage" style="color:rgba(255,255,255,0.8); margin-top:0.5rem; padding-left:1rem; border-left:2px solid var(--cave-blue);">Loading status...</p>
+      <!-- Message -->
+      <div style="margin-bottom:2rem;">
+        <div style="font-family:'Press Start 2P',monospace; font-size:0.85rem; color:var(--pixel-green); margin-bottom:1rem; text-shadow:0 0 10px var(--pixel-green);">[MESSAGE]:</div>
+        <div id="statusMessage" style="font-family:'VT323',monospace; font-size:1.5rem; color:rgba(255,255,255,0.9); line-height:1.8; padding:1rem; background:rgba(0,255,136,0.05); border-left:4px solid var(--pixel-green);">Loading status...</div>
       </div>
       
-      <div style="display:flex; align-items:center; gap:1rem;">
-        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">UPDATED:</span>
-        <span id="lastUpdate" style="color:var(--cave-blue);">---</span>
+      <!-- Last Update -->
+      <div style="display:flex; align-items:center; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:0.75rem; color:rgba(255,255,255,0.6);">LAST UPDATE:</span>
+        <span id="lastUpdate" style="font-family:'Press Start 2P',monospace; font-size:0.75rem; color:var(--cave-blue); text-shadow:0 0 5px var(--cave-blue);">---</span>
       </div>
       
-      <div id="incidentBox" style="margin-top:1.5rem; padding:1rem; background:rgba(255,0,51,0.1); border:2px solid var(--warning-red); display:none;">
-        <span style="font-family:'Press Start 2P',monospace; font-size:0.8rem; color:var(--warning-red);">⚠ INCIDENT:</span>
-        <p id="incidentMessage" style="color:rgba(255,255,255,0.9); margin-top:0.5rem;"></p>
+      <!-- Incident Box -->
+      <div id="incidentBox" style="margin-top:2rem; padding:1.5rem; background:rgba(255,0,51,0.1); border:3px solid var(--warning-red); display:none; animation:warningPulse 1s ease-in-out infinite;">
+        <div style="font-family:'Press Start 2P',monospace; font-size:0.85rem; color:var(--warning-red); margin-bottom:1rem; text-shadow:0 0 10px var(--warning-red);">⚠ INCIDENT REPORT ⚠</div>
+        <p id="incidentMessage" style="font-family:'VT323',monospace; font-size:1.4rem; color:rgba(255,255,255,0.9); line-height:1.8; margin:0;"></p>
       </div>
     </div>
   </div>
@@ -796,18 +812,28 @@ async function loadStatus() {
     
     // Update server status
     const statusEl = document.getElementById('serverStatus');
+    const statusDot = document.getElementById('serverStatusDot');
     if (data.serverStatus === 'online') {
-      statusEl.textContent = '● ONLINE';
+      statusEl.textContent = 'ONLINE';
+      statusDot.textContent = '●';
       statusEl.style.color = 'var(--pixel-green)';
       statusEl.style.textShadow = '0 0 10px var(--pixel-green)';
+      statusDot.style.color = 'var(--pixel-green)';
+      statusDot.style.textShadow = '0 0 15px var(--pixel-green)';
     } else if (data.serverStatus === 'maintenance') {
-      statusEl.textContent = '◆ MAINTENANCE';
+      statusEl.textContent = 'MAINTENANCE';
+      statusDot.textContent = '◆';
       statusEl.style.color = 'var(--neon-orange)';
       statusEl.style.textShadow = '0 0 10px var(--neon-orange)';
+      statusDot.style.color = 'var(--neon-orange)';
+      statusDot.style.textShadow = '0 0 15px var(--neon-orange)';
     } else {
-      statusEl.textContent = '✖ OFFLINE';
+      statusEl.textContent = 'OFFLINE';
+      statusDot.textContent = '✖';
       statusEl.style.color = 'var(--warning-red)';
       statusEl.style.textShadow = '0 0 10px var(--warning-red)';
+      statusDot.style.color = 'var(--warning-red)';
+      statusDot.style.textShadow = '0 0 15px var(--warning-red)';
     }
     
     // Update message
