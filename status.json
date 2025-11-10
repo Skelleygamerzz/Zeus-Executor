@@ -1,6 +1,6 @@
 {
-  "serverStatus": "maintenance",
-  "message": "All systems operational! Rearriva VR running smooth.",
+  "serverStatus": "offline",
+  "message": "TESTING",
   "lastUpdate": "Nov 9, 2025",
-  "incident": ""
+  "incident": "Testing Status..."
 }
