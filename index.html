@@ -644,6 +644,36 @@ footer{
     <h2 class="section-title">>>> AVAILABLE EXPERIENCES</h2>
     <p class="section-subtitle">Dare to explore our VR horror worlds</p>
   </div>
+
+  <!-- STATUS SECTION -->
+  <div style="max-width:800px; margin:0 auto 4rem; background:#000; border:3px solid var(--pixel-green); padding:2rem; box-shadow:0 0 30px rgba(0,255,136,0.3); position:relative;">
+    <div style="position:absolute; top:-15px; left:20px; background:#000; padding:0 1rem;">
+      <span style="font-family:'Press Start 2P',monospace; font-size:0.8rem; color:var(--pixel-green); text-shadow:0 0 10px var(--pixel-green);">>>> SYSTEM STATUS</span>
+    </div>
+    
+    <div id="statusContainer" style="font-family:'VT323',monospace; font-size:1.4rem; line-height:2;">
+      <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">SERVER:</span>
+        <span id="serverStatus" style="color:var(--pixel-green); text-shadow:0 0 10px var(--pixel-green); font-weight:bold; animation:blink 2s ease-in-out infinite;">● ONLINE</span>
+      </div>
+      
+      <div style="margin-bottom:1rem;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">MESSAGE:</span>
+        <p id="statusMessage" style="color:rgba(255,255,255,0.8); margin-top:0.5rem; padding-left:1rem; border-left:2px solid var(--cave-blue);">Loading status...</p>
+      </div>
+      
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:0.9rem; color:#fff;">UPDATED:</span>
+        <span id="lastUpdate" style="color:var(--cave-blue);">---</span>
+      </div>
+      
+      <div id="incidentBox" style="margin-top:1.5rem; padding:1rem; background:rgba(255,0,51,0.1); border:2px solid var(--warning-red); display:none;">
+        <span style="font-family:'Press Start 2P',monospace; font-size:0.8rem; color:var(--warning-red);">⚠ INCIDENT:</span>
+        <p id="incidentMessage" style="color:rgba(255,255,255,0.9); margin-top:0.5rem;"></p>
+      </div>
+    </div>
+  </div>
+
   <div class="games-grid">
     <a href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" class="game-card">
       <div class="game-img-container">
@@ -651,7 +681,7 @@ footer{
         <div class="game-status status-live">● LIVE</div>
       </div>
       <div class="game-content">
-        <h3>REARRIVA VR</h3>
+        <h3>REARRIVA <span style="color:#ff0033;">VR</span></h3>
         <p>A Gorilla Tag horror experience that will haunt your dreams. Navigate dark caves, avoid the lurking threats, and survive the night.</p>
       </div>
     </a>
@@ -675,7 +705,7 @@ footer{
 <!-- About -->
 <section class="section" id="about">
   <div class="section-header">
-    <h2 class="section-title">>>> ABOUT SOMETHING GAMES</h2>
+    <h2 class="section-title">>>> ABOUT SOMETHING <span style="color:#ff0033;">GAMES</span></h2>
   </div>
   <div class="about-container">
     <div class="about-grid">
