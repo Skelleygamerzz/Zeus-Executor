@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Something Games - Maintenance</title>
-<meta name="description" content="Something Games — Site under maintenance. We'll be back soon!">
+<title>Something Games</title>
+<meta name="description" content="Something Games — Indie studio crafting immersive experiences. Featuring Rearriva VR.">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -165,26 +165,37 @@ nav{
   color:var(--cave-blue);
   text-shadow:0 0 10px var(--cave-blue);
 }
+.nav-links a::before{
+  content:'>';
+  position:absolute;
+  left:0;
+  opacity:0;
+  transition:all 0.3s;
+}
+.nav-links a:hover::before{
+  opacity:1;
+  left:-15px;
+}
 
 /* HERO */
 .hero{
   min-height:100vh;
   display:flex;
   align-items:center;
-  justify-content:center;
   padding:120px 5% 80px;
   position:relative;
-  text-align:center;
+  gap:4rem;
 }
 .hero-content{
-  max-width:900px;
+  flex:1;
+  max-width:700px;
   position:relative;
   z-index:2;
 }
 .hero-title{
   font-family:'Press Start 2P',monospace;
   font-size:clamp(1.5rem,4vw,3rem);
-  line-height:1.8;
+  line-height:1.5;
   margin-bottom:2rem;
   color:var(--cave-blue);
   text-shadow:
@@ -202,35 +213,143 @@ nav{
 .hero-subtitle{
   font-size:1.5rem;
   color:rgba(255,255,255,0.8);
-  margin-bottom:2rem;
-  line-height:1.8;
+  margin-bottom:3rem;
+  line-height:1.6;
   text-shadow:2px 2px 0 rgba(0,0,0,0.5);
 }
 .crt-text{
   color:var(--pixel-green);
   text-shadow:0 0 5px var(--pixel-green);
 }
-.maintenance-box{
-  display:inline-block;
-  margin-top:2rem;
-  padding:2rem 3rem;
-  background:rgba(0,0,0,0.8);
-  border:3px solid var(--neon-orange);
-  box-shadow:0 0 30px rgba(255,107,53,0.4);
+.btn-group{
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
 }
-.maintenance-box p{
-  font-family:'VT323',monospace;
-  font-size:1.6rem;
-  line-height:2;
-  color:rgba(255,255,255,0.9);
+.btn{
+  font-family:'Press Start 2P',monospace;
+  padding:1rem 2rem;
+  font-size:0.8rem;
+  border:3px solid;
+  cursor:pointer;
+  transition:all 0.3s;
+  position:relative;
+  overflow:hidden;
+  text-transform:uppercase;
 }
-.highlight{
+.btn::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:rgba(255,255,255,0.2);
+  transition:left 0.3s;
+}
+.btn:hover::before{
+  left:100%;
+}
+.btn-primary{
+  background:var(--cave-blue);
+  border-color:var(--cave-blue);
+  color:#000;
+  box-shadow:0 0 20px var(--cave-blue);
+}
+.btn-primary:hover{
+  background:#000;
   color:var(--cave-blue);
-  text-shadow:0 0 10px var(--cave-blue);
-  font-weight:bold;
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--cave-blue),0 0 30px var(--cave-blue);
 }
-.red{
-  color:#ff0033;
+.btn-secondary{
+  background:transparent;
+  border-color:var(--cave-purple);
+  color:var(--cave-purple);
+}
+.btn-secondary:hover{
+  background:var(--cave-purple);
+  color:#000;
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--cave-purple),0 0 30px var(--cave-purple);
+}
+
+/* HERO IMAGE */
+.hero-visual{
+  flex:1;
+  max-width:600px;
+  position:relative;
+  z-index:2;
+}
+.vr-display{
+  position:relative;
+  border:4px solid var(--cave-blue);
+  box-shadow:
+    0 0 20px var(--cave-blue),
+    inset 0 0 20px rgba(0,212,255,0.2);
+  overflow:hidden;
+}
+.vr-display img{
+  width:100%;
+  display:block;
+  filter:contrast(1.2) saturate(1.3);
+}
+.vr-overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0,212,255,0.1) 50%,
+    transparent 100%
+  );
+  pointer-events:none;
+  animation:scan 3s linear infinite;
+}
+@keyframes scan{
+  0%{transform:translateY(-100%)}
+  100%{transform:translateY(100%)}
+}
+.corner{
+  position:absolute;
+  width:20px;
+  height:20px;
+  border:3px solid var(--warning-red);
+  box-shadow:0 0 10px var(--warning-red);
+}
+.corner-tl{top:-2px;left:-2px;border-right:none;border-bottom:none}
+.corner-tr{top:-2px;right:-2px;border-left:none;border-bottom:none}
+.corner-bl{bottom:-2px;left:-2px;border-right:none;border-top:none}
+.corner-br{bottom:-2px;right:-2px;border-left:none;border-top:none}
+
+/* WARNING BANNER */
+.warning-banner{
+  background:repeating-linear-gradient(
+    45deg,
+    var(--warning-red),
+    var(--warning-red) 10px,
+    #000 10px,
+    #000 20px
+  );
+  padding:1rem;
+  margin:2rem 0;
+  border:3px solid var(--warning-red);
+  box-shadow:0 0 20px var(--warning-red);
+  animation:warningPulse 1s ease-in-out infinite;
+}
+@keyframes warningPulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.8}
+}
+.warning-text{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.9rem;
+  text-align:center;
+  color:#fff;
+  text-shadow:2px 2px 0 #000;
 }
 
 /* GAMES SECTION */
@@ -255,6 +374,60 @@ nav{
   color:rgba(255,255,255,0.7);
 }
 
+/* GAME CARDS */
+.games-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+  gap:3rem;
+  max-width:1400px;
+  margin:0 auto;
+}
+.game-card{
+  background:#0a0a0a;
+  border:3px solid var(--cave-blue);
+  position:relative;
+  transition:all 0.3s;
+  box-shadow:0 0 20px rgba(0,212,255,0.3);
+}
+.game-card:hover{
+  transform:translate(-8px,-8px);
+  box-shadow:8px 8px 0 var(--cave-blue),0 0 40px var(--cave-blue);
+  border-color:var(--cave-purple);
+}
+.game-img-container{
+  position:relative;
+  overflow:hidden;
+  border-bottom:3px solid var(--cave-blue);
+}
+.game-img-container img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+  display:block;
+  filter:contrast(1.2);
+}
+.game-status{
+  position:absolute;
+  top:15px;
+  right:15px;
+  font-family:'Press Start 2P',monospace;
+  font-size:0.7rem;
+  padding:0.7rem 1.2rem;
+  background:#000;
+  border:2px solid;
+  box-shadow:0 0 10px;
+  animation:statusBlink 2s ease-in-out infinite;
+}
+.status-live{
+  color:var(--pixel-green);
+  border-color:var(--pixel-green);
+  box-shadow:0 0 10px var(--pixel-green);
+}
+.status-soon{
+  color:var(--neon-orange);
+  border-color:var(--neon-orange);
+  box-shadow:0 0 10px var(--neon-orange);
+}
 @keyframes statusBlink{
   0%,100%{opacity:1; transform:scale(1)}
   50%{opacity:0.3; transform:scale(0.9)}
@@ -262,6 +435,98 @@ nav{
 @keyframes warningPulse{
   0%,100%{opacity:1}
   50%{opacity:0.8}
+}
+.game-content{
+  padding:2rem;
+}
+.game-content h3{
+  font-family:'Press Start 2P',monospace;
+  font-size:1.3rem;
+  margin-bottom:1rem;
+  color:var(--cave-blue);
+  text-shadow:0 0 10px var(--cave-blue);
+}
+.game-content p{
+  font-size:1.3rem;
+  line-height:1.6;
+  color:rgba(255,255,255,0.8);
+}
+
+/* ABOUT */
+.about-container{
+  max-width:1400px;
+  margin:0 auto;
+  background:rgba(0,0,0,0.5);
+  border:3px solid var(--cave-purple);
+  padding:3rem;
+  box-shadow:0 0 30px var(--cave-purple);
+}
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4rem;
+  align-items:center;
+}
+.about-content h2{
+  font-family:'Press Start 2P',monospace;
+  font-size:1.8rem;
+  margin-bottom:2rem;
+  color:var(--cave-purple);
+  text-shadow:0 0 20px var(--cave-purple);
+  line-height:1.8;
+}
+.about-content p{
+  font-size:1.4rem;
+  line-height:1.8;
+  color:rgba(255,255,255,0.8);
+  margin-bottom:1.5rem;
+}
+.pixel-highlight{
+  color:var(--pixel-green);
+  text-shadow:0 0 5px var(--pixel-green);
+}
+.owners-box{
+  background:#000;
+  border:3px solid var(--cave-blue);
+  padding:1.5rem;
+  margin:2rem 0;
+  box-shadow:0 0 15px var(--cave-blue);
+}
+.owners-box p{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.9rem;
+  color:var(--cave-blue);
+  line-height:2;
+}
+.contact-btns{
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+}
+.contact-btn{
+  font-family:'Press Start 2P',monospace;
+  font-size:0.7rem;
+  padding:0.8rem 1.5rem;
+  background:#000;
+  border:2px solid var(--pixel-green);
+  color:var(--pixel-green);
+  transition:all 0.3s;
+  text-transform:uppercase;
+}
+.contact-btn:hover{
+  background:var(--pixel-green);
+  color:#000;
+  transform:translate(-4px,-4px);
+  box-shadow:4px 4px 0 var(--pixel-green);
+}
+.about-img{
+  position:relative;
+}
+.about-img img{
+  width:100%;
+  border:4px solid var(--cave-pink);
+  box-shadow:0 0 30px var(--cave-pink);
+  filter:contrast(1.2);
 }
 
 /* FOOTER */
@@ -309,9 +574,16 @@ footer{
 }
 
 /* RESPONSIVE */
+@media(max-width:1024px){
+  .hero{flex-direction:column;text-align:center}
+  .about-grid{grid-template-columns:1fr}
+  .about-img{order:-1}
+}
 @media(max-width:768px){
   .nav-links{display:none}
   .hero-title{font-size:1.2rem}
+  .games-grid{grid-template-columns:1fr}
+  .section-title{font-size:1.3rem}
 }
 </style>
 </head>
@@ -335,7 +607,8 @@ footer{
     </div>
     <div class="nav-links">
       <a href="#hero">HOME</a>
-      <a href="#games">STATUS</a>
+      <a href="#games">GAMES</a>
+      <a href="#about">ABOUT</a>
       <a href="privacy-policy.html">PRIVACY</a>
     </div>
   </div>
@@ -344,20 +617,27 @@ footer{
 <!-- Hero -->
 <section class="hero" id="hero">
   <div class="hero-content">
-    <div style="font-family:'Press Start 2P',monospace; font-size:clamp(0.8rem,2vw,1.2rem); color:var(--neon-orange); text-shadow:0 0 20px var(--neon-orange); margin-bottom:2rem; animation:glowPulse 2s ease-in-out infinite;">⚠ MAINTENANCE MODE ⚠</div>
-    
-    <h1 class="hero-title">WE'LL BE<br>BACK SOON</h1>
-    
+    <h1 class="hero-title">ENTER THE CAVE.<br>IF YOU DARE.</h1>
     <p class="hero-subtitle">
-      SOMETHING <span class="red">GAMES</span> is undergoing maintenance.
-      <br><span class="crt-text">>>> Check status below for updates</span>
+      Indie horror VR experiences that will test your courage. 
+      <span class="crt-text">>>> SYSTEM STATUS: ONLINE</span>
     </p>
-    
-    <div class="maintenance-box">
-      <p>
-        <span class="highlight">Rearriva <span class="red">VR</span></span> is being revamped.<br>
-        Stay tuned for exciting updates!
-      </p>
+    <div class="warning-banner">
+      <p class="warning-text">⚠ WARNING: INTENSE VR HORROR EXPERIENCE ⚠</p>
+    </div>
+    <div class="btn-group">
+      <a href="#games" class="btn btn-primary">PLAY NOW</a>
+      <a href="#about" class="btn btn-secondary">ABOUT</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="vr-display">
+      <img src="placeholder-rearriva.jpg" alt="Rearriva VR" onerror="this.src='https://via.placeholder.com/600x400/0a0a0f/00d4ff?text=REARRIVA+VR'">
+      <div class="vr-overlay"></div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
     </div>
   </div>
 </section>
@@ -365,8 +645,8 @@ footer{
 <!-- Games -->
 <section class="section" id="games">
   <div class="section-header">
-    <h2 class="section-title">>>> SYSTEM STATUS</h2>
-    <p class="section-subtitle">Check back for updates</p>
+    <h2 class="section-title">>>> AVAILABLE EXPERIENCES</h2>
+    <p class="section-subtitle">Dare to explore our VR horror worlds</p>
   </div>
 
   <!-- STATUS SECTION -->
@@ -409,12 +689,66 @@ footer{
       </div>
     </div>
   </div>
+
+  <div class="games-grid">
+    <a href="https://www.meta.com/en-gb/experiences/rearriva-vr/24798799886472734/?require_login=false" class="game-card">
+      <div class="game-img-container">
+        <img src="placeholder-rearriva.jpg" alt="Rearriva VR" onerror="this.src='https://via.placeholder.com/600x400/0a0a0f/00d4ff?text=REARRIVA+VR'">
+        <div class="game-status status-live">● LIVE</div>
+      </div>
+      <div class="game-content">
+        <h3>REARRIVA <span style="color:#ff0033;">VR</span></h3>
+        <p>A Gorilla Tag horror experience that will haunt your dreams. Navigate dark caves, avoid the lurking threats, and survive the night.</p>
+      </div>
+    </a>
+    <div class="game-card" style="cursor:default;">
+      <div style="height:300px; background:linear-gradient(135deg, #1a0a2e 0%, #0a0a0f 100%); display:flex; align-items:center; justify-content:center; position:relative; border-bottom:3px solid var(--cave-blue); overflow:hidden;">
+        <div style="text-align:center; z-index:10; position:relative;">
+          <div style="font-family:'Press Start 2P',monospace; font-size:4rem; color:var(--neon-orange); text-shadow:0 0 30px var(--neon-orange), 0 0 60px var(--neon-orange); margin-bottom:2rem;">?</div>
+          <div style="font-family:'Press Start 2P',monospace; font-size:1.4rem; color:var(--cave-purple); text-shadow:0 0 15px var(--cave-purple); line-height:2.5; letter-spacing:0.2rem;">COMING<br>SOON</div>
+        </div>
+        <div style="position:absolute; width:100%; height:100%; background:repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(168,85,247,0.08) 2px, rgba(168,85,247,0.08) 4px); pointer-events:none; z-index:1;"></div>
+        <div class="game-status status-soon" style="z-index:10;">◆ SOON</div>
+      </div>
+      <div class="game-content">
+        <h3>PROJECT: CLASSIFIED</h3>
+        <p>Something terrifying is being developed. Stay connected for updates on our next VR horror experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="section" id="about">
+  <div class="section-header">
+    <h2 class="section-title">>>> ABOUT SOMETHING <span style="color:#ff0033;">GAMES</span></h2>
+  </div>
+  <div class="about-container">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2>WE CREATE NIGHTMARES YOU CAN PLAY</h2>
+        <p>Independent developers focused on <span class="pixel-highlight">immersive VR horror</span> experiences that push the boundaries of fear.</p>
+        <p>Specializing in Gorilla Tag fan games and VR horror, we craft unique experiences that blend movement, atmosphere, and terror.</p>
+        <div class="owners-box">
+          <p>CREATED BY:<br>SEQUOIA / SOUTHDEV<br>SHOCK / SIMCARD</p>
+        </div>
+        <div class="contact-btns">
+          <a href="mailto:somethinggames@gmail.com" class="contact-btn">📧 EMAIL</a>
+          <a href="https://discord.gg/Vq6mW7YFb" target="_blank" class="contact-btn">💬 DISCORD</a>
+        </div>
+      </div>
+      <div class="about-img">
+        <img src="placeholder-rearriva.jpg" alt="Studio" onerror="this.src='https://via.placeholder.com/600x400/0a0a0f/a855f7?text=SOMETHING+GAMES'">
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Footer -->
 <footer>
   <div class="footer-links">
-    <a href="#games">STATUS</a>
+    <a href="#games">GAMES</a>
+    <a href="#about">ABOUT</a>
     <a href="privacy-policy.html">PRIVACY</a>
   </div>
   <div class="footer-contact">
@@ -438,19 +772,37 @@ document.addEventListener('mousemove', (e) => {
 
 // Glitch effect on title
 const title = document.querySelector('.hero-title');
-if(title) {
-  setInterval(() => {
-    if (Math.random() > 0.95) {
-      title.style.textShadow = `
-        ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--warning-red),
-        ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--cave-blue)
-      `;
-      setTimeout(() => {
-        title.style.textShadow = '0 0 10px var(--cave-blue), 0 0 20px var(--cave-blue), 0 0 30px var(--cave-purple)';
-      }, 50);
+setInterval(() => {
+  if (Math.random() > 0.95) {
+    title.style.textShadow = `
+      ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--warning-red),
+      ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 var(--cave-blue)
+    `;
+    setTimeout(() => {
+      title.style.textShadow = '0 0 10px var(--cave-blue), 0 0 20px var(--cave-blue), 0 0 30px var(--cave-purple)';
+    }, 50);
+  }
+}, 100);
+
+// Scroll reveal for game cards
+const observerOptions = {
+  threshold: 0.2,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.animation = 'fadeInUp 0.8s ease-out forwards';
+      entry.target.style.opacity = '1';
     }
-  }, 100);
-}
+  });
+}, observerOptions);
+
+document.querySelectorAll('.game-card').forEach(card => {
+  card.style.opacity = '0';
+  observer.observe(card);
+});
 
 // Load status from JSON
 async function loadStatus() {
