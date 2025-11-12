@@ -1,6 +1,6 @@
 {
-  "serverStatus": "maintenance",
-  "message": "All systems are under maintenance. Come back later!",
+  "serverStatus": "online",
+  "message": "All systems operational!",
   "lastUpdate": "Nov 12, 2025",
-  "incident": "Server will experience downtime at 11/13/25 3:00 AM EST"
+  "incident": ""
 }
