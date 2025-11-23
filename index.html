@@ -91,10 +91,22 @@ nav{
 .logo-icon{
   width:40px;
   height:40px;
-  background:linear-gradient(135deg,var(--forge-orange),var(--forge-red));
-  clip-path:polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-  box-shadow:0 0 20px rgba(255,107,53,0.5);
-  animation:float 3s ease-in-out infinite;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Inter',sans-serif;
+  font-weight:900;
+  font-size:24px;
+  color:#ff6b35;
+  text-shadow:0 0 20px rgba(255,107,53,0.5);
+}
+.logo-icon::before{
+  content:'F:';
+  background:linear-gradient(135deg,#ff8c35,#ff6b35,#ff4520);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 8px rgba(255,107,53,0.4));
 }
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .logo-text{
@@ -478,7 +490,7 @@ footer{
         <div class="terminal-line"><span class="prompt">user@forge:~$</span> <span class="command">neofetch</span></div>
         <div class="terminal-line"><span class="output">OS: Forge OS (Arch Linux)</span></div>
         <div class="terminal-line"><span class="output">Kernel: 6.11-zen</span></div>
-        <div class="terminal-line"><span class="output">DE: GNOME 47</span></div>
+        <div class="terminal-line"><span class="output">DE: KDE Plasma 6</span></div>
         <div class="terminal-line"><span class="output">Theme: Forge Dark</span></div>
         <div class="terminal-line">&nbsp;</div>
         <div class="terminal-line"><span class="prompt">user@forge:~$</span> <span class="command">steam</span></div>
@@ -513,8 +525,8 @@ footer{
     </div>
     <div class="feature-card">
       <div class="feature-icon">🎨</div>
-      <h3>Beautiful Dark Theme</h3>
-      <p>Sleek GNOME experience with custom Forge Dark theme and forge-inspired visual design.</p>
+      <h3>Beautiful KDE Plasma</h3>
+      <p>Sleek KDE Plasma 6 experience with custom Forge theme, orange accents, and highly customizable interface.</p>
     </div>
     <div class="feature-card">
       <div class="feature-icon">🔧</div>
@@ -542,7 +554,7 @@ footer{
         <ul>
           <li>Arch Linux (Rolling)</li>
           <li>Linux Zen Kernel 6.11</li>
-          <li>GNOME 47 Desktop</li>
+          <li>KDE Plasma 6 Desktop</li>
           <li>Wayland/X11 Support</li>
           <li>AUR Access</li>
         </ul>
