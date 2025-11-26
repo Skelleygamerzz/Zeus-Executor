@@ -1,80 +1,277 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon - SomethingGames</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 40px;
-            animation: fadeIn 1.5s ease-in;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-        
-        p {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 400;
-        }
-        
-        .company {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 30px;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            p {
-                font-size: 1.2rem;
-            }
-            .company {
-                font-size: 1rem;
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TryLinux — Simulator</title>
+<style>
+  :root{
+    --bg:#2b2b2b; --accent:#dd4814; --panel:#202020; --muted:#9a9a9a; --glass:rgba(255,255,255,0.04);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{background:linear-gradient(180deg,#0f0f0f 0%, #131313 60%); color:#eee; overflow:hidden}
+  /* Boot splash */
+  #boot{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#000;z-index:50;
+  }
+  .logo{
+    width:120px;height:120px;border-radius:50%;background:conic-gradient(from 90deg,var(--accent),#ff8a3d 40%,#ffb88c 70%,var(--accent));
+    filter:drop-shadow(0 8px 30px rgba(0,0,0,.8));margin-bottom:18px;
+  }
+  .boot-lines{font-family:var(--mono);font-size:13px;color:var(--muted);max-width:720px;text-align:left;line-height:1.5;padding:12px}
+  .hidden{display:none}
+  /* Login */
+  #login {
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:45;
+    background:linear-gradient(180deg, rgba(10,10,10,0.6), rgba(10,10,10,0.2));
+  }
+  .login-box{width:420px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:28px;box-shadow:0 10px 40px rgba(0,0,0,.6);text-align:center}
+  .user-circle{width:84px;height:84px;border-radius:50%;background:var(--glass);display:inline-block;margin-bottom:14px}
+  input[type="text"]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff;margin-top:8px}
+  button.primary{margin-top:12px;padding:10px 18px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent),#ff8a3d);color:#111;font-weight:600;cursor:pointer}
+  .small{font-size:13px;color:var(--muted);margin-top:10px}
+  /* Desktop / game area */
+  #desktop{position:fixed;inset:0;background:linear-gradient(180deg,#0b1020 0%, #071021 100%);display:none;overflow:hidden}
+  header.topbar{height:46px;background:rgba(0,0,0,0.3);display:flex;align-items:center;padding:0 12px;gap:8px}
+  .start-btn{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.03);cursor:pointer}
+  .start-btn .dot{width:10px;height:10px;border-radius:50%;background:var(--accent)}
+  .center{display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100% - 46px)}
+  .card{background:rgba(255,255,255,0.02);padding:18px;border-radius:12px;min-width:320px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,0.5)}
+  .linkish{display:inline-block;margin-top:12px;padding:10px 14px;border-radius:8px;background:#111;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+  /* game */
+  #gameArea{margin-top:16px;position:relative;width:620px;height:360px;background:#07101a;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+  .cookie{position:absolute;width:48px;height:48px;border-radius:8px;background:linear-gradient(180deg,#f6d07a,#d89b3a);display:flex;align-items:center;justify-content:center;font-weight:700;color:#6a3d00;box-shadow:0 8px 20px rgba(0,0,0,.6);cursor:pointer;user-select:none}
+  .hud{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:8px}
+  .pill{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;font-family:var(--mono)}
+  /* cookie consent */
+  #consent{position:fixed;left:18px;bottom:18px;z-index:80;background:rgba(20,20,20,0.95);padding:14px;border-radius:10px;max-width:420px;border:1px solid rgba(255,255,255,0.04)}
+  #consent button{margin-left:8px;padding:8px 10px;border-radius:8px;border:0}
+  #consent .accept{background:var(--accent);color:#111}
+  #consent .decline{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+  /* mobile responsiveness */
+  @media(max-width:700px){
+    .card{min-width:92%}
+    #gameArea{width:92%;height:260px}
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>We are working on something better</h1>
-        <p>We'll be back soon!</p>
-        <p class="company">- SomethingGames</p>
+
+<!-- Boot splash -->
+<div id="boot">
+  <div class="logo" aria-hidden></div>
+  <div style="font-family:var(--mono);font-size:14px;margin-bottom:8px">TryLinux Simulator</div>
+  <pre class="boot-lines" id="bootLog"></pre>
+</div>
+
+<!-- Login -->
+<div id="login" class="hidden">
+  <div class="login-box">
+    <div class="user-circle"></div>
+    <div style="font-weight:700;font-size:18px">Welcome to TryLinux</div>
+    <div class="small">type a name then press Enter</div>
+    <input id="username" type="text" placeholder="your name (e.g. guest)" autofocus />
+    <button class="primary" id="enterBtn">Enter</button>
+    <div class="small">This is a local simulation — not the official Ubuntu site.</div>
+  </div>
+</div>
+
+<!-- Desktop -->
+<div id="desktop">
+  <header class="topbar">
+    <div class="start-btn" id="openStart"><span class="dot"></span><strong style="font-size:13px">TryLinux</strong></div>
+    <div style="flex:1"></div>
+    <div style="color:var(--muted);font-family:var(--mono);font-size:13px" id="clock">--:--</div>
+  </header>
+
+  <div class="center">
+    <div class="card">
+      <h2 style="margin:4px 0 0 0">Try Linux — Play & Learn</h2>
+      <p class="small" style="margin-top:6px;color:var(--muted)">A tiny interactive page that behaves like a Linux try-out. Click "Try Linux" to start the mini-game — cookies are used only if you accept.</p>
+      <div class="linkish" id="tryBtn">Try Linux from this site</div>
+
+      <div id="gameWrap" style="display:none">
+        <div id="gameArea" aria-live="polite"></div>
+        <div class="hud">
+          <div class="pill">Player: <span id="playerName">guest</span></div>
+          <div class="pill">Cookies: <span id="score">0</span></div>
+          <div class="pill">Stored: <span id="stored">—</span></div>
+          <div style="width:10px"></div>
+          <button id="resetCookies" class="linkish" style="padding:8px 10px">Reset progress</button>
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
+
+<!-- Cookie consent -->
+<div id="consent" class="hidden" role="dialog" aria-live="assertive">
+  <div style="font-weight:700;margin-bottom:6px">Cookie notice</div>
+  <div style="font-size:13px;color:var(--muted)">This page uses a cookie to store simple game progress and a player name. Accept to enable storing progress locally.</div>
+  <div style="margin-top:10px;text-align:right">
+    <button class="decline" id="declineCookies">Decline</button>
+    <button class="accept" id="acceptCookies">Accept</button>
+  </div>
+</div>
+
+<script>
+/* --- Boot sequence --- */
+const bootLog = document.getElementById('bootLog');
+const bootLines = [
+  "Initializing hardware... [OK]",
+  "Detecting filesystems... [OK]",
+  "Loading kernel modules... [OK]",
+  "Starting display manager... [OK]",
+  "Loading user session... [OK]",
+  "Preparing TryLinux environment..."
+];
+let idx=0;
+function typeLine(i){
+  if(i>=bootLines.length){ setTimeout(()=>{document.getElementById('boot').classList.add('hidden'); showLogin();}, 900); return; }
+  const line = bootLines[i];
+  let n=0;
+  const interval = setInterval(()=> {
+    bootLog.textContent += line[n++] || '';
+    if(n>line.length){ clearInterval(interval); bootLog.textContent += "\n"; setTimeout(()=>typeLine(i+1), 250); }
+  }, 18);
+}
+typeLine(0);
+
+/* --- Login --- */
+function showLogin(){ document.getElementById('login').classList.remove('hidden'); document.getElementById('username').focus(); }
+const enterBtn = document.getElementById('enterBtn');
+enterBtn.onclick = proceedLogin;
+document.getElementById('username').addEventListener('keydown', (e)=>{ if(e.key==='Enter') proceedLogin(); });
+
+function proceedLogin(){
+  const name = (document.getElementById('username').value || "guest").trim().slice(0,20);
+  document.getElementById('playerName').textContent = name;
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('desktop').style.display = 'block';
+  showConsent();
+  startClock();
+}
+
+/* --- clock --- */
+function startClock(){
+  const el = document.getElementById('clock');
+  function tick(){ const d=new Date(); el.textContent = d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}); }
+  tick(); setInterval(tick,60000);
+}
+
+/* --- Cookie consent --- */
+const consentEl = document.getElementById('consent');
+function showConsent(){
+  // if we've already set a consent cookie, don't show
+  if(getCookie('trylinux_consent') === 'yes'){ consentEl.classList.add('hidden'); loadStored(); return; }
+  if(getCookie('trylinux_consent') === 'no'){ consentEl.classList.add('hidden'); loadStored(); return; }
+  consentEl.classList.remove('hidden');
+}
+document.getElementById('acceptCookies').onclick = () => { setCookie('trylinux_consent','yes',365); consentEl.classList.add('hidden'); saveStored(); };
+document.getElementById('declineCookies').onclick = () => { setCookie('trylinux_consent','no',365); consentEl.classList.add('hidden'); };
+
+/* --- Simple cookie helpers --- */
+function setCookie(name,val,days){
+  const expires = days? ("; expires="+new Date(Date.now()+days*864e5).toUTCString()) : "";
+  document.cookie = name+"="+encodeURIComponent(val)+expires+"; path=/; SameSite=Lax";
+}
+function getCookie(name){
+  return document.cookie.split('; ').reduce((r,c)=>{const [k,v]=c.split('='); return k===name? decodeURIComponent(v): r}, null);
+}
+function eraseCookie(name){ document.cookie = name+'=; Max-Age=0; path=/'; }
+
+/* --- Game --- */
+const tryBtn = document.getElementById('tryBtn');
+const gameWrap = document.getElementById('gameWrap');
+const gameArea = document.getElementById('gameArea');
+const scoreEl = document.getElementById('score');
+const storedEl = document.getElementById('stored');
+const playerNameEl = document.getElementById('playerName');
+
+tryBtn.onclick = openGame;
+
+let score = 0;
+let cookieSpawns = 0;
+let spawnTimer = null;
+
+function openGame(){
+  gameWrap.style.display = 'block';
+  gameArea.innerHTML = '';
+  score = 0; cookieSpawns = 0; updateScore();
+  if(getCookie('trylinux_consent') === 'yes') loadStored();
+  spawnTimer = setInterval(spawnCookie, 900);
+}
+
+function spawnCookie(){
+  if(cookieSpawns > 12) { clearInterval(spawnTimer); return; }
+  cookieSpawns++;
+  const c = document.createElement('div');
+  c.className = 'cookie';
+  const x = Math.random()*(gameArea.clientWidth-56);
+  const y = Math.random()*(gameArea.clientHeight-56);
+  c.style.left = x+'px'; c.style.top = y+'px';
+  c.textContent = '🍪';
+  c.title = 'Click to collect';
+  c.onclick = ()=> { score++; gameArea.removeChild(c); updateScore(); storeProgressIfAllowed(); };
+  gameArea.appendChild(c);
+  // gentle fade-in and float animation
+  c.animate([{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'translateY(0)'}], {duration:360,easing:'cubic-bezier(.2,.9,.2,1)'});
+  // auto-remove after 9s if not clicked
+  setTimeout(()=>{ try{ if(c.parentNode) gameArea.removeChild(c); }catch{} },9000);
+}
+
+function updateScore(){ scoreEl.textContent = score; }
+
+/* --- storage (only if consent accepted) --- */
+function saveStored(){
+  if(getCookie('trylinux_consent')==='yes'){
+    const data = {name: playerNameEl.textContent, score: score};
+    setCookie('trylinux_state', JSON.stringify(data), 365);
+    storedEl.textContent = 'yes';
+  } else {
+    storedEl.textContent = 'no';
+  }
+}
+
+function loadStored(){
+  const raw = getCookie('trylinux_state');
+  if(raw){
+    try{
+      const data = JSON.parse(raw);
+      if(data.name) playerNameEl.textContent = data.name;
+      if(typeof data.score === 'number') { storedEl.textContent = 'yes (saved)'; } else storedEl.textContent='yes';
+    }catch(e){ storedEl.textContent='corrupt'; }
+  } else {
+    storedEl.textContent = getCookie('trylinux_consent')==='yes'? 'empty' : 'no';
+  }
+}
+
+function storeProgressIfAllowed(){
+  // store only if user accepted cookies
+  if(getCookie('trylinux_consent') === 'yes') {
+    const prev = getCookie('trylinux_state');
+    let base = {name: playerNameEl.textContent, score: 0};
+    if(prev) try{ base = JSON.parse(prev); }catch{}
+    base.score = Math.max(base.score || 0, score);
+    setCookie('trylinux_state', JSON.stringify(base), 365);
+    storedEl.textContent = 'yes';
+  }
+}
+
+/* reset */
+document.getElementById('resetCookies').onclick = ()=>{
+  eraseCookie('trylinux_state'); score=0; updateScore(); storedEl.textContent='no';
+}
+
+/* quick load if consent previously given */
+if(getCookie('trylinux_consent')==='yes') loadStored();
+
+/* accessibility: open start to bring focus to try button */
+document.getElementById('openStart').onclick = ()=>{ tryBtn.scrollIntoView({behavior:'smooth', block:'center'}); tryBtn.focus(); };
+
+/* small note: ensure we don't set cookies without consent; if the user declines, no trylinux_state cookie will be stored. */
+</script>
 </body>
 </html>
