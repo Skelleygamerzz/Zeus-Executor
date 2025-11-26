@@ -1,496 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Forge OS - Forge Your Experience</title>
-<meta name="description" content="Forge OS - An Arch-based Linux distro built for gamers and developers. Forge your experience." />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
-<style>
-  :root{
-    --forge-orange:#ff6b35;
-    --forge-red:#ff0033;
-    --forge-orange-2:#ff7b49;
-    --steel-gray:#2a2d34;
-    --steel-light:#3d4149;
-    --electric-blue:#00d4ff;
-    --dark-bg:#0a0a0f;
-    --glass: rgba(255,255,255,0.04);
-    --radius-lg:20px;
-    --max-width:1400px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth;font-size:16px}
-  body{
-    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    background:linear-gradient(180deg,#06060a 0%,var(--dark-bg) 60%);
-    color:#fff;
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow-x:hidden;
-  }
-
-  /* skip link for accessibility */
-  .skip-link{
-    position:fixed;
-    left:1rem;
-    top:1rem;
-    background:#111;
-    color:var(--forge-orange);
-    padding:0.5rem 0.75rem;
-    border-radius:8px;
-    z-index:2000;
-    transform:translateY(-120%);
-    transition:transform .18s ease;
-  }
-  .skip-link:focus{transform:none;outline:3px solid rgba(255,107,53,0.2)}
-
-  /* BACKGROUND / GLOW */
-  .forge-bg{
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:0;
-    background:
-      radial-gradient(800px 600px at 12% 40%, rgba(255,107,53,0.08), transparent 14%),
-      radial-gradient(700px 500px at 88% 80%, rgba(255,0,51,0.06), transparent 12%),
-      linear-gradient(180deg, rgba(10,10,12,0.6), rgba(10,10,15,0.35));
-    filter:blur(12px) saturate(1.05);
-    mix-blend-mode:screen;
-    animation:bgPulse 11s ease-in-out infinite;
-  }
-  @keyframes bgPulse{
-    0%,100%{opacity:0.85;transform:scale(1)}
-    50%{opacity:1;transform:scale(1.02)}
-  }
-
-  /* subtle grain overlay */
-  .grain{
-    position:fixed;inset:0;z-index:1;pointer-events:none;
-    background-image:linear-gradient(transparent 50%, rgba(255,255,255,0.01) 50%);
-    opacity:0.03;
-    mix-blend-mode:overlay;
-  }
-
-  /* NAV */
-  nav{
-    position:fixed; left:0; right:0; top:0;
-    padding:1rem 5%;
-    z-index:1200;
-    background:linear-gradient(180deg, rgba(10,10,15,0.85), rgba(10,10,15,0.55));
-    backdrop-filter: blur(12px) saturate(1.05);
-    border-bottom:1px solid rgba(255,107,53,0.08);
-  }
-  .nav-content{
-    max-width:var(--max-width);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  }
-  .logo{display:flex;align-items:center;gap:1rem;font-weight:900;font-size:1.25rem}
-  .logo-icon{
-    width:44px;height:44px;border-radius:10px;
-    background-image:url('forge-logo.png');
-    background-size:contain;background-repeat:no-repeat;background-position:center;
-    filter:drop-shadow(0 6px 16px rgba(255,107,53,0.18));
-    transform:translateY(0);
-    transition:transform .35s cubic-bezier(.2,.9,.36,1),filter .25s;
-  }
-  .logo-icon:hover{transform:translateY(-6px);filter:drop-shadow(0 18px 48px rgba(255,107,53,0.2))}
-  .logo-text{background:linear-gradient(135deg,var(--forge-orange),var(--forge-red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:900;letter-spacing:0.6px}
-  .nav-links{display:flex;gap:1.6rem;font-weight:600}
-  .nav-links a{color:rgba(255,255,255,0.92);text-decoration:none;position:relative;padding:0.25rem 0.12rem;border-radius:6px}
-  .nav-links a:focus{outline:2px solid rgba(255,107,53,0.18)}
-  .nav-links a:hover{color:var(--forge-orange)}
-  .nav-links a::after{content:'';position:absolute;left:0;bottom:-6px;width:0;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--forge-orange),var(--forge-red));transition:width .28s}
-  .nav-links a:hover::after{width:100%}
-
-  /* HERO */
-  .hero{
-    min-height:100vh;display:flex;align-items:center;padding:140px 5% 96px;position:relative;z-index:2;gap:3.5rem;
-    max-width:var(--max-width);margin:0 auto;
-  }
-  .hero-content{flex:1;max-width:720px}
-  .hero-badge{
-    display:inline-block;padding:0.5rem 1.2rem;background:linear-gradient(180deg, rgba(255,107,53,0.06), rgba(255,107,53,0.03));
-    border:1px solid rgba(255,107,53,0.12);border-radius:999px;color:var(--forge-orange);font-weight:800;font-size:0.86rem;letter-spacing:1px;margin-bottom:1.5rem;
-    text-transform:uppercase;
-  }
-  .hero-content h1{
-    font-size:clamp(2.8rem,6.4vw,4.6rem);font-weight:900;line-height:1.02;margin-bottom:1.25rem;
-    background:linear-gradient(180deg,#fff,var(--forge-orange-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;
-    text-wrap:balance;
-  }
-  .hero-subtitle{font-size:1.125rem;color:rgba(255,255,255,0.78);margin-bottom:1.5rem;line-height:1.6}
-  .hero-tagline{font-family:'JetBrains Mono',monospace;color:var(--forge-orange);font-weight:700;font-size:1.02rem;margin-bottom:1.6rem}
-  .btn-group{display:flex;gap:1.25rem;flex-wrap:wrap}
-  .btn{padding:0.95rem 1.9rem;border-radius:10px;font-weight:800;font-size:1rem;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:.6rem;transition:transform .22s,box-shadow .22s}
-  .btn:focus{outline:3px solid rgba(255,107,53,0.12)}
-  .btn-primary{background:linear-gradient(135deg,var(--forge-orange),var(--forge-red));color:#030003;box-shadow:0 12px 40px rgba(255,107,53,0.22)}
-  .btn-primary:hover{transform:translateY(-4px);box-shadow:0 26px 80px rgba(255,107,53,0.3)}
-  .btn-secondary{background:rgba(255,255,255,0.03);color:#fff;border:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(8px)}
-  .btn-secondary:hover{transform:translateY(-3px);border-color:var(--forge-orange)}
-
-  /* HERO VISUAL (terminal) */
-  .hero-visual{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
-  .terminal-window{
-    width:100%;max-width:520px;background:linear-gradient(180deg,var(--steel-gray), #23252a);border-radius:14px;overflow:hidden;box-shadow:0 40px 110px rgba(0,0,0,0.6);
-    border:1px solid rgba(255,255,255,0.03);
-    transform:translateY(6px);
-    transition:transform .35s cubic-bezier(.2,.9,.36,1),box-shadow .3s;
-  }
-  .terminal-window:hover{transform:translateY(-6px);box-shadow:0 60px 140px rgba(0,0,0,0.7)}
-  .terminal-header{background:linear-gradient(180deg,var(--steel-light), rgba(61,65,73,0.9));padding:0.7rem 1rem;display:flex;gap:.6rem;align-items:center}
-  .terminal-dot{width:12px;height:12px;border-radius:50%;}
-  .dot-red{background:#ff5f56}
-  .dot-yellow{background:#ffbd2e}
-  .dot-green{background:#27c93f}
-  .terminal-body{padding:1.6rem 1.8rem;font-family:'JetBrains Mono',monospace;font-size:0.95rem;line-height:1.9;color:rgba(255,255,255,0.95)}
-  .terminal-line{margin-bottom:0.6rem;display:block}
-  .prompt{color:var(--forge-orange);font-weight:700}
-  .command{color:#fff}
-  .output{color:var(--electric-blue)}
-
-  /* SECTIONS */
-  .section{padding:100px 5%;position:relative;z-index:2}
-  .section-header{text-align:center;max-width:860px;margin:0 auto 4rem}
-  .section-header h2{font-size:clamp(2rem,4.2vw,3.4rem);font-weight:900;margin-bottom:1rem;background:linear-gradient(180deg,#fff,var(--forge-orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .section-header p{font-size:1.08rem;color:rgba(255,255,255,0.72)}
-
-  .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.6rem;max-width:var(--max-width);margin:0 auto}
-  .feature-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:1.8rem;border-radius:14px;border:1px solid rgba(255,255,255,0.03);transition:transform .28s ease,box-shadow .28s;position:relative;overflow:hidden}
-  .feature-card::before{content:'';position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,var(--forge-orange),var(--forge-red));transform:scaleX(0);transform-origin:left;transition:transform .35s}
-  .feature-card:hover::before{transform:scaleX(1)}
-  .feature-card:hover{transform:translateY(-10px);box-shadow:0 18px 60px rgba(0,0,0,0.6);border-color:rgba(255,107,53,0.08)}
-  .feature-icon{font-size:2.6rem;margin-bottom:1rem}
-  .feature-card h3{font-size:1.2rem;font-weight:800;margin-bottom:.6rem}
-  .feature-card p{color:rgba(255,255,255,0.78);line-height:1.6}
-
-  /* SPECS */
-  .specs{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:2.6rem;max-width:1200px;margin:0 auto;border:1px solid rgba(255,255,255,0.03)}
-  .specs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.4rem}
-  .spec-item h4{font-size:1.05rem;color:var(--forge-orange);margin-bottom:.8rem;font-weight:800}
-  .spec-item ul{list-style:none;padding:0;margin:0}
-  .spec-item li{padding:0.45rem 0;color:rgba(255,255,255,0.82);position:relative;padding-left:1.5rem}
-  .spec-item li::before{content:'▸';position:absolute;left:0;color:var(--forge-orange)}
-
-  /* CTA */
-  .cta{background:linear-gradient(135deg,var(--forge-orange),var(--forge-red));padding:3.2rem 1.6rem;text-align:center;border-radius:14px;max-width:1200px;margin:0 auto}
-  .cta h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#000;margin-bottom:0.75rem}
-  .cta p{font-size:1rem;color:rgba(0,0,0,0.75);margin-bottom:1rem}
-  .cta .btn-secondary{background:#000;color:#fff;border:none}
-  .cta .btn-secondary:hover{background:#111}
-
-  /* FOOTER */
-  footer{padding:3rem 5%;text-align:center;border-top:1px solid rgba(255,107,53,0.06);position:relative;z-index:2;margin-top:3.5rem}
-  .footer-links{display:flex;justify-content:center;gap:1.25rem;margin-bottom:1rem;flex-wrap:wrap}
-  .footer-links a{color:rgba(255,255,255,0.65);text-decoration:none;transition:color .18s}
-  .footer-links a:hover{color:var(--forge-orange)}
-  .copyright{color:rgba(255,255,255,0.38);font-size:.95rem}
-
-  /* RESPONSIVE */
-  @media (max-width:1024px){ .hero{flex-direction:column;text-align:center;padding-top:120px;gap:2rem} .hero-visual{order:2} .hero-content{order:1} .nav-content{gap:.6rem} }
-  @media (max-width:768px){
-    .nav-links{display:none}
-    .features-grid{grid-template-columns:1fr}
-    .specs{padding:1.4rem}
-    .terminal-window{max-width:100%}
-    .hero-content h1{font-size:2.4rem}
-  }
-
-  /* Reusable animate in */
-  .will-reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
-  .reveal{opacity:1;transform:translateY(0)}
-  @media (prefers-reduced-motion:reduce){ .forge-bg,.terminal-window:hover,.logo-icon:hover,.btn:hover{transition:none!important} }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon - SomethingGames</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .container {
+            text-align: center;
+            padding: 40px;
+            animation: fadeIn 1.5s ease-in;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        
+        .company {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 30px;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            p {
+                font-size: 1.2rem;
+            }
+            .company {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<a class="skip-link" href="#main">Skip to content</a>
-
-<!-- Background -->
-<div class="forge-bg" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
-
-<!-- Navigation -->
-<nav role="navigation" aria-label="Main navigation">
-  <div class="nav-content">
-    <div class="logo" aria-hidden="false">
-      <div class="logo-icon" role="img" aria-label="Forge OS logo"></div>
-      <span class="logo-text">Forge OS</span>
+    <div class="container">
+        <h1>We are working on something better</h1>
+        <p>We'll be back soon!</p>
+        <p class="company">- SomethingGames</p>
     </div>
-    <div class="nav-links" aria-hidden="false">
-      <a href="#features">Features</a>
-      <a href="#specs">Specs</a>
-      <a href="#download">Download</a>
-      <a href="#about">About</a>
-    </div>
-  </div>
-</nav>
-
-<main id="main" tabindex="-1">
-  <!-- Hero -->
-  <section class="hero" aria-labelledby="hero-heading">
-    <div class="hero-content">
-      <div class="hero-badge">Arch-Based Linux Distro</div>
-      <h1 id="hero-heading">Built for Gamers & Developers</h1>
-      <p class="hero-subtitle">A powerful, Arch-based Linux distribution with rolling releases and everything you need to game, create, and develop—right out of the box.</p>
-      <p class="hero-tagline">$ forge your experience</p>
-      <div class="btn-group">
-        <a href="#download" class="btn btn-primary" role="button">Download Now</a>
-        <a href="#features" class="btn btn-secondary" role="button">Learn More</a>
-      </div>
-    </div>
-
-    <div class="hero-visual" aria-hidden="false">
-      <div class="terminal-window will-reveal">
-        <div class="terminal-header" aria-hidden="true">
-          <div class="terminal-dot dot-red" aria-hidden="true"></div>
-          <div class="terminal-dot dot-yellow" aria-hidden="true"></div>
-          <div class="terminal-dot dot-green" aria-hidden="true"></div>
-        </div>
-        <div class="terminal-body">
-          <div class="terminal-line"><span class="prompt">user@forge:~$</span> <span class="command">neofetch</span></div>
-          <div class="terminal-line"><span class="output">OS: Forge OS (Arch Linux)</span></div>
-          <div class="terminal-line"><span class="output">Kernel: 6.11-zen</span></div>
-          <div class="terminal-line"><span class="output">DE: KDE Plasma 6</span></div>
-          <div class="terminal-line"><span class="output">Theme: Forge Dark</span></div>
-          <div class="terminal-line">&nbsp;</div>
-          <div class="terminal-line"><span class="prompt">user@forge:~$</span> <span class="command">steam</span></div>
-          <div class="terminal-line"><span class="output">Launching Steam...</span></div>
-          <div class="terminal-line"><span class="output">Ready to game! 🎮</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="section" id="features">
-    <div class="section-header">
-      <h2>Forged for Performance</h2>
-      <p>Everything you need to game, develop, and create—pre-configured and optimized</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">🎮</div>
-        <h3>Gaming Ready</h3>
-        <p>Steam, Lutris, and Wine pre-installed with GameMode optimizations for maximum performance.</p>
-      </div>
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">🛠️</div>
-        <h3>Developer Tools</h3>
-        <p>VS Code, Git, Unity Hub, Blender, and Godot ready to go. Start creating immediately.</p>
-      </div>
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">⚡</div>
-        <h3>Optimized Performance</h3>
-        <p>Custom kernel tweaks, GameMode, and low-latency audio configured out of the box.</p>
-      </div>
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">🎨</div>
-        <h3>Beautiful KDE Plasma</h3>
-        <p>Sleek KDE Plasma 6 experience with custom Forge theme, orange accents, and highly customizable interface.</p>
-      </div>
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">🔧</div>
-        <h3>VR Development</h3>
-        <p>VR-ready environment with tools and drivers pre-configured for seamless development.</p>
-      </div>
-      <div class="feature-card will-reveal">
-        <div class="feature-icon">🚀</div>
-        <h3>Arch Linux Base</h3>
-        <p>Built on Arch Linux for rolling releases, latest software, and access to the massive AUR repository.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Specs -->
-  <section class="section" id="specs">
-    <div class="section-header">
-      <h2>Technical Specifications</h2>
-      <p>Built on solid foundations with powerful tools</p>
-    </div>
-    <div class="specs will-reveal">
-      <div class="specs-grid">
-        <div class="spec-item">
-          <h4>Base System</h4>
-          <ul>
-            <li>Arch Linux (Rolling)</li>
-            <li>Linux Zen Kernel 6.11</li>
-            <li>KDE Plasma 6 Desktop</li>
-            <li>Wayland/X11 Support</li>
-            <li>AUR Access</li>
-          </ul>
-        </div>
-        <div class="spec-item">
-          <h4>Gaming</h4>
-          <ul>
-            <li>Steam (latest)</li>
-            <li>Lutris</li>
-            <li>Wine/Proton</li>
-            <li>GameMode</li>
-            <li>Discord</li>
-            <li>OBS Studio</li>
-          </ul>
-        </div>
-        <div class="spec-item">
-          <h4>Development</h4>
-          <ul>
-            <li>Visual Studio Code</li>
-            <li>Git & GitHub CLI</li>
-            <li>Unity Hub</li>
-            <li>Blender</li>
-            <li>Godot Engine</li>
-          </ul>
-        </div>
-        <div class="spec-item">
-          <h4>Optimizations</h4>
-          <ul>
-            <li>NVIDIA/AMD Drivers</li>
-            <li>Linux Zen Kernel</li>
-            <li>Low Latency Audio</li>
-            <li>VR Ready</li>
-            <li>Rolling Release</li>
-            <li>AUR Support</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="section" id="download">
-    <div class="cta will-reveal">
-      <h2>Ready to Forge Your Experience?</h2>
-      <p>Download Forge OS and start gaming and developing today.</p>
-      <a href="#" class="btn btn-secondary" role="button">Download Forge OS (Coming Soon)</a>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="about">
-    <div class="footer-links">
-      <a href="#features">Features</a>
-      <a href="#specs">Specs</a>
-      <a href="#download">Download</a>
-      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://discord.gg" target="_blank" rel="noopener">Discord</a>
-    </div>
-    <p class="copyright">© 2025 Forge OS - Built by Something Games</p>
-  </footer>
-</main>
-
-<script>
-  // ---- Ember particles — optimized (reduced DOM thrash, requestAnimationFrame) ----
-  (function createEmbers() {
-    const count = 20;
-    const container = document.createElement('div');
-    container.style.position = 'fixed';
-    container.style.inset = '0';
-    container.style.pointerEvents = 'none';
-    container.style.zIndex = '1';
-    document.body.appendChild(container);
-
-    const embers = [];
-    for (let i = 0; i < count; i++) {
-      const e = document.createElement('div');
-      e.className = 'ember';
-      // minimal inline style to keep original sizes
-      e.style.position = 'absolute';
-      e.style.width = '4px';
-      e.style.height = '4px';
-      e.style.borderRadius = '50%';
-      e.style.background = 'var(--forge-orange)';
-      e.style.boxShadow = '0 0 10px var(--forge-orange)';
-      e.style.opacity = 0;
-      e.style.left = (Math.random() * 100) + '%';
-      e._start = performance.now() + Math.random() * 3000;
-      e._duration = 14000 + Math.random() * 12000;
-      e._drift = (Math.random() * 160 - 80);
-      e._x = (parseFloat(e.style.left) / 100) * window.innerWidth;
-      e._y = window.innerHeight + (Math.random() * 200);
-      container.appendChild(e);
-      embers.push(e);
-    }
-
-    function animate(now) {
-      for (const el of embers) {
-        const t = (now - el._start) / el._duration;
-        if (t < 0) { el.style.opacity = 0; continue; }
-        if (t > 1) {
-          // reset particle
-          el._start = now + Math.random() * 3000;
-          el._duration = 12000 + Math.random() * 10000;
-          el._drift = (Math.random() * 160 - 80);
-          el._x = Math.random() * window.innerWidth;
-          el._y = window.innerHeight + (Math.random() * 120);
-          el.style.left = (el._x / window.innerWidth) * 100 + '%';
-          continue;
-        }
-        // easing for smoother movement
-        const ease = (t < 0.5) ? (2*t*t) : (-1 + (4-2*t)*t);
-        const y = el._y - (window.innerHeight + 200) * ease;
-        const x = el._x + el._drift * ease;
-        el.style.transform = `translate(${x - el._x}px, ${y - (window.innerHeight + 200)}px) scale(${0.6 + 0.4*ease})`;
-        el.style.opacity = 0.15 + 0.85 * ease;
-      }
-      requestAnimationFrame(animate);
-    }
-    requestAnimationFrame(animate);
-
-    // keep particle positions correct on resize
-    window.addEventListener('resize', () => {
-      for (const el of embers) {
-        el._x = Math.random() * window.innerWidth;
-        el.style.left = (el._x / window.innerWidth) * 100 + '%';
-      }
-    });
-  })();
-
-  // Smooth scroll - improved (keeps original behavior)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const href = this.getAttribute('href');
-      if (!href || href === '#') return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // update focus for accessibility
-      setTimeout(()=> target.setAttribute('tabindex','-1') || target.focus(), 600);
-    });
-  });
-
-  // Intersection observer for reveal animations
-  const revealObserver = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('reveal');
-        revealObserver.unobserve(entry.target);
-      }
-    }
-  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
-
-  document.querySelectorAll('.will-reveal').forEach(el => revealObserver.observe(el));
-
-  // reduce motion preference
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.querySelectorAll('.will-reveal').forEach(e => e.classList.add('reveal'));
-  }
-
-  // small progressive enhancement: keyboard nav hint removal after first interaction
-  function removeSkipHint() {
-    const link = document.querySelector('.skip-link');
-    if (link) link.style.display = 'none';
-    window.removeEventListener('pointerdown', removeSkipHint);
-  }
-  window.addEventListener('pointerdown', removeSkipHint);
-</script>
-
-<style>
-  /* ember base styles kept similar to your original, but scoped (no classname collision) */
-  .ember{ position:absolute; width:4px; height:4px; background:var(--forge-orange); border-radius:50%; box-shadow:0 0 12px var(--forge-orange); pointer-events:none; z-index:1; }
-</style>
-
 </body>
 </html>
