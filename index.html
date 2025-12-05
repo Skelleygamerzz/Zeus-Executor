@@ -1,80 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>We'll be back soon | SomethingGames</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        
-        .container {
-            text-align: center;
-            padding: 40px;
-            animation: fadeIn 1.5s ease-in;
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 300;
-            letter-spacing: 2px;
-        }
-        
-        p {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 400;
-        }
-        
-        .company {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 30px;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            p {
-                font-size: 1.2rem;
-            }
-            .company {
-                font-size: 1rem;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vienna's Café — Island Calm</title>
+  <meta name="description" content="Vienna's Café — a calm island café. Menu, hours, gallery and join link for the game." />
+  <style>
+    :root{
+      --bg:#f6f4ef; /* soft cream */
+      --accent:#b89c86; /* warm clay (user liked 184,156,134) */
+      --accent-2:#8aa6a3; /* muted teal */
+      --muted:#6f6a63;
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.6);
+      --radius:14px;
+      --shadow: 0 8px 30px rgba(20,20,20,0.08);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#fff);color:var(--muted);}
+    .wrap{max-width:1100px;margin:36px auto;padding:24px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;box-shadow:var(--shadow)}
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{padding:10px 14px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:600}
+    nav a.cta{background:var(--accent);color:white}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:28px}
+    .hero-card{background:var(--card);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+    .hero h1{margin:0;font-size:34px;color:#2f2b28}
+    .hero p{margin:12px 0 18px;line-height:1.5}
+    .buttons{display:flex;gap:12px}
+    .btn{padding:10px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+
+    .card-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .thumb{height:120px;border-radius:12px;background:linear-gradient(180deg,var(--accent-2),#cfe6e2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+
+    section.menu{margin-top:28px;display:grid;grid-template-columns:1fr 320px;gap:24px}
+    .menu-list{display:grid;gap:12px}
+    .menu-item{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:12px;background:var(--glass);backdrop-filter: blur(6px)}
+    .menu-item h4{margin:0}
+    .menu-item small{color:#857f7a}
+
+    footer{margin-top:40px;padding-top:24px;border-top:1px solid rgba(0,0,0,0.04);display:flex;justify-content:space-between;align-items:center}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{grid-template-columns:1fr}
+      section.menu{grid-template-columns:1fr}
+      nav{display:none}
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>We are working on something better.</h1>
-        <p>We'll be back soon!</p>
-        <p class="company">- SomethingGames</p>
-    </div>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">V</div>
+        <div>
+          <div style="font-weight:800;color:#2f2b28">Vienna's Café</div>
+          <div style="font-size:12px;color:#8b8681">A calm island café — open daily</div>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a class="cta" href="#join">Join Game</a>
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="hero-card">
+          <h1>Soft mornings, warm pastries, ocean breeze.</h1>
+          <p>Welcome to Vienna's Café — a cozy spot on the east edge of the island. Sip, relax, and enjoy handcrafted drinks made from in-game island-grown beans.</p>
+          <div class="buttons">
+            <button class="btn primary" onclick="openLink()">Enter Café (Roblox)</button>
+            <button class="btn ghost" onclick="scrollTo('menu')">See Menu</button>
+          </div>
+
+          <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--accent)"></div>
+              <small>Open 8am — 8pm (island time)</small>
+            </div>
+            <div style="margin-left:12px;display:flex;gap:8px;align-items:center">
+              <div style="width:10px;height:10px;border-radius:50%;background:var(--accent-2)"></div>
+              <small>Quiet hours 9pm — 8am</small>
+            </div>
+          </div>
+        </div>
+
+        <aside class="hero-card">
+          <div style="font-weight:700;margin-bottom:12px;color:#2f2b28">Today's Specials</div>
+          <div class="card-gallery">
+            <div class="thumb">Cinnamon Bun</div>
+            <div class="thumb">Sea Salt Latte</div>
+            <div class="thumb">Island Bagel</div>
+            <div class="thumb">Herbal Tea</div>
+          </div>
+        </aside>
+      </div>
+
+      <section id="menu" class="menu">
+        <div class="menu-list hero-card">
+          <h3 style="margin-top:0">Menu</h3>
+          <div class="menu-item"><div><h4>Sea Salt Latte</h4><small>Signature — hand-steamed</small></div><div>$3.25</div></div>
+          <div class="menu-item"><div><h4>Cinnamon Bun</h4><small>Warm & flaky</small></div><div>$2.50</div></div>
+          <div class="menu-item"><div><h4>Island Bagel</h4><small>Toasted, cream cheese</small></div><div>$2.75</div></div>
+          <div class="menu-item"><div><h4>Herbal Breeze</h4><small>Calming herbal infusion</small></div><div>$2.00</div></div>
+          <div style="margin-top:12px;font-size:13px;color:#8b8681">(All prices are for display only — adjust as needed for your game economy.)</div>
+        </div>
+
+        <aside class="hero-card">
+          <h4 style="margin-top:0">Visit & Social</h4>
+          <p style="margin:8px 0">Find Vienna's Café inside the island plaza near the lighthouse. Join the game to explore the kitchen, take orders, and staff shifts.</p>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <a class="btn" style="padding:8px 12px;border-radius:10px;background:var(--accent-2);color:white;text-decoration:none" href="#">Discord</a>
+            <a class="btn" style="padding:8px 12px;border-radius:10px;background:transparent;border:1px solid rgba(0,0,0,0.06);text-decoration:none;color:var(--muted)" href="#">YouTube</a>
+          </div>
+
+          <div style="margin-top:14px;font-size:13px;color:#8b8681">Hours<br>Mon — Sun: 8:00 — 20:00</div>
+        </aside>
+      </section>
+
+      <section id="gallery" style="margin-top:28px">
+        <div class="hero-card">
+          <h3 style="margin-top:0">Gallery</h3>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
+            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#fdebd6,#f7e7df);display:flex;align-items:center;justify-content:center">Patio</div>
+            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#e8f6f5,#dff0ef);display:flex;align-items:center;justify-content:center">Counter</div>
+            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#fff6f2,#fff1ea);display:flex;align-items:center;justify-content:center">Kitchen</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="join" style="margin-top:28px">
+        <div class="hero-card">
+          <h3 style="margin-top:0">Join the Café</h3>
+          <p>Click below to launch the game or copy the in-game location link. You can also use this area to show server status, next shift times, or events.</p>
+          <div style="display:flex;gap:12px;margin-top:12px">
+            <button class="btn primary" onclick="openLink()">Launch Vienna's Café</button>
+            <button class="btn" onclick="copyLink()">Copy Location Link</button>
+          </div>
+          <div id="copyMsg" style="margin-top:10px;font-size:13px;color:#8b8681"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <div>© Vienna's Café — Island Calm</div>
+      <div style="font-size:13px;color:#8b8681">Made with ❤️ for your Roblox game</div>
+    </footer>
+  </div>
+
+  <script>
+    function openLink(){
+      // replace with your game's URL
+      const url = 'https://www.roblox.com/games/PUT_YOUR_GAME_ID';
+      window.open(url,'_blank');
+    }
+    function scrollTo(id){
+      document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    }
+    function copyLink(){
+      const link = 'https://www.roblox.com/games/PUT_YOUR_GAME_ID';
+      navigator.clipboard?.writeText(link).then(()=>{
+        document.getElementById('copyMsg').innerText='Link copied!';
+      }).catch(()=>{
+        document.getElementById('copyMsg').innerText='Copy failed — right click the button and copy.';
+      })
+    }
+  </script>
 </body>
 </html>
