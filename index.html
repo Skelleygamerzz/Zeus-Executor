@@ -1,211 +1,414 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Vienna's Café — Island Calm</title>
-  <meta name="description" content="Vienna's Café — a calm island café. Menu, hours, gallery and join link for the game." />
-  <style>
-    :root{
-      --outer:#f2e9d8;
-      --inner:#e6d9c7;
-      --btn:#b89c86;
-      --text:#534f49;
-      --radius:18px;
-      --shadow:0 6px 20px rgba(0,0,0,0.08);
-      font-family: Inter, ui-sans-serif, system-ui;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{background:var(--outer);color:var(--text);}    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vienna's Cafe - A Cozy Roblox Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* layout */
-    header{position:sticky;top:0;background:var(--outer);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;z-index:99;border-bottom:1px solid rgba(0,0,0,0.05)}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f2e9d8 0%, #e6d9c7 100%);
+            color: #3d2317;
+            overflow-x: hidden;
+        }
 
-    .logo{font-size:22px;font-weight:800;color:var(--text)}
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    nav{display:flex;gap:14px}
-    nav a{text-decoration:none;color:var(--text);font-weight:600;padding:8px 12px;border-radius:10px;transition:0.15s}
-    nav a:hover{background:var(--inner)}
-    nav .cta{background:var(--btn);color:#fff}
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
 
-    /* hero */
-    .hero{
-      padding:50px 20px;display:flex;flex-direction:column;gap:20px;align-items:center;text-align:center;
-    }
-    .hero-box{
-      background:var(--inner);padding:30px;border-radius:var(--radius);box-shadow:var(--shadow);max-width:700px;width:100%;
-      animation:fadeIn 0.6s ease;
-    }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f2e9d8;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
 
-    .hero h1{font-size:36px}
-    .hero p{margin-top:12px;line-height:1.5}
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
 
-    /* buttons */
-    .btn{padding:12px 20px;border-radius:14px;border:0;background:var(--btn);color:white;font-weight:700;cursor:pointer;transition:0.15s}
-    .btn:hover{filter:brightness(0.9)}
+        .nav-links a {
+            color: #f2e9d8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
 
-    /* cards */
-    .section{padding:40px 20px;display:flex;justify-content:center}
-    .card{
-      background:var(--inner);padding:28px;border-radius:var(--radius);box-shadow:var(--shadow);width:100%;max-width:900px;
-      animation:fadeInUp 0.6s ease;
-    }
+        .nav-links a:hover {
+            background: rgba(242, 233, 216, 0.2);
+            transform: translateY(-2px);
+        }
 
-    .card h3{margin-bottom:14px;font-size:24px}
-    .card p{margin-bottom:14px;line-height:1.5}
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 100px 30px;
+            background: linear-gradient(135deg, rgba(184, 156, 134, 0.3) 0%, rgba(160, 130, 109, 0.3) 100%);
+            backdrop-filter: blur(10px);
+        }
 
-    /* links */
-    .link-item{margin-bottom:10px;font-size:18px}
-    .link-item span{color:#6d675f}
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            color: #3d2317;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease;
+        }
 
-    /* FAQ */
-    .faq-item{margin-bottom:20px}
-    .faq-item strong{font-size:18px}
+        .hero p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            color: #6b4423;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
 
-    /* responsive */
-    @media(max-width:700px){
-      .hero h1{font-size:28px}
-      nav{display:none}
-    }
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
+            color: #f2e9d8;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            animation: fadeInUp 1s ease 0.4s both;
+        }
 
-    @keyframes fadeIn{from{opacity:0;transform:scale(0.97)}to{opacity:1;transform:scale(1)}}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-  </style>
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Links Section */
+        .links-section {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 50px;
+            color: #3d2317;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .link-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid #e6d9c7;
+        }
+
+        .link-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: #b89c86;
+        }
+
+        .link-card h3 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #3d2317;
+        }
+
+        .link-card p {
+            color: #6b4423;
+            margin-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
+            color: #f2e9d8;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .link-button:hover {
+            background: linear-gradient(135deg, #a0826d 0%, #8b6f47 100%);
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        .features {
+            background: linear-gradient(135deg, rgba(230, 217, 199, 0.5) 0%, rgba(242, 233, 216, 0.5) 100%);
+            padding: 80px 30px;
+            margin: 60px 0;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-item h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #3d2317;
+        }
+
+        .feature-item p {
+            color: #6b4423;
+            line-height: 1.6;
+        }
+
+        /* Owners Section */
+        .owners-section {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 0 30px;
+            margin-bottom: 60px;
+        }
+
+        .owner-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid #b89c86;
+            transition: all 0.3s ease;
+        }
+
+        .owner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: #8b6f47;
+        }
+
+        .owner-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .owner-card h3 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #3d2317;
+        }
+
+        .owner-card p {
+            color: #6b4423;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #3d2317 0%, #6b4423 100%);
+            color: #f2e9d8;
+            text-align: center;
+            padding: 40px 30px;
+            margin-top: 80px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
     <header>
-      <div class="brand">
-        <div class="logo">V</div>
-        <div>
-          <div style="font-weight:800;color:#2f2b28">Vienna's Café</div>
-          <div style="font-size:12px;color:#8b8681">A calm island café — open daily</div>
-        </div>
-      </div>
-
-      <nav>
-        <a href="#about">About</a>
-        <a href="#menu">Menu</a>
-        <a href="#gallery">Gallery</a>
-        <a class="cta" href="#join">Join Game</a>
-      </nav>
+        <nav>
+            <div class="logo">☕ Vienna's Cafe</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#links">Quick Links</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-      <div class="hero">
-        <div class="hero-card">
-          <h1>Soft mornings, warm pastries, ocean breeze.</h1>
-          <p>Welcome to Vienna's Café — a cozy spot on the east edge of the island. Sip, relax, and enjoy handcrafted drinks made from in-game island-grown beans.</p>
-          <div class="buttons">
-            <button class="btn primary" onclick="openLink()">Enter Café (Roblox)</button>
-            <button class="btn ghost" onclick="scrollTo('menu')">See Menu</button>
-          </div>
+    <section class="hero" id="home">
+        <h1>Welcome to Vienna's Cafe</h1>
+        <p>Your cozy corner in the Roblox universe ☕</p>
+        <a href="https://www.roblox.com/games/89209535093844/Viennas-Caf" class="cta-button" target="_blank">Play Now</a>
+    </section>
 
-          <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
-            <div style="display:flex;gap:8px;align-items:center">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--accent)"></div>
-              <small>Open 8am — 8pm (island time)</small>
+    <section class="links-section" id="links">
+        <h2 class="section-title">Essential Links</h2>
+        <div class="links-grid">
+            <div class="link-card">
+                <h3>🎮 Main Game</h3>
+                <p>Experience the warm atmosphere of Vienna's Cafe</p>
+                <a href="https://www.roblox.com/games/89209535093844/Viennas-Caf" class="link-button" target="_blank">Visit Cafe</a>
             </div>
-            <div style="margin-left:12px;display:flex;gap:8px;align-items:center">
-              <div style="width:10px;height:10px;border-radius:50%;background:var(--accent-2)"></div>
-              <small>Quiet hours 9pm — 8am</small>
+
+            <div class="link-card">
+                <h3>🎓 Training Center</h3>
+                <p>Learn the ropes and become a skilled barista</p>
+                <a href="https://www.roblox.com/games/99818488870118/Training-Center" class="link-button" target="_blank">Start Training</a>
             </div>
-          </div>
+
+            <div class="link-card">
+                <h3>⭐ Rank Center</h3>
+                <p>Check your progress and climb the ranks</p>
+                <a href="https://www.roblox.com/games/110930857329830/Rank-Center" class="link-button" target="_blank">View Ranks</a>
+            </div>
+
+            <div class="link-card">
+                <h3>📝 Application Center</h3>
+                <p>Ready to join our team? Apply here</p>
+                <a href="https://www.roblox.com/games/108689064334469/Application-Center" class="link-button" target="_blank">Apply Now</a>
+            </div>
+
+            <div class="link-card">
+                <h3>📖 Handbook</h3>
+                <p>Everything you need to know about Vienna's Cafe</p>
+                <a href="https://docs.google.com/document/d/1USlMDC8dPKEYBmFOwz3dvCluLONE3d3NEnEE-HX6T8c/edit?usp=sharing" class="link-button" target="_blank">Read Handbook</a>
+            </div>
         </div>
+    </section>
 
-        <aside class="hero-card">
-          <div style="font-weight:700;margin-bottom:12px;color:#2f2b28">Today's Specials</div>
-          <div class="card-gallery">
-            <div class="thumb">Cinnamon Bun</div>
-            <div class="thumb">Sea Salt Latte</div>
-            <div class="thumb">Island Bagel</div>
-            <div class="thumb">Herbal Tea</div>
-          </div>
-        </aside>
-      </div>
-
-      
-
-      <section id="links" style="margin-top:28px">
-  <div class="hero-card">
-    <h3 style="margin-top:0">Links</h3>
-    <p><strong>Vienna's Cafe Link:</strong> <span id="cafeLink">(insert link)</span></p>
-    <p><strong>Training Center Link:</strong> <span id="trainLink">(insert link)</span></p>
-    <p><strong>Application Center Link:</strong> <span id="appLink">(insert link)</span></p>
-    <p><strong>Rank Center Link:</strong> <span id="rankLink">(insert link)</span></p>
-    <h4 style="margin-top:16px">Creators</h4>
-    <p>BabyGozno11, hsimmon</p>
-  </div>
-</section>
-
-<section id="faq" style="margin-top:28px">
-  <div class="hero-card">
-    <h3 style="margin-top:0">FAQ</h3>
-    <p><strong>How do I get in contact with an HR?</strong><br>
-    Members of High-Rank team (Junior Corporate+) can be contacted through Discord or Roblox individually. However, making a ticket is the best option for communicating with our higher-ranked staff for the best responses to questions or concerns.</p>
-
-    <p><strong>How do I make a suggestion?</strong><br>
-    Join our Discord and make your suggestion in the #suggestions channel! These are voted on by the rest of the server and could potentially be put into place if noticed by an HR+.</p>
-
-    <p><strong>Are you hiring developers?</strong><br>
-    At this time, Vienna's Cafe is not looking to hire any developers. If this changes, check our social media for any announcement or applications that may be posted.</p>
-
-    <h4 style="margin-top:16px">Social Media</h4>
-    <p>TikTok: <span id="tiktokLink">(insert link)</span></p>
-    <p>Twitter (X): <span id="twitterLink">(insert link)</span></p>
-    <p>YouTube: <span id="youtubeLink">(insert link)</span></p>
-    <p>Discord: <a href="https://discord.gg/TqzQpTtBSD" target="_blank">Join Here</a></p>
-  </div>
-</section>
-
-<section id="gallery" style="margin-top:28px">
-        <div class="hero-card">
-          <h3 style="margin-top:0">Gallery</h3>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px">
-            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#fdebd6,#f7e7df);display:flex;align-items:center;justify-content:center">Patio</div>
-            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#e8f6f5,#dff0ef);display:flex;align-items:center;justify-content:center">Counter</div>
-            <div style="height:120px;border-radius:12px;background:linear-gradient(180deg,#fff6f2,#fff1ea);display:flex;align-items:center;justify-content:center">Kitchen</div>
-          </div>
+    <section class="features" id="about">
+        <h2 class="section-title">Meet Our Owners</h2>
+        <div class="owners-section">
+            <div class="owner-card">
+                <div class="owner-icon">👑</div>
+                <h3>BabyGonzo11</h3>
+                <p>Co-Owner</p>
+                <a href="https://www.roblox.com/users/profile?username=BabyGonzo11" class="link-button" target="_blank">View Profile</a>
+            </div>
+            <div class="owner-card">
+                <div class="owner-icon">👑</div>
+                <h3>hsimmon</h3>
+                <p>Co-Owner</p>
+                <a href="https://www.roblox.com/users/profile?username=hsimmon" class="link-button" target="_blank">View Profile</a>
+            </div>
         </div>
-      </section>
+    </section>
 
-      <section id="join" style="margin-top:28px">
-        <div class="hero-card">
-          <h3 style="margin-top:0">Join the Café</h3>
-          <p>Click below to launch the game or copy the in-game location link. You can also use this area to show server status, next shift times, or events.</p>
-          <div style="display:flex;gap:12px;margin-top:12px">
-            <button class="btn primary" onclick="openLink()">Launch Vienna's Café</button>
-            <button class="btn" onclick="copyLink()">Copy Location Link</button>
-          </div>
-          <div id="copyMsg" style="margin-top:10px;font-size:13px;color:#8b8681"></div>
+    <section class="features">
+        <h2 class="section-title">What Makes Us Special</h2>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">☕</div>
+                <h3>Cozy Atmosphere</h3>
+                <p>Relax in our warm and inviting cafe environment</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">👥</div>
+                <h3>Amazing Community</h3>
+                <p>Meet friendly faces and make lasting connections</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🎯</div>
+                <h3>Career Growth</h3>
+                <p>Climb the ranks and unlock new opportunities</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <h3>Creative Experience</h3>
+                <p>Craft delicious drinks and serve with style</p>
+            </div>
         </div>
-      </section>
-
-    </main>
+    </section>
 
     <footer>
-      <div>© Vienna's Café — Island Calm</div>
-      <div style="font-size:13px;color:#8b8681">Made with ❤️ for your Roblox game</div>
+        <p>&copy; 2024 Vienna's Cafe - A Roblox Experience</p>
+        <p>Brewing happiness, one cup at a time ☕</p>
     </footer>
-  </div>
-
-  <script>
-    function openLink(){
-      // replace with your game's URL
-      const url = 'https://www.roblox.com/games/PUT_YOUR_GAME_ID';
-      window.open(url,'_blank');
-    }
-    function scrollTo(id){
-      document.getElementById(id).scrollIntoView({behavior:'smooth'});
-    }
-    function copyLink(){
-      const link = 'https://www.roblox.com/games/PUT_YOUR_GAME_ID';
-      navigator.clipboard?.writeText(link).then(()=>{
-        document.getElementById('copyMsg').innerText='Link copied!';
-      }).catch(()=>{
-        document.getElementById('copyMsg').innerText='Copy failed — right click the button and copy.';
-      })
-    }
-  </script>
 </body>
 </html>
