@@ -17,6 +17,33 @@
             color: #fff;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: float 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { opacity: 0; transform: translateY(0) translateX(0); }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); }
         }
 
         .container {
@@ -28,6 +55,14 @@
             padding: 40px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             border: 1px solid rgba(255, 255, 255, 0.18);
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
@@ -36,6 +71,12 @@
             margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             animation: glow 2s ease-in-out infinite alternate;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        h1:hover {
+            transform: scale(1.1) rotate(2deg);
         }
 
         @keyframes glow {
@@ -47,7 +88,30 @@
             text-align: center;
             font-size: 1.2em;
             margin-bottom: 40px;
-            opacity: 0.9;
+            opacity: 0;
+            animation: slideIn 1s ease-in 0.5s forwards;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 0.9; transform: translateX(0); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            width: 0%;
+            transition: width 2s ease-out;
+            box-shadow: 0 0 10px #ffd700;
         }
 
         .section {
@@ -56,11 +120,29 @@
             padding: 25px;
             margin-bottom: 25px;
             border-left: 5px solid #ffd700;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section:hover {
-            transform: translateX(10px);
+            transform: translateX(10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .section-title {
@@ -70,6 +152,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover .section-title {
+            transform: translateX(5px);
         }
 
         .timeline {
@@ -80,6 +167,18 @@
         .timeline-item {
             margin-bottom: 20px;
             position: relative;
+            opacity: 0;
+            animation: slideInLeft 0.5s ease forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         .timeline-item::before {
@@ -87,6 +186,21 @@
             position: absolute;
             left: -30px;
             font-size: 1.2em;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .timeline-item:hover::before {
+            animation: bounce 0.5s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .timeline-date {
@@ -101,6 +215,13 @@
             border-radius: 10px;
             margin: 10px 0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .promotion-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
         .stat-box {
@@ -111,6 +232,14 @@
             margin: 5px;
             font-weight: bold;
             border: 2px solid #ffd700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .stat-box:hover {
+            background: rgba(255, 215, 0, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
         }
 
         .friends-list {
@@ -126,6 +255,13 @@
             border-radius: 20px;
             font-weight: bold;
             color: #000;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .friend-tag:hover {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .quote {
@@ -138,6 +274,13 @@
             border-radius: 10px;
             border-left: 5px solid #ffd700;
             border-right: 5px solid #ffd700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .quote:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: scale(1.03);
         }
 
         .goals {
@@ -155,6 +298,13 @@
             text-align: center;
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-10px) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
         }
 
         .goal-title {
@@ -178,7 +328,45 @@
 
         .emoji {
             font-size: 1.3em;
+            display: inline-block;
+            transition: transform 0.3s ease;
         }
+
+        .section:hover .emoji {
+            transform: scale(1.3) rotate(360deg);
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .skill-meter {
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .skill-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700;
+        }
+
+
 
         @media (max-width: 768px) {
             h1 {
@@ -191,11 +379,23 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚗 My Washiez Journey ✨</h1>
-        <p class="subtitle">From Trainee to Corporate - Never Give Up! 💪</p>
+    <div class="particles" id="particles"></div>
 
-        <div class="section">
+    <div class="container">
+        <h1 onclick="titleClick()">🚗 My Washiez Journey ✨</h1>
+        <p class="subtitle">From Trainee to Assistant Manager - Never Give Up! 💪</p>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="skill-meter">
+            <div>Skills Grinded:</div>
+            <div class="skill-number" id="skillCounter">261</div>
+            <div style="font-size: 0.9em; margin-top: 5px;">Click to count to 644! 🚀</div>
+        </div>
+
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">🎯</span> The Beginning</h2>
             <div class="timeline">
                 <div class="timeline-item">
@@ -209,7 +409,7 @@
             </div>
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">🔥</span> The Comeback</h2>
             <div class="timeline">
                 <div class="timeline-item">
@@ -223,35 +423,39 @@
             </div>
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">✨</span> The Real Journey Begins</h2>
             <div class="timeline">
                 <div class="timeline-item">
-                    <div class="timeline-date">The Return That Changed Everything</div>
+                    <div class="timeline-date">The Return That Changed Everything - 2025</div>
                     <p>This time I came back and everything clicked. Made amazing friends who changed my Washiez experience forever! 🎊</p>
                     <div class="friends-list">
-                        <div class="friend-tag">🦅 Lynx</div>
-                        <div class="friend-tag">🎮 Lucas</div>
-                        <div class="friend-tag">💜 Liv</div>
-                        <div class="friend-tag">🌸 Anna</div>
-                        <div class="friend-tag">⚡ Jack</div>
+                        <div class="friend-tag" onclick="friendClick(event, 'Lynx')">🦅 Lynx</div>
+                        <div class="friend-tag" onclick="friendClick(event, 'Lucas')">🎮 Lucas</div>
+                        <div class="friend-tag" onclick="friendClick(event, 'Liv')">💜 Liv</div>
+                        <div class="friend-tag" onclick="friendClick(event, 'Anna')">🌸 Anna</div>
+                        <div class="friend-tag" onclick="friendClick(event, 'Jack')">⚡ Jack</div>
                     </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">December 17, 2025 - ASSISTANT MANAGER!</div>
+                    <p>Got promoted to <strong>Assistant Manager</strong>! Part of the Supervision Team now! This is when I truly locked in for real! 🔥</p>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-date">Week of 12/15/25 - 12/19/25 - LOCKED IN MODE ACTIVATED</div>
                     <p>This was THE week. I went INSANE with the grind! 🔥</p>
                     <div style="margin-top: 15px;">
-                        <div class="stat-box">261 → 644 Skills in Under 3 Days! 📈</div>
-                        <div class="stat-box">1,400 Minutes in ONE WEEK! ⏰</div>
-                        <div class="stat-box">All-Nighters Pulled! 🌙</div>
+                        <div class="stat-box" onclick="statClick(event, '383 Skills in 3 Days!')">261 → 644 Skills in Under 3 Days! 📈</div>
+                        <div class="stat-box" onclick="statClick(event, '1400 Minutes of Pure Dedication!')">1,400 Minutes in ONE WEEK! ⏰</div>
+                        <div class="stat-box" onclick="statClick(event, 'Midnight Warrior!')">All-Nighters Pulled! 🌙</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">🏆</span> My Promotion History</h2>
-            <div class="promotion-card">
+            <div class="promotion-card" onclick="promotionClick(event)">
                 <strong>Trainee</strong> → Junior Operator → Senior Operator → Head Operator → <strong>Shift Leader ★ 2023</strong> (Offline Promo!) → <strong>Supervisor ★ 12.21.24</strong> (Event Promo!) → <strong>Assistant Manager ★ 12.17.25</strong> 🎉
             </div>
             <p style="margin-top: 15px; text-align: center; font-size: 1.1em;">
@@ -259,37 +463,37 @@
             </p>
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">🎯</span> My Dreams & Goals</h2>
             <div class="goals">
-                <div class="goal-card">
+                <div class="goal-card" onclick="goalClick(event, 'Junior Director')">
                     <div class="goal-title">Dream Rank</div>
                     <div class="goal-value">Junior Director 👔</div>
                 </div>
-                <div class="goal-card">
+                <div class="goal-card" onclick="goalClick(event, 'PRD Department')">
                     <div class="goal-title">Dream Department</div>
                     <div class="goal-value">PRD 📊</div>
                 </div>
             </div>
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">⭐</span> Special Shoutouts</h2>
             <p style="margin-bottom: 15px;"><strong>Favorite Directors:</strong></p>
-            <div class="friend-tag">🦅 Lynx</div>
-            <div class="friend-tag">🪐 Pluto</div>
+            <div class="friend-tag" onclick="friendClick(event, 'Lynx')">🦅 Lynx</div>
+            <div class="friend-tag" onclick="friendClick(event, 'Pluto')">🪐 Pluto</div>
             
             <p style="margin: 20px 0 15px 0;"><strong>Favorite Corporate Team Members:</strong></p>
-            <div class="friend-tag">🎯 Connors</div>
-            <div class="friend-tag">🌟 Jeffcool</div>
-            <div class="friend-tag">🌙 DuplicateMoon19</div>
+            <div class="friend-tag" onclick="friendClick(event, 'Connors')">🎯 Connors</div>
+            <div class="friend-tag" onclick="friendClick(event, 'Jeffcool')">🌟 Jeffcool</div>
+            <div class="friend-tag" onclick="friendClick(event, 'DuplicateMoon19')">🌙 DuplicateMoon19</div>
         </div>
 
-        <div class="quote">
+        <div class="quote" onclick="quoteClick()">
             "I'm getting attached and I just LOVE Washiez now!! I will NEVER quit again and be WAY more active because this is where I belong! 💙"
         </div>
 
-        <div class="section">
+        <div class="section" onclick="sectionClick(this)">
             <h2 class="section-title"><span class="emoji">💡</span> My Message to You</h2>
             <p style="font-size: 1.1em; line-height: 1.6;">
                 This is my Washiez journey and I hope this inspires you to <strong>NEVER quit or give up!</strong> 
@@ -308,5 +512,115 @@
             <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">Stay Locked In. Never Give Up. Keep Grinding. 💪</p>
         </div>
     </div>
+
+
+
+    <script>
+        let clickCount = 0;
+        let skillCount = 261;
+        const maxSkill = 644;
+        let achievementsUnlocked = new Set();
+
+        // Create floating particles
+        function createParticles() {
+            const particles = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Progress bar animation
+        setTimeout(() => {
+            document.getElementById('progressFill').style.width = '100%';
+        }, 500);
+
+        function sectionClick(element) {
+            createConfetti(element);
+        }
+
+        function titleClick() {
+            const title = document.querySelector('h1');
+            title.style.animation = 'none';
+            setTimeout(() => {
+                title.style.animation = '';
+            }, 10);
+            createConfetti(title);
+        }
+
+        function friendClick(event, name) {
+            event.stopPropagation();
+            createConfetti(event.target);
+        }
+
+        function statClick(event, message) {
+            event.stopPropagation();
+            createConfetti(event.target);
+        }
+
+        function goalClick(event, goal) {
+            event.stopPropagation();
+            createConfetti(event.target);
+        }
+
+        function promotionClick(event) {
+            event.stopPropagation();
+            createConfetti(event.target);
+        }
+
+        function quoteClick() {
+            const quote = document.querySelector('.quote');
+            createConfetti(quote);
+        }
+
+        // Skill counter with click
+        const skillMeter = document.querySelector('.skill-meter');
+        skillMeter.onclick = () => {
+            if (skillCount < maxSkill) {
+                skillCount += Math.min(10, maxSkill - skillCount);
+                document.getElementById('skillCounter').textContent = skillCount;
+                createConfetti(skillMeter);
+            }
+        };
+
+        // Confetti effect
+        function createConfetti(element) {
+            const rect = element.getBoundingClientRect();
+            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f093fb'];
+            
+            for (let i = 0; i < 15; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = rect.left + rect.width / 2 + 'px';
+                confetti.style.top = rect.top + rect.height / 2 + 'px';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animation = `confettiFall ${Math.random() * 2 + 2}s linear forwards`;
+                confetti.style.transform = `translate(${(Math.random() - 0.5) * 200}px, 0) rotate(${Math.random() * 360}deg)`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 4000);
+            }
+        }
+
+        // Achievement popup
+        function showAchievement(text) {
+            const popup = document.getElementById('achievementPopup');
+            const achievementText = document.getElementById('achievementText');
+            achievementText.textContent = text;
+            popup.classList.add('show');
+            createConfetti(popup);
+        }
+
+        function closeAchievement() {
+            document.getElementById('achievementPopup').classList.remove('show');
+        }
+
+        // Initialize
+        createParticles();
+    </script>
 </body>
 </html>
