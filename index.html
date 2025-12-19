@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vienna's Cafe - A Cozy Roblox Experience</title>
+    <title>My Washiez Journey 🚗✨</title>
     <style>
         * {
             margin: 0;
@@ -13,402 +13,300 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f2e9d8 0%, #e6d9c7 100%);
-            color: #3d2317;
-            overflow-x: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
-            padding: 20px 0;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav {
-            max-width: 1200px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 30px;
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: #f2e9d8;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #f2e9d8;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 16px;
-            border-radius: 8px;
-        }
-
-        .nav-links a:hover {
-            background: rgba(242, 233, 216, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 100px 30px;
-            background: linear-gradient(135deg, rgba(184, 156, 134, 0.3) 0%, rgba(160, 130, 109, 0.3) 100%);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        .hero h1 {
-            font-size: 56px;
-            margin-bottom: 20px;
-            color: #3d2317;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            animation: fadeInUp 1s ease;
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        .hero p {
-            font-size: 22px;
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #667eea; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #764ba2, 0 0 40px #764ba2; }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
             margin-bottom: 40px;
-            color: #6b4423;
-            animation: fadeInUp 1s ease 0.2s both;
+            opacity: 0.9;
         }
 
-        .cta-button {
-            display: inline-block;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
-            color: #f2e9d8;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            animation: fadeInUp 1s ease 0.4s both;
+        .section {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 5px solid #ffd700;
+            transition: transform 0.3s ease;
         }
 
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-        }
-
-        /* Links Section */
-        .links-section {
-            max-width: 1200px;
-            margin: 80px auto;
-            padding: 0 30px;
+        .section:hover {
+            transform: translateX(10px);
         }
 
         .section-title {
-            text-align: center;
-            font-size: 42px;
-            margin-bottom: 50px;
-            color: #3d2317;
-        }
-
-        .links-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .link-card {
-            background: white;
-            padding: 35px;
-            border-radius: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border: 3px solid #e6d9c7;
-        }
-
-        .link-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            border-color: #b89c86;
-        }
-
-        .link-card h3 {
-            font-size: 26px;
+            font-size: 1.8em;
             margin-bottom: 15px;
-            color: #3d2317;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .link-card p {
-            color: #6b4423;
-            margin-bottom: 25px;
-            font-size: 16px;
-            line-height: 1.6;
+        .timeline {
+            position: relative;
+            padding-left: 30px;
         }
 
-        .link-button {
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '🌟';
+            position: absolute;
+            left: -30px;
+            font-size: 1.2em;
+        }
+
+        .timeline-date {
+            color: #ffd700;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .promotion-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-box {
             display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(135deg, #b89c86 0%, #a0826d 100%);
-            color: #f2e9d8;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin: 5px;
+            font-weight: bold;
+            border: 2px solid #ffd700;
         }
 
-        .link-button:hover {
-            background: linear-gradient(135deg, #a0826d 0%, #8b6f47 100%);
-            transform: scale(1.05);
+        .friends-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        /* Features Section */
-        .features {
-            background: linear-gradient(135deg, rgba(230, 217, 199, 0.5) 0%, rgba(242, 233, 216, 0.5) 100%);
-            padding: 80px 30px;
-            margin: 60px 0;
+        .friend-tag {
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #000;
         }
 
-        .features-grid {
-            max-width: 1200px;
-            margin: 0 auto;
+        .quote {
+            font-style: italic;
+            font-size: 1.3em;
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+            border-right: 5px solid #ffd700;
+        }
+
+        .goals {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
+            gap: 15px;
+            margin-top: 15px;
         }
 
-        .feature-item {
-            text-align: center;
-            padding: 30px;
-            background: white;
+        .goal-card {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
             border-radius: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-
-        .feature-item h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
-            color: #3d2317;
-        }
-
-        .feature-item p {
-            color: #6b4423;
-            line-height: 1.6;
-        }
-
-        /* Owners Section */
-        .owners-section {
-            max-width: 800px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            padding: 0 30px;
-            margin-bottom: 60px;
-        }
-
-        .owner-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
+            color: #333;
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-            border: 3px solid #b89c86;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        .owner-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            border-color: #8b6f47;
+        .goal-title {
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 8px;
         }
 
-        .owner-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
+        .goal-value {
+            font-size: 1.5em;
+            color: #764ba2;
         }
 
-        .owner-card h3 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #3d2317;
-        }
-
-        .owner-card p {
-            color: #6b4423;
-            margin-bottom: 25px;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, #3d2317 0%, #6b4423 100%);
-            color: #f2e9d8;
+        .footer {
             text-align: center;
-            padding: 40px 30px;
-            margin-top: 80px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            font-size: 1.2em;
         }
 
-        footer p {
-            margin-bottom: 10px;
+        .emoji {
+            font-size: 1.3em;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
+            h1 {
+                font-size: 2em;
             }
-
-            .hero p {
-                font-size: 18px;
-            }
-
-            .nav-links {
-                gap: 15px;
-            }
-
-            .section-title {
-                font-size: 32px;
+            .container {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">☕ Vienna's Cafe</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#links">Quick Links</a></li>
-                <li><a href="#about">About</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div class="container">
+        <h1>🚗 My Washiez Journey ✨</h1>
+        <p class="subtitle">From Trainee to Corporate - Never Give Up! 💪</p>
 
-    <section class="hero" id="home">
-        <h1>Welcome to Vienna's Cafe</h1>
-        <p>Your cozy corner in the Roblox universe ☕</p>
-        <a href="https://www.roblox.com/games/89209535093844/Viennas-Caf" class="cta-button" target="_blank">Play Now</a>
-    </section>
-
-    <section class="links-section" id="links">
-        <h2 class="section-title">Essential Links</h2>
-        <div class="links-grid">
-            <div class="link-card">
-                <h3>🎮 Main Game</h3>
-                <p>Experience the warm atmosphere of Vienna's Cafe</p>
-                <a href="https://www.roblox.com/games/89209535093844/Viennas-Caf" class="link-button" target="_blank">Visit Cafe</a>
-            </div>
-
-            <div class="link-card">
-                <h3>🎓 Training Center</h3>
-                <p>Learn the ropes and become a skilled barista</p>
-                <a href="https://www.roblox.com/games/99818488870118/Training-Center" class="link-button" target="_blank">Start Training</a>
-            </div>
-
-            <div class="link-card">
-                <h3>⭐ Rank Center</h3>
-                <p>Check your progress and climb the ranks</p>
-                <a href="https://www.roblox.com/games/110930857329830/Rank-Center" class="link-button" target="_blank">View Ranks</a>
-            </div>
-
-            <div class="link-card">
-                <h3>📝 Application Center</h3>
-                <p>Ready to join our team? Apply here</p>
-                <a href="https://www.roblox.com/games/108689064334469/Application-Center" class="link-button" target="_blank">Apply Now</a>
-            </div>
-
-            <div class="link-card">
-                <h3>📖 Handbook</h3>
-                <p>Everything you need to know about Vienna's Cafe</p>
-                <a href="https://docs.google.com/document/d/1USlMDC8dPKEYBmFOwz3dvCluLONE3d3NEnEE-HX6T8c/edit?usp=sharing" class="link-button" target="_blank">Read Handbook</a>
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🎯</span> The Beginning</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Mid 2023 - The Start</div>
+                    <p>Started my Washiez journey with pure determination. Attended every training I could find, stayed locked in, and grinded hard. My dedication paid off when I got promoted OFFLINE to <strong>Shift Leader</strong>! 🎉</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">The First Break - As Shift Leader</div>
+                    <p>After getting Shift Leader, life happened and I took a long break from Washiez. Sometimes we all need to step away... 😔</p>
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="features" id="about">
-        <h2 class="section-title">Meet Our Owners</h2>
-        <div class="owners-section">
-            <div class="owner-card">
-                <div class="owner-icon">👑</div>
-                <h3>BabyGonzo11</h3>
-                <p>Co-Owner</p>
-                <a href="https://www.roblox.com/users/profile?username=BabyGonzo11" class="link-button" target="_blank">View Profile</a>
-            </div>
-            <div class="owner-card">
-                <div class="owner-icon">👑</div>
-                <h3>hsimmon</h3>
-                <p>Co-Owner</p>
-                <a href="https://www.roblox.com/users/profile?username=hsimmon" class="link-button" target="_blank">View Profile</a>
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🔥</span> The Comeback</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">First Return - December 21, 2024</div>
+                    <p>Came back LOCKED IN! Attended an event and got promoted to <strong>Supervisor</strong>! The grind never stops! 💪</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Second Break - As Supervisor</div>
+                    <p>Unfortunately, I quit again as a Supervisor... but this time would be different. 🌟</p>
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="features">
-        <h2 class="section-title">What Makes Us Special</h2>
-        <div class="features-grid">
-            <div class="feature-item">
-                <div class="feature-icon">☕</div>
-                <h3>Cozy Atmosphere</h3>
-                <p>Relax in our warm and inviting cafe environment</p>
-            </div>
-
-            <div class="feature-item">
-                <div class="feature-icon">👥</div>
-                <h3>Amazing Community</h3>
-                <p>Meet friendly faces and make lasting connections</p>
-            </div>
-
-            <div class="feature-item">
-                <div class="feature-icon">🎯</div>
-                <h3>Career Growth</h3>
-                <p>Climb the ranks and unlock new opportunities</p>
-            </div>
-
-            <div class="feature-item">
-                <div class="feature-icon">🎨</div>
-                <h3>Creative Experience</h3>
-                <p>Craft delicious drinks and serve with style</p>
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">✨</span> The Real Journey Begins</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">The Return That Changed Everything</div>
+                    <p>This time I came back and everything clicked. Made amazing friends who changed my Washiez experience forever! 🎊</p>
+                    <div class="friends-list">
+                        <div class="friend-tag">🦅 Lynx</div>
+                        <div class="friend-tag">🎮 Lucas</div>
+                        <div class="friend-tag">💜 Liv</div>
+                        <div class="friend-tag">🌸 Anna</div>
+                        <div class="friend-tag">⚡ Jack</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Week of 12/15/25 - 12/19/25 - LOCKED IN MODE ACTIVATED</div>
+                    <p>This was THE week. I went INSANE with the grind! 🔥</p>
+                    <div style="margin-top: 15px;">
+                        <div class="stat-box">261 → 644 Skills in Under 3 Days! 📈</div>
+                        <div class="stat-box">1,400 Minutes in ONE WEEK! ⏰</div>
+                        <div class="stat-box">All-Nighters Pulled! 🌙</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <footer>
-        <p>&copy; 2024 Vienna's Cafe - A Roblox Experience</p>
-        <p>Brewing happiness, one cup at a time ☕</p>
-    </footer>
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🏆</span> My Promotion History</h2>
+            <div class="promotion-card">
+                <strong>Trainee</strong> → Junior Operator → Senior Operator → Head Operator → <strong>Shift Leader ★ 2023</strong> (Offline Promo!) → <strong>Supervisor ★ 12.21.24</strong> (Event Promo!) → <strong>Assistant Manager ★ 12.17.25</strong> 🎉
+            </div>
+            <p style="margin-top: 15px; text-align: center; font-size: 1.1em;">
+                <strong>Current Rank:</strong> Assistant Manager | Supervision Team 👔
+            </p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">🎯</span> My Dreams & Goals</h2>
+            <div class="goals">
+                <div class="goal-card">
+                    <div class="goal-title">Dream Rank</div>
+                    <div class="goal-value">Junior Director 👔</div>
+                </div>
+                <div class="goal-card">
+                    <div class="goal-title">Dream Department</div>
+                    <div class="goal-value">PRD 📊</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">⭐</span> Special Shoutouts</h2>
+            <p style="margin-bottom: 15px;"><strong>Favorite Directors:</strong></p>
+            <div class="friend-tag">🦅 Lynx</div>
+            <div class="friend-tag">🪐 Pluto</div>
+            
+            <p style="margin: 20px 0 15px 0;"><strong>Favorite Corporate Team Members:</strong></p>
+            <div class="friend-tag">🎯 Connors</div>
+            <div class="friend-tag">🌟 Jeffcool</div>
+            <div class="friend-tag">🌙 DuplicateMoon19</div>
+        </div>
+
+        <div class="quote">
+            "I'm getting attached and I just LOVE Washiez now!! I will NEVER quit again and be WAY more active because this is where I belong! 💙"
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><span class="emoji">💡</span> My Message to You</h2>
+            <p style="font-size: 1.1em; line-height: 1.6;">
+                This is my Washiez journey and I hope this inspires you to <strong>NEVER quit or give up!</strong> 
+                I quit twice and came back each time. The third time was the charm because I found my people and my passion. 
+                <br><br>
+                Always remember: <strong>The Corporate Team is ALWAYS looking for hard working staff members.</strong> 
+                Your dedication WILL be noticed. Your grind WILL pay off. Just stay locked in and never give up on your dreams! 🌟
+                <br><br>
+                Whether you're just starting or you've been here for years - your journey matters. Keep pushing, keep grinding, and most importantly, have fun! That's what Washiez is all about! 🚗💨
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>✨ Merry Christmas ✨</p>
+            <p style="margin-top: 10px;">🎄 December 18, 2025 🎄</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">Stay Locked In. Never Give Up. Keep Grinding. 💪</p>
+        </div>
+    </div>
 </body>
 </html>
