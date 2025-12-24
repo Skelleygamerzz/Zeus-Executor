@@ -1,626 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Washiez Journey 🚗✨</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic Admin Essentials 2.0</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
-        }
+    body {
+      background: #000000;
+      color: #ffffff;
+      line-height: 1.6;
+    }
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
+    header {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+    }
 
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #ffd700;
-            border-radius: 50%;
-            animation: float 6s infinite;
-            opacity: 0;
-        }
+    header h1 {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
 
-        @keyframes float {
-            0%, 100% { opacity: 0; transform: translateY(0) translateX(0); }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(50px); }
-        }
+    nav a {
+      margin-left: 24px;
+      text-decoration: none;
+      color: #ffffff;
+      font-size: 14px;
+      opacity: 0.7;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            position: relative;
-            z-index: 2;
-            animation: fadeIn 1s ease-in;
-        }
+    nav a:hover {
+      opacity: 1;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .hero {
+      padding: 96px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
 
-        h1 {
-            text-align: center;
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            animation: glow 2s ease-in-out infinite alternate;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
+    .hero h2 {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
 
-        h1:hover {
-            transform: scale(1.1) rotate(2deg);
-        }
+    .hero p {
+      font-size: 18px;
+      max-width: 620px;
+      opacity: 0.8;
+      margin-bottom: 40px;
+    }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #667eea; }
-            to { text-shadow: 0 0 20px #fff, 0 0 30px #764ba2, 0 0 40px #764ba2; }
-        }
+    .actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
 
-        .subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: slideIn 1s ease-in 0.5s forwards;
-        }
+    .btn {
+      padding: 14px 32px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: linear-gradient(180deg, #111, #000);
+      color: #fff;
+      box-shadow: 0 0 0 rgba(255,255,255,0);
+      transition: all 0.25s ease;
+    }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-50px); }
-            to { opacity: 0.9; transform: translateX(0); }
-        }
+    .btn.secondary {
+      background: transparent;
+      color: #fff;
+    }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 20px rgba(255,255,255,0.15);
+      opacity: 1;
+    }
 
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ffd700, #ffed4e);
-            width: 0%;
-            transition: width 2s ease-out;
-            box-shadow: 0 0 10px #ffd700;
-        }
+    .section {
+      padding: 80px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
 
-        .section {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-left: 5px solid #ffd700;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeInUp 0.6s ease forwards;
-        }
+    .section h3 {
+      font-size: 28px;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
 
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
-        .section:nth-child(6) { animation-delay: 0.6s; }
-        .section:nth-child(7) { animation-delay: 0.7s; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .feature {
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 28px;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 60%);
+    }
 
-        .section:hover {
-            transform: translateX(10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
+    .feature h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
 
-        .section-title {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s ease;
-        }
+    .feature p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
 
-        .section:hover .section-title {
-            transform: translateX(5px);
-        }
+    .download {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+    }
 
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
+    .coming-soon {
+      font-size: 14px;
+      opacity: 0.6;
+    }
 
-        .timeline-item {
-            margin-bottom: 20px;
-            position: relative;
-            opacity: 0;
-            animation: slideInLeft 0.5s ease forwards;
-        }
+    footer {
+      padding: 32px 48px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      opacity: 0.6;
+    }
 
-        .timeline-item:nth-child(1) { animation-delay: 0.2s; }
-        .timeline-item:nth-child(2) { animation-delay: 0.4s; }
-        .timeline-item:nth-child(3) { animation-delay: 0.6s; }
-        .timeline-item:nth-child(4) { animation-delay: 0.8s; }
+    @media (max-width: 600px) {
+      header {
+        padding: 20px;
+      }
 
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+      .hero {
+        padding: 64px 20px;
+      }
 
-        .timeline-item::before {
-            content: '🌟';
-            position: absolute;
-            left: -30px;
-            font-size: 1.2em;
-            animation: spin 3s linear infinite;
-        }
+      .section {
+        padding: 64px 20px;
+      }
+    }
+  @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+      50% { box-shadow: 0 0 25px rgba(255,255,255,0.25); }
+      100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
+    }
 
-        .timeline-item:hover::before {
-            animation: bounce 0.5s ease;
-        }
+    .hero h2,
+    .hero p,
+    .actions {
+      animation: fadeUp 0.8s ease forwards;
+    }
 
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
+    .hero p { animation-delay: 0.1s; }
+    .actions { animation-delay: 0.2s; }
 
-        .timeline-date {
-            color: #ffd700;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+    .feature {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
 
-        .promotion-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
+    .feature.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-        .promotion-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
-        }
-
-        .stat-box {
-            display: inline-block;
-            background: rgba(255, 215, 0, 0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
-            margin: 5px;
-            font-weight: bold;
-            border: 2px solid #ffd700;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .stat-box:hover {
-            background: rgba(255, 215, 0, 0.4);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        }
-
-        .friends-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .friend-tag {
-            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            color: #000;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .friend-tag:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .quote {
-            font-style: italic;
-            font-size: 1.3em;
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 10px;
-            border-left: 5px solid #ffd700;
-            border-right: 5px solid #ffd700;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .quote:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: scale(1.03);
-        }
-
-        .goals {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .goal-card {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            padding: 20px;
-            border-radius: 15px;
-            color: #333;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .goal-card:hover {
-            transform: translateY(-10px) rotate(-2deg);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-        }
-
-        .goal-title {
-            color: #667eea;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-        }
-
-        .goal-value {
-            font-size: 1.5em;
-            color: #764ba2;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            font-size: 1.2em;
-        }
-
-        .emoji {
-            font-size: 1.3em;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .section:hover .emoji {
-            transform: scale(1.3) rotate(360deg);
-        }
-
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        @keyframes confettiFall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        .skill-meter {
-            margin: 20px 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-        }
-
-        .skill-number {
-            font-size: 3em;
-            font-weight: bold;
-            color: #ffd700;
-            text-shadow: 0 0 20px #ffd700;
-        }
-
-
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
-            }
-            .container {
-                padding: 20px;
-            }
-        }
-    </style>
+    .btn.primary-glow {
+      animation: glowPulse 2.5s ease-in-out infinite;
+    }
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
+  <header>
+    <h1>Basic Admin Essentials 2.0</h1>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#download">Download</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-    <div class="container">
-        <h1 onclick="titleClick()">🚗 My Washiez Journey ✨</h1>
-        <p class="subtitle">From Trainee to Assistant Manager - Never Give Up! 💪</p>
+  <main>
+    <section class="hero">
+      <h2>Modern admin tools.
+        <br />Built clean. Built right.</h2>
+      <p>
+        Basic Admin Essentials 2.0 is a lightweight, modern Roblox admin system
+        focused on clean UI, simple setup, and powerful essentials.
+      </p>
+      <div class="actions">
+        <a href="downloads/BasicAdminEssentials2.zip" class="btn primary-glow" download>Download</a>
+        <button class="btn secondary">Documentation</button>
+      </div>
+    </section>
 
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
+    <section class="section" id="features">
+      <h3>What’s inside</h3>
+      <div class="features">
+        <div class="feature">
+          <h4>Clean modern UI</h4>
+          <p>Minimal black and white interface with smooth animations and rounded layouts.</p>
         </div>
-
-        <div class="skill-meter">
-            <div>Skills Grinded:</div>
-            <div class="skill-number" id="skillCounter">261</div>
-            <div style="font-size: 0.9em; margin-top: 5px;">Click to count to 644! 🚀</div>
+        <div class="feature">
+          <h4>Easy setup</h4>
+          <p>Drop-in installation with clear structure. No bloated configs.</p>
         </div>
-
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">🎯</span> The Beginning</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">Mid 2023 - The Start</div>
-                    <p>Started my Washiez journey with pure determination. Attended every training I could find, stayed locked in, and grinded hard. My dedication paid off when I got promoted OFFLINE to <strong>Shift Leader</strong>! 🎉</p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">The First Break - As Shift Leader</div>
-                    <p>After getting Shift Leader, life happened and I took a long break from Washiez. Sometimes we all need to step away... 😔</p>
-                </div>
-            </div>
+        <div class="feature">
+          <h4>Essential commands</h4>
+          <p>All the must-have admin commands without unnecessary clutter.</p>
         </div>
-
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">🔥</span> The Comeback</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">First Return - December 21, 2024</div>
-                    <p>Came back LOCKED IN! Attended an event and got promoted to <strong>Supervisor</strong>! The grind never stops! 💪</p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Second Break - As Supervisor</div>
-                    <p>Unfortunately, I quit again as a Supervisor... but this time would be different. 🌟</p>
-                </div>
-            </div>
+        <div class="feature">
+          <h4>Developer friendly</h4>
+          <p>Readable scripts designed to be extended and customized.</p>
         </div>
+      </div>
+    </section>
 
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">✨</span> The Real Journey Begins</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-date">The Return That Changed Everything - 2025</div>
-                    <p>This time I came back and everything clicked. Made amazing friends who changed my Washiez experience forever! 🎊</p>
-                    <div class="friends-list">
-                        <div class="friend-tag" onclick="friendClick(event, 'Lynx')">🦅 Lynx</div>
-                        <div class="friend-tag" onclick="friendClick(event, 'Lucas')">🎮 Lucas</div>
-                        <div class="friend-tag" onclick="friendClick(event, 'Liv')">💜 Liv</div>
-                        <div class="friend-tag" onclick="friendClick(event, 'Anna')">🌸 Anna</div>
-                        <div class="friend-tag" onclick="friendClick(event, 'Jack')">⚡ Jack</div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">December 17, 2025 - ASSISTANT MANAGER!</div>
-                    <p>Got promoted to <strong>Assistant Manager</strong>! Part of the Supervision Team now! This is when I truly locked in for real! 🔥</p>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-date">Week of 12/15/25 - 12/19/25 - LOCKED IN MODE ACTIVATED</div>
-                    <p>This was THE week. I went INSANE with the grind! 🔥</p>
-                    <div style="margin-top: 15px;">
-                        <div class="stat-box" onclick="statClick(event, '383 Skills in 3 Days!')">261 → 644 Skills in Under 3 Days! 📈</div>
-                        <div class="stat-box" onclick="statClick(event, '1400 Minutes of Pure Dedication!')">1,400 Minutes in ONE WEEK! ⏰</div>
-                        <div class="stat-box" onclick="statClick(event, 'Midnight Warrior!')">All-Nighters Pulled! 🌙</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="section" id="download">
+      <h3>Download</h3>
+      <div class="download">
+        <a href="downloads/BasicAdminEssentials2.zip" class="btn" download>Download Basic Admin Essentials 2.0</a>
+        <span class="coming-soon">Latest stable build • ZIP format</span>
+      </div>
+    </section>
 
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">🏆</span> My Promotion History</h2>
-            <div class="promotion-card" onclick="promotionClick(event)">
-                <strong>Trainee</strong> → Junior Operator → Senior Operator → Head Operator → <strong>Shift Leader ★ 2023</strong> (Offline Promo!) → <strong>Supervisor ★ 12.21.24</strong> (Event Promo!) → <strong>Assistant Manager ★ 12.17.25</strong> 🎉
-            </div>
-            <p style="margin-top: 15px; text-align: center; font-size: 1.1em;">
-                <strong>Current Rank:</strong> Assistant Manager | Supervision Team 👔
-            </p>
-        </div>
+    <section class="section" id="whatsnew">
+      <h3>What’s new</h3>
+      <ul style="margin-top: 24px; padding-left: 20px; line-height: 1.9;">
+        <li>✅ All modern Roblox API updates supported (PolicyService, JumpHeight)</li>
+        <li>✅ Fixed chat conflicts</li>
+        <li>✅ Fixed TAB autocomplete</li>
+        <li>✅ Everything working perfectly</li>
+        <li>⭐ The only Basic Admin that is fully fixed and up to date</li>
+      </ul>
+    </section>
 
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">🎯</span> My Dreams & Goals</h2>
-            <div class="goals">
-                <div class="goal-card" onclick="goalClick(event, 'Junior Director')">
-                    <div class="goal-title">Dream Rank</div>
-                    <div class="goal-value">Junior Director 👔</div>
-                </div>
-                <div class="goal-card" onclick="goalClick(event, 'PRD Department')">
-                    <div class="goal-title">Dream Department</div>
-                    <div class="goal-value">PRD 📊</div>
-                </div>
-            </div>
-        </div>
+    <section class="section" id="about">
+      <h3>About the project</h3>
+      <p style="max-width: 640px; opacity: 0.85;">
+        Basic Admin Essentials 2.0 is a refined take on classic Roblox admin systems.
+        The goal is simple: look good, feel fast, and stay out of your way while you build.
+      </p>
+    </section>
+  </main>
 
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">⭐</span> Special Shoutouts</h2>
-            <p style="margin-bottom: 15px;"><strong>Favorite Directors:</strong></p>
-            <div class="friend-tag" onclick="friendClick(event, 'Lynx')">🦅 Lynx</div>
-            <div class="friend-tag" onclick="friendClick(event, 'Pluto')">🪐 Pluto</div>
-            
-            <p style="margin: 20px 0 15px 0;"><strong>Favorite Corporate Team Members:</strong></p>
-            <div class="friend-tag" onclick="friendClick(event, 'Connors')">🎯 Connors</div>
-            <div class="friend-tag" onclick="friendClick(event, 'Jeffcool')">🌟 Jeffcool</div>
-            <div class="friend-tag" onclick="friendClick(event, 'DuplicateMoon19')">🌙 DuplicateMoon19</div>
-        </div>
-
-        <div class="quote" onclick="quoteClick()">
-            "I'm getting attached and I just LOVE Washiez now!! I will NEVER quit again and be WAY more active because this is where I belong! 💙"
-        </div>
-
-        <div class="section" onclick="sectionClick(this)">
-            <h2 class="section-title"><span class="emoji">💡</span> My Message to You</h2>
-            <p style="font-size: 1.1em; line-height: 1.6;">
-                This is my Washiez journey and I hope this inspires you to <strong>NEVER quit or give up!</strong> 
-                I quit twice and came back each time. The third time was the charm because I found my people and my passion. 
-                <br><br>
-                Always remember: <strong>The Corporate Team is ALWAYS looking for hard working staff members.</strong> 
-                Your dedication WILL be noticed. Your grind WILL pay off. Just stay locked in and never give up on your dreams! 🌟
-                <br><br>
-                Whether you're just starting or you've been here for years - your journey matters. Keep pushing, keep grinding, and most importantly, have fun! That's what Washiez is all about! 🚗💨
-            </p>
-        </div>
-
-        <div class="footer">
-            <p>✨ Merry Christmas ✨</p>
-            <p style="margin-top: 10px;">🎄 December 18, 2025 🎄</p>
-            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.8;">Stay Locked In. Never Give Up. Keep Grinding. 💪</p>
-        </div>
-    </div>
-
-
-
-    <script>
-        let clickCount = 0;
-        let skillCount = 261;
-        const maxSkill = 644;
-        let achievementsUnlocked = new Set();
-
-        // Create floating particles
-        function createParticles() {
-            const particles = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                particles.appendChild(particle);
-            }
+  <footer>
+    © 2025 Basic Admin Essentials 2.0. All rights reserved.
+  </footer>
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
         }
+      });
+    }, { threshold: 0.15 });
 
-        // Progress bar animation
-        setTimeout(() => {
-            document.getElementById('progressFill').style.width = '100%';
-        }, 500);
-
-        function sectionClick(element) {
-            createConfetti(element);
-        }
-
-        function titleClick() {
-            const title = document.querySelector('h1');
-            title.style.animation = 'none';
-            setTimeout(() => {
-                title.style.animation = '';
-            }, 10);
-            createConfetti(title);
-        }
-
-        function friendClick(event, name) {
-            event.stopPropagation();
-            createConfetti(event.target);
-        }
-
-        function statClick(event, message) {
-            event.stopPropagation();
-            createConfetti(event.target);
-        }
-
-        function goalClick(event, goal) {
-            event.stopPropagation();
-            createConfetti(event.target);
-        }
-
-        function promotionClick(event) {
-            event.stopPropagation();
-            createConfetti(event.target);
-        }
-
-        function quoteClick() {
-            const quote = document.querySelector('.quote');
-            createConfetti(quote);
-        }
-
-        // Skill counter with click
-        const skillMeter = document.querySelector('.skill-meter');
-        skillMeter.onclick = () => {
-            if (skillCount < maxSkill) {
-                skillCount += Math.min(10, maxSkill - skillCount);
-                document.getElementById('skillCounter').textContent = skillCount;
-                createConfetti(skillMeter);
-            }
-        };
-
-        // Confetti effect
-        function createConfetti(element) {
-            const rect = element.getBoundingClientRect();
-            const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#f093fb'];
-            
-            for (let i = 0; i < 15; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = rect.left + rect.width / 2 + 'px';
-                confetti.style.top = rect.top + rect.height / 2 + 'px';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animation = `confettiFall ${Math.random() * 2 + 2}s linear forwards`;
-                confetti.style.transform = `translate(${(Math.random() - 0.5) * 200}px, 0) rotate(${Math.random() * 360}deg)`;
-                document.body.appendChild(confetti);
-                
-                setTimeout(() => confetti.remove(), 4000);
-            }
-        }
-
-        // Achievement popup
-        function showAchievement(text) {
-            const popup = document.getElementById('achievementPopup');
-            const achievementText = document.getElementById('achievementText');
-            achievementText.textContent = text;
-            popup.classList.add('show');
-            createConfetti(popup);
-        }
-
-        function closeAchievement() {
-            document.getElementById('achievementPopup').classList.remove('show');
-        }
-
-        // Initialize
-        createParticles();
-    </script>
+    document.querySelectorAll('.feature').forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
