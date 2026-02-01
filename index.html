@@ -1,293 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Basic Admin Essentials 2.0</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konbu — Coming Soon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Assistant:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: #000000;
-      color: #ffffff;
-      line-height: 1.6;
-    }
+        :root {
+            --cream: #FAF7F0;
+            --charcoal: #2C2C2C;
+            --soft-brown: #A58B6F;
+            --accent: #D4B996;
+        }
 
-    header {
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 24px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(6px);
-    }
+        body {
+            font-family: 'Assistant', sans-serif;
+            background: var(--charcoal);
+            color: var(--cream);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
 
-    header h1 {
-      font-size: 20px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
+        .bg-blur {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            filter: blur(12px) brightness(0.4);
+            z-index: -1;
+            transform: scale(1.1);
+        }
 
-    nav a {
-      margin-left: 24px;
-      text-decoration: none;
-      color: #ffffff;
-      font-size: 14px;
-      opacity: 0.7;
-    }
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            mix-blend-mode: overlay;
+        }
 
-    nav a:hover {
-      opacity: 1;
-    }
+        .container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            z-index: 1;
+        }
 
-    .hero {
-      padding: 96px 48px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3rem, 12vw, 8rem);
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        }
 
-    .hero h2 {
-      font-size: 48px;
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
+        .tagline {
+            font-size: clamp(0.875rem, 2vw, 1.125rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            font-weight: 300;
+            color: var(--accent);
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
 
-    .hero p {
-      font-size: 18px;
-      max-width: 620px;
-      opacity: 0.8;
-      margin-bottom: 40px;
-    }
+        .status-container {
+            text-align: center;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+        }
 
-    .actions {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-    }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.75rem;
+            border: 1px solid rgba(250, 247, 240, 0.2);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(250, 247, 240, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    .btn {
-      padding: 14px 32px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      border: 1px solid rgba(255,255,255,0.15);
-      background: linear-gradient(180deg, #111, #000);
-      color: #fff;
-      box-shadow: 0 0 0 rgba(255,255,255,0);
-      transition: all 0.25s ease;
-    }
+        .status-badge:hover {
+            border-color: var(--accent);
+            background: rgba(212, 185, 150, 0.1);
+            transform: translateY(-2px);
+        }
 
-    .btn.secondary {
-      background: transparent;
-      color: #fff;
-    }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 0 20px rgba(255,255,255,0.15);
-      opacity: 1;
-    }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
 
-    .section {
-      padding: 80px 48px;
-      max-width: 1100px;
-      margin: 0 auto;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
+        .status-text {
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
 
-    .section h3 {
-      font-size: 28px;
-      margin-bottom: 16px;
-      letter-spacing: -0.5px;
-    }
+        .description {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            color: rgba(250, 247, 240, 0.85);
+        }
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 32px;
-    }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--cream);
+            color: var(--charcoal);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-    .feature {
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 28px;
-      background: radial-gradient(circle at top, rgba(255,255,255,0.06), transparent 60%);
-    }
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1), height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
 
-    .feature h4 {
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
 
-    .feature p {
-      font-size: 14px;
-      opacity: 0.8;
-    }
+        .cta-button:hover::before {
+            width: 300%;
+            height: 300%;
+        }
 
-    .download {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 24px;
-    }
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(250, 247, 240, 0.4);
+            opacity: 0;
+            animation: fadeIn 1.2s ease 1.2s forwards;
+        }
 
-    .coming-soon {
-      font-size: 14px;
-      opacity: 0.6;
-    }
+        .decorative-line {
+            position: absolute;
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+            top: 50%;
+            opacity: 0.3;
+        }
 
-    footer {
-      padding: 32px 48px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-      font-size: 13px;
-      opacity: 0.6;
-    }
+        .line-left {
+            left: 15%;
+            animation: lineSlide 2s ease-in-out infinite;
+        }
 
-    @media (max-width: 600px) {
-      header {
-        padding: 20px;
-      }
+        .line-right {
+            right: 15%;
+            animation: lineSlide 2s ease-in-out infinite 1s;
+        }
 
-      .hero {
-        padding: 64px 20px;
-      }
+        @keyframes lineSlide {
+            0%, 100% { transform: translateY(-20px); }
+            50% { transform: translateY(20px); }
+        }
 
-      .section {
-        padding: 64px 20px;
-      }
-    }
-  @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes fadeSlideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    @keyframes glowPulse {
-      0% { box-shadow: 0 0 0 rgba(255,255,255,0); }
-      50% { box-shadow: 0 0 25px rgba(255,255,255,0.25); }
-      100% { box-shadow: 0 0 0 rgba(255,255,255,0); }
-    }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
 
-    .hero h2,
-    .hero p,
-    .actions {
-      animation: fadeUp 0.8s ease forwards;
-    }
+        @media (max-width: 768px) {
+            .decorative-line {
+                display: none;
+            }
 
-    .hero p { animation-delay: 0.1s; }
-    .actions { animation-delay: 0.2s; }
+            .logo {
+                margin-bottom: 1rem;
+            }
 
-    .feature {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
-    }
-
-    .feature.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .btn.primary-glow {
-      animation: glowPulse 2.5s ease-in-out infinite;
-    }
-  </style>
+            .tagline {
+                margin-bottom: 3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <h1>Basic Admin Essentials 2.0</h1>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#download">Download</a>
-      <a href="#about">About</a>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h2>Modern admin tools.
-        <br />Built clean. Built right.</h2>
-      <p>
-        Basic Admin Essentials 2.0 is a lightweight, modern Roblox admin system
-        focused on clean UI, simple setup, and powerful essentials.
-      </p>
-      <div class="actions">
-        <a href="downloads/BasicAdminEssentials2.zip" class="btn primary-glow" download>Download</a>
-        <button class="btn secondary">Documentation</button>
-      </div>
-    </section>
-
-    <section class="section" id="features">
-      <h3>What’s inside</h3>
-      <div class="features">
-        <div class="feature">
-          <h4>Clean modern UI</h4>
-          <p>Minimal black and white interface with smooth animations and rounded layouts.</p>
+    <div class="bg-blur"></div>
+    <div class="grain-overlay"></div>
+    <div class="decorative-line line-left"></div>
+    <div class="decorative-line line-right"></div>
+    
+    <div class="container">
+        <h1 class="logo">Konbu</h1>
+        <p class="tagline">Modern Cafe Experience</p>
+        
+        <div class="status-container">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span class="status-text">In Development</span>
+            </div>
+            
+            <p class="description">
+                A new kind of cafe is brewing. Immerse yourself in contemporary design, 
+                refined atmosphere, and a community-driven experience.
+            </p>
+            
+            <a href="#" class="cta-button">Join Communications Server</a>
         </div>
-        <div class="feature">
-          <h4>Easy setup</h4>
-          <p>Drop-in installation with clear structure. No bloated configs.</p>
-        </div>
-        <div class="feature">
-          <h4>Essential commands</h4>
-          <p>All the must-have admin commands without unnecessary clutter.</p>
-        </div>
-        <div class="feature">
-          <h4>Developer friendly</h4>
-          <p>Readable scripts designed to be extended and customized.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="download">
-      <h3>Download</h3>
-      <div class="download">
-        <a href="downloads/BasicAdminEssentials2.zip" class="btn" download>Download Basic Admin Essentials 2.0</a>
-        <span class="coming-soon">Latest stable build • ZIP format</span>
-      </div>
-    </section>
-
-    <section class="section" id="whatsnew">
-      <h3>What’s new</h3>
-      <ul style="margin-top: 24px; padding-left: 20px; line-height: 1.9;">
-        <li>✅ All modern Roblox API updates supported (PolicyService, JumpHeight)</li>
-        <li>✅ Fixed chat conflicts</li>
-        <li>✅ Fixed TAB autocomplete</li>
-        <li>✅ Everything working perfectly</li>
-        <li>⭐ The only Basic Admin that is fully fixed and up to date</li>
-      </ul>
-    </section>
-
-    <section class="section" id="about">
-      <h3>About the project</h3>
-      <p style="max-width: 640px; opacity: 0.85;">
-        Basic Admin Essentials 2.0 is a refined take on classic Roblox admin systems.
-        The goal is simple: look good, feel fast, and stay out of your way while you build.
-      </p>
-    </section>
-  </main>
-
-  <footer>
-    © 2025 Basic Admin Essentials 2.0. All rights reserved.
-  </footer>
-  <script>
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('.feature').forEach(el => observer.observe(el));
-  </script>
+        
+        <div class="footer">Konbu © 2026</div>
+    </div>
 </body>
 </html>
