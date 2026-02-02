@@ -184,6 +184,42 @@
             height: 300%;
         }
 
+        .countdown-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 1.2s ease 0.9s forwards;
+        }
+
+        .countdown-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(250, 247, 240, 0.05);
+            border: 1px solid rgba(250, 247, 240, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .countdown-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: rgba(250, 247, 240, 0.95);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(250, 247, 240, 0.6);
+            font-weight: 500;
+        }
+
         .footer {
             position: absolute;
             bottom: 2rem;
@@ -244,6 +280,22 @@
             .tagline {
                 margin-bottom: 3rem;
             }
+
+            .countdown-container {
+                gap: 0.5rem;
+            }
+
+            .countdown-item {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .countdown-number {
+                font-size: clamp(1.5rem, 8vw, 2rem);
+            }
+
+            .countdown-label {
+                font-size: 0.625rem;
+            }
         }
     </style>
 </head>
@@ -260,18 +312,74 @@
         <div class="status-container">
             <div class="status-badge">
                 <span class="status-dot"></span>
-                <span class="status-text">In Development</span>
+                <span class="status-text">Releasing February 5th</span>
             </div>
             
             <p class="description">
                 A new kind of cafe is brewing. Immerse yourself in contemporary design, 
-                refined atmosphere, and a community-driven experience.
+                refined atmosphere, and a community-driven experience. Opening soon.
             </p>
+
+            <!-- Countdown Timer -->
+            <div class="countdown-container">
+                <div class="countdown-item">
+                    <div class="countdown-number" id="days">00</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="hours">00</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="minutes">00</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number" id="seconds">00</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
             
             <a href="#" class="cta-button">Join Communications Server</a>
         </div>
         
         <div class="footer">Konbu © 2026</div>
     </div>
+
+    <script>
+        // Countdown Timer
+        const countdownDate = new Date("February 5, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            document.getElementById("days").textContent = String(days).padStart(2, '0');
+            document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+
+            // If countdown is over
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("days").textContent = "00";
+                document.getElementById("hours").textContent = "00";
+                document.getElementById("minutes").textContent = "00";
+                document.getElementById("seconds").textContent = "00";
+                document.querySelector(".status-text").textContent = "Now Open!";
+            }
+        }
+
+        // Update countdown every second
+        updateCountdown();
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
