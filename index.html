@@ -84,10 +84,22 @@
             text-transform: uppercase;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 4rem;
+            margin-bottom: 0.5rem;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+        }
+
+        .slogan {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-weight: 300;
+            color: rgba(212, 185, 150, 0.9);
+            font-style: italic;
+            letter-spacing: 0.05em;
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
         }
 
         .status-container {
@@ -95,7 +107,7 @@
             max-width: 600px;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+            animation: fadeSlideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
         }
 
         .status-badge {
@@ -440,6 +452,7 @@
     <div class="container">
         <img src="KonbuLogo.png" alt="Konbu" class="logo">
         <p class="tagline">Modern Cafe Experience</p>
+        <p class="slogan">Brewed to Perfection</p>
         
         <div class="status-container">
             <div class="status-badge">
