@@ -2367,7 +2367,7 @@ function cDisp(n) {
 }
 function cHist(h) { document.getElementById('calc-hist').textContent=h; }
 function cNum(n) {
-  if (_cNewN) { _cCur=n==='.′?'0.':n; _cNewN=false; }
+  if (_cNewN) { _cCur=n==='.'?'0.':n; _cNewN=false; }
   else { if(n==='.'&&_cCur.includes('.'))return; _cCur=(_cCur==='0'&&n!=='.')?n:_cCur+n; }
   if(_cCur.length>15)return;
   cDisp(_cCur);
