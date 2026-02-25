@@ -1,155 +1,2702 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Something Games</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LunarOS">
+<meta name="theme-color" content="#0a0a1a">
+<title>LunarOS</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Outfit:wght@200;300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #07071a;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.1);
+  --accent: #7c6ffa;
+  --accent2: #c084fc;
+  --accent3: #38bdf8;
+  --text: #e8e8ff;
+  --text-dim: rgba(232,232,255,0.5);
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #facc15;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+  --radius: 20px;
+  --app-radius: 18px;
+}
 
-    body {
-      background: #030304;
-      color: #d4cfc9;
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      position: relative;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 
-    /* grain */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px;
-      opacity: 0.028;
-      pointer-events: none;
-      z-index: 99;
-    }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: #000;
+  font-family: var(--sans);
+  color: var(--text);
+}
 
-    /* ambient glow */
-    .glow {
-      position: fixed;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 100, 0, 0.07) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      animation: pulse 5s ease-in-out infinite;
-    }
+/* ===== PHONE SHELL ===== */
+#phone {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-      50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.1); }
-    }
+/* ===== BACKGROUND ===== */
+#wallpaper {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(124,111,250,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(192,132,252,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(56,189,248,0.1) 0%, transparent 60%),
+    linear-gradient(160deg, #07071a 0%, #0d0a2e 50%, #07071a 100%);
+  z-index: 0;
+}
 
-    .content {
-      position: relative; z-index: 10;
-      display: flex; flex-direction: column;
-      align-items: center; gap: 0;
-    }
+/* Stars */
+#wallpaper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 8%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 22%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 85% 12%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 75% 75%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 85%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 92% 80%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 40%, rgba(124,111,250,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 25%, rgba(192,132,252,0.5) 0%, transparent 100%);
+}
 
-    .logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
-      letter-spacing: 8px;
-      color: #fff;
-      margin-bottom: 56px;
-      animation: fadeUp 0.8s ease both;
-    }
-    .logo em {
-      color: #f5a623;
-      font-style: normal;
-      text-shadow: 0 0 24px rgba(245,166,35,0.45);
-    }
+/* Moon */
+#wallpaper::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  right: 12%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8e0ff, #c4b8f0 40%, #8a7dc0 80%);
+  box-shadow: 0 0 40px rgba(196,184,240,0.4), 0 0 80px rgba(124,111,250,0.2);
+}
 
-    .divider-top {
-      width: 1px; height: 48px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15));
-      margin-bottom: 48px;
-      animation: fadeUp 0.8s 0.1s ease both;
-    }
+/* ===== STATUS BAR ===== */
+#statusbar {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(232,232,255,0.9);
+  flex-shrink: 0;
+}
 
-    .headline {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 10vw, 7.5rem);
-      line-height: 0.92;
-      letter-spacing: 2px;
-      color: #fff;
-      animation: fadeUp 0.8s 0.15s ease both;
-    }
-    .headline em {
-      display: block;
-      color: #f5a623;
-      font-style: normal;
-      text-shadow: 0 0 60px rgba(245,166,35,0.3);
-    }
+#statusbar .left { display: flex; gap: 6px; align-items: center; }
+#statusbar .center { font-size: 12px; letter-spacing: 1px; }
+#statusbar .right { display: flex; gap: 8px; align-items: center; }
+#battery { display: flex; align-items: center; gap: 3px; }
+#battery-bar {
+  width: 22px; height: 11px;
+  border: 1.5px solid rgba(232,232,255,0.7);
+  border-radius: 3px;
+  padding: 1.5px;
+  position: relative;
+}
+#battery-bar::after {
+  content: '';
+  position: absolute;
+  right: -4px; top: 3px;
+  width: 2.5px; height: 5px;
+  background: rgba(232,232,255,0.7);
+  border-radius: 0 1px 1px 0;
+}
+#battery-fill {
+  height: 100%;
+  width: 80%;
+  background: var(--green);
+  border-radius: 1px;
+  transition: width 1s;
+}
 
-    .tagline {
-      margin-top: 28px;
-      font-size: clamp(0.8rem, 2vw, 1rem);
-      font-weight: 300;
-      color: #5a5860;
-      letter-spacing: 1px;
-      line-height: 1.8;
-      max-width: 400px;
-      animation: fadeUp 0.8s 0.22s ease both;
-    }
-    .tagline strong {
-      color: #888;
-      font-weight: 400;
-    }
+/* ===== LOCK SCREEN ===== */
+#lockscreen {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 30px 60px;
+  background: 
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(124,111,250,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 20%, rgba(192,132,252,0.25) 0%, transparent 50%),
+    linear-gradient(160deg, #07071a 0%, #0d0a2e 50%, #07071a 100%);
+  transition: opacity 0.5s, transform 0.5s;
+}
 
-    .divider-bottom {
-      width: 40px; height: 1px;
-      background: rgba(245,166,35,0.3);
-      margin-top: 44px;
-      animation: fadeUp 0.8s 0.28s ease both;
-    }
+#lockscreen.unlocking {
+  opacity: 0;
+  transform: translateY(-30px);
+  pointer-events: none;
+}
 
-    .sig {
-      margin-top: 22px;
-      font-size: 0.7rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #3a3840;
-      animation: fadeUp 0.8s 0.32s ease both;
-    }
-    .sig em { color: #f5a623; font-style: normal; opacity: 0.6; }
+#lock-time {
+  text-align: center;
+}
+#lock-time .time {
+  font-size: 72px;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, #e8e8ff, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#lock-time .date {
+  font-size: 15px;
+  color: var(--text-dim);
+  margin-top: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+#lock-tagline {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: rgba(124,111,250,0.7);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+#unlock-btn {
+  background: rgba(124,111,250,0.2);
+  border: 1px solid rgba(124,111,250,0.4);
+  color: var(--text);
+  padding: 16px 50px;
+  border-radius: 50px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+#unlock-btn:hover, #unlock-btn:active {
+  background: rgba(124,111,250,0.4);
+  border-color: rgba(124,111,250,0.8);
+  transform: scale(0.97);
+}
+
+/* ===== HOME SCREEN ===== */
+#homescreen {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#home-header {
+  padding: 16px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+#home-date {
+  font-size: 13px;
+  color: var(--text-dim);
+  font-weight: 300;
+}
+#home-greeting {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--text), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* App grid */
+#app-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 24px 16px 16px;
+  align-content: start;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.app-icon:active { transform: scale(0.88); }
+
+.app-icon-img {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--app-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.app-icon-img::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  z-index: 1;
+}
+
+.app-icon-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 70px;
+}
+
+/* App colors */
+.app-terminal .app-icon-img { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid rgba(74,222,128,0.3); }
+.app-files .app-icon-img { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
+.app-browser .app-icon-img { background: linear-gradient(135deg, #0f3460, #533483); }
+.app-settings .app-icon-img { background: linear-gradient(135deg, #374151, #6b7280); }
+.app-calc .app-icon-img { background: linear-gradient(135deg, #3b0764, #7c3aed); }
+.app-notes .app-icon-img { background: linear-gradient(135deg, #7c2d12, #ea580c); }
+.app-music .app-icon-img { background: linear-gradient(135deg, #831843, #ec4899); }
+.app-camera .app-icon-img { background: linear-gradient(135deg, #1c1917, #44403c); }
+.app-gallery .app-icon-img { background: linear-gradient(135deg, #0c4a6e, #0ea5e9); }
+.app-clock .app-icon-img { background: linear-gradient(135deg, #1a1a2e, #30336b); }
+.app-weather .app-icon-img { background: linear-gradient(135deg, #1e3a5f, #38bdf8); }
+.app-store .app-icon-img { background: linear-gradient(135deg, #064e3b, #10b981); }
+
+/* ===== DOCK ===== */
+#dock {
+  margin: 0 12px 20px;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-shrink: 0;
+}
+
+/* ===== APP WINDOWS ===== */
+.app-window {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+.app-window.open { transform: translateY(0); }
+
+.app-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: rgba(10,10,26,0.8);
+  backdrop-filter: blur(10px);
+}
+.app-titlebar .title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+.app-close {
+  width: 32px; height: 32px;
+  background: rgba(248,113,113,0.15);
+  border: 1px solid rgba(248,113,113,0.3);
+  border-radius: 50%;
+  color: var(--red);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.app-close:hover { background: rgba(248,113,113,0.3); }
+
+.app-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== TERMINAL ===== */
+#terminal-content {
+  background: #0d1117;
+  font-family: var(--mono);
+  font-size: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+#terminal-output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px;
+  line-height: 1.7;
+  -webkit-overflow-scrolling: touch;
+}
+.term-line { word-break: break-all; }
+.term-prompt { color: var(--accent); }
+.term-cmd { color: var(--text); }
+.term-out { color: var(--green); white-space: pre-wrap; }
+.term-err { color: var(--red); }
+.term-info { color: var(--accent3); }
+#terminal-input-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  gap: 6px;
+}
+#terminal-input-row span { color: var(--accent); font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+#term-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  user-select: text;
+  caret-color: var(--accent);
+}
+
+/* ===== CALCULATOR ===== */
+#calc-content {
+  background: #111;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+#calc-display {
+  padding: 20px 20px 10px;
+  text-align: right;
+  flex-shrink: 0;
+}
+#calc-expr {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  min-height: 20px;
+}
+#calc-result {
+  font-size: 52px;
+  font-weight: 200;
+  color: var(--text);
+  line-height: 1.1;
+  font-family: var(--mono);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+}
+.calc-btn {
+  background: #1c1c1e;
+  border: none;
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.1s;
+  font-family: var(--mono);
+  display: flex; align-items: center; justify-content: center;
+}
+.calc-btn:active { background: #3a3a3c; }
+.calc-btn.op { background: #2c2c2e; color: var(--accent2); }
+.calc-btn.eq { background: var(--accent); color: #fff; }
+.calc-btn.eq:active { background: #5e54c4; }
+.calc-btn.fn { background: #1c1c1e; color: var(--accent3); font-size: 15px; }
+.calc-btn.wide { grid-column: span 2; }
+
+/* ===== NOTES ===== */
+#notes-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+#notes-list { width: 100%; }
+.note-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.note-item:hover { background: var(--surface); }
+.note-item .note-title { font-size: 14px; font-weight: 600; }
+.note-item .note-preview { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+.note-item .note-date { font-size: 10px; color: var(--text-dim); margin-top: 4px; font-family: var(--mono); }
+
+#note-editor {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+#note-editor-title {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--sans);
+  padding: 16px 20px;
+  outline: none;
+  user-select: text;
+}
+#note-editor-body {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--sans);
+  line-height: 1.8;
+  padding: 16px 20px;
+  outline: none;
+  resize: none;
+  user-select: text;
+  -webkit-overflow-scrolling: touch;
+}
+#notes-toolbar {
+  display: flex;
+  gap: 10px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--border);
+  background: rgba(10,10,26,0.9);
+}
+.note-tool-btn {
+  padding: 8px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.2s;
+}
+.note-tool-btn:hover { background: var(--surface2); }
+.note-tool-btn.accent { background: rgba(124,111,250,0.2); border-color: var(--accent); color: var(--accent2); }
+
+/* ===== MUSIC ===== */
+#music-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  background: linear-gradient(180deg, #1a0a2e 0%, var(--bg) 100%);
+  overflow-y: auto;
+}
+#music-art {
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #7c3aed, #ec4899, #f97316);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 80px;
+  box-shadow: 0 20px 60px rgba(124,58,237,0.5);
+  margin-bottom: 24px;
+  transition: transform 0.3s;
+}
+#music-art.spinning {
+  animation: spin-slow 8s linear infinite;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+#music-song { font-size: 20px; font-weight: 700; text-align: center; }
+#music-artist { font-size: 14px; color: var(--text-dim); margin-top: 4px; text-align: center; }
+#music-bar-container {
+  width: 100%;
+  margin: 24px 0 8px;
+  position: relative;
+}
+#music-bar-bg {
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+#music-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.5s linear;
+}
+#music-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  margin-top: 6px;
+}
+#music-controls {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin-top: 20px;
+}
+.music-ctrl {
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+  transition: transform 0.15s, color 0.15s;
+  opacity: 0.8;
+}
+.music-ctrl:hover { opacity: 1; }
+.music-ctrl:active { transform: scale(0.9); }
+.music-ctrl.play-btn {
+  width: 60px; height: 60px;
+  background: var(--accent);
+  border-radius: 50%;
+  font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 30px rgba(124,111,250,0.5);
+  opacity: 1;
+}
+#music-playlist {
+  width: 100%;
+  margin-top: 30px;
+}
+#music-playlist h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 12px; }
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.playlist-item:hover { opacity: 0.8; }
+.playlist-item.active .pi-name { color: var(--accent2); }
+.pi-num { font-family: var(--mono); font-size: 12px; color: var(--text-dim); width: 20px; text-align: right; }
+.pi-info { flex: 1; }
+.pi-name { font-size: 14px; font-weight: 500; }
+.pi-artist { font-size: 12px; color: var(--text-dim); }
+.pi-dur { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+
+/* ===== SETTINGS ===== */
+#settings-content { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+.settings-section { margin-bottom: 24px; }
+.settings-section-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-family: var(--mono);
+  padding: 0 4px 8px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 6px;
+}
+.settings-row .sr-left { display: flex; align-items: center; gap: 12px; }
+.settings-row .sr-icon { font-size: 20px; width: 28px; text-align: center; }
+.settings-row .sr-info .sr-name { font-size: 14px; font-weight: 500; }
+.settings-row .sr-info .sr-sub { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+
+/* Toggle */
+.toggle {
+  width: 48px; height: 28px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 14px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+.toggle.on { background: var(--accent); }
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.toggle.on::after { transform: translateX(20px); }
+
+.settings-slider {
+  width: 120px;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+}
+.settings-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* ===== WEATHER ===== */
+#weather-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 20px 20px;
+  background: linear-gradient(180deg, #0c1f40 0%, #07071a 100%);
+  -webkit-overflow-scrolling: touch;
+}
+#weather-main {
+  text-align: center;
+  padding: 30px 0 20px;
+}
+#weather-city { font-size: 28px; font-weight: 700; }
+#weather-icon { font-size: 80px; margin: 10px 0; }
+#weather-temp { font-size: 64px; font-weight: 200; }
+#weather-desc { font-size: 16px; color: var(--text-dim); text-transform: capitalize; }
+#weather-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin: 20px 0;
+}
+.weather-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.weather-stat .ws-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+.weather-stat .ws-val { font-size: 18px; font-weight: 600; margin-top: 4px; }
+.weather-forecast { }
+.wf-title { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); }
+.wf-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.wf-day { font-size: 13px; color: var(--text-dim); width: 50px; }
+.wf-icon { font-size: 22px; }
+.wf-temps { font-size: 13px; font-family: var(--mono); }
+.wf-temps .hi { color: var(--text); }
+.wf-temps .lo { color: var(--text-dim); }
+
+/* ===== CLOCK ===== */
+#clock-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 20px;
+  overflow-y: auto;
+}
+#analog-clock {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  position: relative;
+  background: var(--surface);
+  margin-bottom: 20px;
+  box-shadow: 0 0 60px rgba(124,111,250,0.2), inset 0 0 30px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+.clock-hand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  border-radius: 3px;
+  transform: translateX(-50%);
+}
+#hand-hour { width: 4px; height: 55px; background: var(--text); margin-left: -2px; }
+#hand-min { width: 2.5px; height: 75px; background: var(--accent2); margin-left: -1.25px; }
+#hand-sec { width: 1.5px; height: 80px; background: var(--red); margin-left: -0.75px; top: calc(50% - 80px); }
+#clock-center {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+#digital-clock { font-size: 36px; font-family: var(--mono); font-weight: 300; color: var(--text); }
+#digital-date { font-size: 14px; color: var(--text-dim); margin-top: 4px; letter-spacing: 1px; }
+#timezone { font-size: 11px; font-family: var(--mono); color: var(--accent); margin-top: 8px; letter-spacing: 2px; }
+
+.clock-section-title {
+  align-self: flex-start;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  font-family: var(--mono);
+  margin: 20px 0 10px;
+  width: 100%;
+}
+#stopwatch-display { font-size: 42px; font-family: var(--mono); font-weight: 300; color: var(--text); }
+#stopwatch-controls { display: flex; gap: 12px; margin-top: 16px; }
+.sw-btn {
+  padding: 10px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: var(--sans);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+#sw-start { background: rgba(74,222,128,0.15); color: var(--green); border-color: rgba(74,222,128,0.3); }
+#sw-reset { background: var(--surface); color: var(--text); }
+
+/* ===== GALLERY ===== */
+#gallery-content { flex: 1; overflow-y: auto; padding: 12px; -webkit-overflow-scrolling: touch; }
+#gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+.gallery-item {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  overflow: hidden;
+}
+.gallery-item:hover { opacity: 0.8; }
+
+/* ===== FILE MANAGER ===== */
+#files-content { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+#files-path {
+  padding: 10px 16px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(124,111,250,0.05);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+#files-back { background: none; border: none; color: var(--accent); cursor: pointer; font-size: 18px; }
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.file-row:hover { background: var(--surface); }
+.file-icon { font-size: 24px; width: 32px; text-align: center; flex-shrink: 0; }
+.file-info { flex: 1; }
+.file-name { font-size: 14px; font-weight: 500; }
+.file-meta { font-size: 11px; color: var(--text-dim); font-family: var(--mono); margin-top: 2px; }
+.file-size { font-size: 11px; color: var(--text-dim); font-family: var(--mono); }
+
+/* ===== BROWSER ===== */
+#browser-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#browser-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,26,0.9);
+  align-items: center;
+  flex-shrink: 0;
+}
+#browser-back-btn, #browser-fwd-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 16px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+#browser-url {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 12px;
+  font-family: var(--mono);
+  padding: 8px 12px;
+  outline: none;
+  user-select: text;
+}
+#browser-go {
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--sans);
+}
+#browser-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+.browser-page { display: none; }
+.browser-page.active { display: block; }
+
+.bpage-header {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--text), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.bpage-p { font-size: 14px; line-height: 1.8; color: var(--text-dim); margin-bottom: 12px; }
+.bpage-link {
+  color: var(--accent3);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+/* ===== CAMERA ===== */
+#camera-content { flex: 1; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+#camera-viewfinder {
+  width: 100%;
+  flex: 1;
+  background: #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+#camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#camera-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.camera-no-perms { color: var(--text-dim); font-size: 14px; text-align: center; padding: 20px; }
+#camera-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cam-crosshair {
+  width: 60px; height: 60px;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  border-radius: 4px;
+}
+#camera-controls {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  flex-shrink: 0;
+}
+#shutter-btn {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: transform 0.1s;
+  box-shadow: 0 0 20px rgba(255,255,255,0.3);
+}
+#shutter-btn:active { transform: scale(0.9); background: #ccc; }
+.cam-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ===== APP STORE ===== */
+#store-content { flex: 1; overflow-y: auto; padding: 16px; -webkit-overflow-scrolling: touch; }
+.store-banner {
+  background: linear-gradient(135deg, #064e3b, #10b981);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.store-banner::before {
+  content: '🏪';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 50px;
+  opacity: 0.3;
+}
+.store-banner-title { font-size: 20px; font-weight: 800; }
+.store-banner-sub { font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.store-section-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.store-app-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.store-app-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+.store-app-info { flex: 1; }
+.store-app-name { font-size: 14px; font-weight: 600; }
+.store-app-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+.store-app-stars { font-size: 11px; color: var(--yellow); margin-top: 2px; }
+.store-get-btn {
+  background: rgba(124,111,250,0.2);
+  border: 1px solid rgba(124,111,250,0.4);
+  border-radius: 20px;
+  color: var(--accent2);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 16px;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.store-get-btn:hover { background: rgba(124,111,250,0.4); }
+.store-get-btn.installed { color: var(--green); border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.1); }
+
+/* ===== NOTIFICATION ===== */
+#notification {
+  position: fixed;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 380px;
+  background: rgba(20,20,40,0.9);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 12px 16px;
+  z-index: 500;
+  transition: top 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+#notification.show { top: 60px; }
+#notif-icon { font-size: 28px; }
+#notif-content { flex: 1; }
+#notif-title { font-size: 13px; font-weight: 700; }
+#notif-msg { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+
+/* ===== BOOT SCREEN ===== */
+#bootscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: opacity 0.8s;
+}
+#bootscreen.done { opacity: 0; pointer-events: none; }
+#boot-logo {
+  font-size: 60px;
+  animation: pulse-glow 1s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(124,111,250,0.5)); }
+  50% { filter: drop-shadow(0 0 40px rgba(192,132,252,0.8)); }
+}
+#boot-name {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+#boot-subtitle {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: rgba(124,111,250,0.6);
+  letter-spacing: 3px;
+}
+#boot-progress-bg {
+  width: 160px;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+#boot-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s;
+}
+#boot-log {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(74,222,128,0.6);
+  text-align: center;
+  height: 14px;
+  letter-spacing: 1px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 1px; }
+
+/* ===== QUICK SETTINGS PANEL ===== */
+#quick-panel {
+  position: fixed;
+  top: -100%;
+  left: 0;
+  right: 0;
+  z-index: 300;
+  background: rgba(10,10,30,0.95);
+  backdrop-filter: blur(30px);
+  border-bottom: 1px solid var(--border);
+  padding: 60px 20px 24px;
+  transition: top 0.4s cubic-bezier(0.34, 1, 0.64, 1);
+}
+#quick-panel.open { top: 0; }
+#quick-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.quick-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quick-tile.active { background: rgba(124,111,250,0.2); border-color: var(--accent); }
+.quick-tile .qt-icon { font-size: 22px; }
+.quick-tile .qt-label { font-size: 9px; color: var(--text-dim); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+#quick-brightness {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+#quick-brightness span { font-size: 16px; }
+#brightness-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+}
+#brightness-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+}
+#powered-by {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: rgba(74,222,128,0.5);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+/* Touch-to-dismiss quick panel */
+#quick-panel-dismiss {
+  position: fixed;
+  inset: 0;
+  z-index: 299;
+  display: none;
+}
+#quick-panel-dismiss.visible { display: block; }
+
+</style>
 </head>
 <body>
-  <div class="glow"></div>
 
-  <div class="content">
-    <div class="logo">SOMETHING <em>GAMES</em></div>
+<!-- BOOT SCREEN -->
+<div id="bootscreen">
+  <div id="boot-logo">🌙</div>
+  <div id="boot-name">LUNAR OS</div>
+  <div id="boot-subtitle">POWERED BY LINUX</div>
+  <div id="boot-progress-bg"><div id="boot-progress-fill"></div></div>
+  <div id="boot-log">Initializing kernel...</div>
+</div>
 
-    <div class="divider-top"></div>
+<!-- MAIN PHONE -->
+<div id="phone">
+  <!-- WALLPAPER -->
+  <div id="wallpaper"></div>
 
-    <h1 class="headline">
-      We'll be
-      <em>Back Soon.</em>
-    </h1>
-
-    <p class="tagline">
-      Something better is coming.<br />
-      <strong>Stay tuned.</strong>
-    </p>
-
-    <div class="divider-bottom"></div>
-    <p class="sig">— <em>Something Games</em></p>
+  <!-- STATUS BAR -->
+  <div id="statusbar">
+    <div class="left">
+      <span id="status-time">00:00</span>
+    </div>
+    <div class="center" style="font-size:10px;letter-spacing:2px;color:rgba(124,111,250,0.8)">LUNAR</div>
+    <div class="right">
+      <span>🛜</span>
+      <span id="signal">▂▄▆</span>
+      <div id="battery">
+        <div id="battery-bar"><div id="battery-fill"></div></div>
+        <span id="bat-pct">80%</span>
+      </div>
+    </div>
   </div>
+
+  <!-- LOCK SCREEN -->
+  <div id="lockscreen">
+    <div></div>
+    <div id="lock-time">
+      <div class="time" id="lock-clock">00:00</div>
+      <div class="date" id="lock-date">Loading...</div>
+    </div>
+    <div>
+      <div id="lock-tagline" style="margin-bottom:24px">⬆ SWIPE UP OR TAP TO UNLOCK</div>
+      <button id="unlock-btn" onclick="unlock()">🔓 UNLOCK</button>
+      <div style="text-align:center;margin-top:16px;font-family:var(--mono);font-size:9px;color:rgba(74,222,128,0.5);letter-spacing:3px">POWERED BY LINUX</div>
+    </div>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div id="homescreen">
+    <div id="home-header">
+      <div>
+        <div id="home-date" style="font-size:11px;color:var(--text-dim);font-family:var(--mono)">Loading...</div>
+        <div id="home-greeting">Good Morning 🌙</div>
+      </div>
+      <div onclick="toggleQuickPanel()" style="cursor:pointer;font-size:22px;opacity:0.7">⚙️</div>
+    </div>
+
+    <div id="app-grid">
+      <!-- Row 1 -->
+      <div class="app-icon app-terminal" onclick="openApp('terminal')">
+        <div class="app-icon-img">💻</div>
+        <div class="app-icon-label">Terminal</div>
+      </div>
+      <div class="app-icon app-files" onclick="openApp('files')">
+        <div class="app-icon-img">📁</div>
+        <div class="app-icon-label">Files</div>
+      </div>
+      <div class="app-icon app-browser" onclick="openApp('browser')">
+        <div class="app-icon-img">🌐</div>
+        <div class="app-icon-label">Browser</div>
+      </div>
+      <div class="app-icon app-settings" onclick="openApp('settings')">
+        <div class="app-icon-img">⚙️</div>
+        <div class="app-icon-label">Settings</div>
+      </div>
+      <!-- Row 2 -->
+      <div class="app-icon app-calc" onclick="openApp('calc')">
+        <div class="app-icon-img">🧮</div>
+        <div class="app-icon-label">Calculator</div>
+      </div>
+      <div class="app-icon app-notes" onclick="openApp('notes')">
+        <div class="app-icon-img">📝</div>
+        <div class="app-icon-label">Notes</div>
+      </div>
+      <div class="app-icon app-music" onclick="openApp('music')">
+        <div class="app-icon-img">🎵</div>
+        <div class="app-icon-label">Music</div>
+      </div>
+      <div class="app-icon app-camera" onclick="openApp('camera')">
+        <div class="app-icon-img">📷</div>
+        <div class="app-icon-label">Camera</div>
+      </div>
+      <!-- Row 3 -->
+      <div class="app-icon app-gallery" onclick="openApp('gallery')">
+        <div class="app-icon-img">🖼️</div>
+        <div class="app-icon-label">Gallery</div>
+      </div>
+      <div class="app-icon app-clock" onclick="openApp('clock')">
+        <div class="app-icon-img">🕐</div>
+        <div class="app-icon-label">Clock</div>
+      </div>
+      <div class="app-icon app-weather" onclick="openApp('weather')">
+        <div class="app-icon-img">🌤️</div>
+        <div class="app-icon-label">Weather</div>
+      </div>
+      <div class="app-icon app-store" onclick="openApp('store')">
+        <div class="app-icon-img">🏪</div>
+        <div class="app-icon-label">App Store</div>
+      </div>
+    </div>
+
+    <!-- DOCK -->
+    <div id="dock">
+      <div class="app-icon app-terminal" onclick="openApp('terminal')" style="gap:0">
+        <div class="app-icon-img" style="width:52px;height:52px;font-size:22px">💻</div>
+      </div>
+      <div class="app-icon app-browser" onclick="openApp('browser')" style="gap:0">
+        <div class="app-icon-img" style="width:52px;height:52px;font-size:22px">🌐</div>
+      </div>
+      <div class="app-icon app-notes" onclick="openApp('notes')" style="gap:0">
+        <div class="app-icon-img" style="width:52px;height:52px;font-size:22px">📝</div>
+      </div>
+      <div class="app-icon app-settings" onclick="openApp('settings')" style="gap:0">
+        <div class="app-icon-img" style="width:52px;height:52px;font-size:22px">⚙️</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== APP WINDOWS ======================== -->
+
+<!-- TERMINAL -->
+<div class="app-window" id="app-terminal">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font-size:20px">💻</span>
+      <span class="title" style="font-family:var(--mono)">lunar@os:~$</span>
+    </div>
+    <div class="app-close" onclick="closeApp('terminal')">✕</div>
+  </div>
+  <div class="app-content" id="terminal-content">
+    <div id="terminal-output"></div>
+    <div id="terminal-input-row">
+      <span id="term-prompt-label">lunar@lunarOS:~$</span>
+      <input id="term-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="type a command...">
+    </div>
+  </div>
+</div>
+
+<!-- CALCULATOR -->
+<div class="app-window" id="app-calc">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🧮</span><span class="title">Calculator</span></div>
+    <div class="app-close" onclick="closeApp('calc')">✕</div>
+  </div>
+  <div class="app-content" id="calc-content">
+    <div id="calc-display">
+      <div id="calc-expr"></div>
+      <div id="calc-result">0</div>
+    </div>
+    <div id="calc-buttons">
+      <button class="calc-btn fn" onclick="calcFn('AC')">AC</button>
+      <button class="calc-btn fn" onclick="calcFn('+/-')">+/-</button>
+      <button class="calc-btn fn" onclick="calcFn('%')">%</button>
+      <button class="calc-btn op" onclick="calcOp('÷')">÷</button>
+
+      <button class="calc-btn" onclick="calcNum('7')">7</button>
+      <button class="calc-btn" onclick="calcNum('8')">8</button>
+      <button class="calc-btn" onclick="calcNum('9')">9</button>
+      <button class="calc-btn op" onclick="calcOp('×')">×</button>
+
+      <button class="calc-btn" onclick="calcNum('4')">4</button>
+      <button class="calc-btn" onclick="calcNum('5')">5</button>
+      <button class="calc-btn" onclick="calcNum('6')">6</button>
+      <button class="calc-btn op" onclick="calcOp('-')">−</button>
+
+      <button class="calc-btn" onclick="calcNum('1')">1</button>
+      <button class="calc-btn" onclick="calcNum('2')">2</button>
+      <button class="calc-btn" onclick="calcNum('3')">3</button>
+      <button class="calc-btn op" onclick="calcOp('+')">+</button>
+
+      <button class="calc-btn wide" onclick="calcNum('0')">0</button>
+      <button class="calc-btn" onclick="calcNum('.')">.</button>
+      <button class="calc-btn eq" onclick="calcEquals()">=</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="app-window" id="app-notes">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">📝</span><span class="title" id="notes-title-bar">Notes</span></div>
+    <div class="app-close" onclick="closeApp('notes')">✕</div>
+  </div>
+  <div class="app-content" id="notes-content">
+    <div id="notes-list-view">
+      <div style="padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border)">
+        <span style="font-size:12px;color:var(--text-dim);font-family:var(--mono)" id="notes-count">0 notes</span>
+        <button onclick="newNote()" style="background:var(--accent);border:none;color:#fff;padding:6px 16px;border-radius:8px;font-size:12px;cursor:pointer;font-family:var(--sans)">+ New Note</button>
+      </div>
+      <div id="notes-list"></div>
+    </div>
+    <div id="note-editor" style="display:none">
+      <input id="note-editor-title" type="text" placeholder="Title...">
+      <textarea id="note-editor-body" placeholder="Write your note here..."></textarea>
+      <div id="notes-toolbar">
+        <button class="note-tool-btn" onclick="backToNotes()">← Back</button>
+        <button class="note-tool-btn accent" onclick="saveNote()">💾 Save</button>
+        <button class="note-tool-btn" onclick="deleteNote()" style="color:var(--red);border-color:rgba(248,113,113,0.3)">🗑 Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<div class="app-window" id="app-music">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🎵</span><span class="title">Music</span></div>
+    <div class="app-close" onclick="closeApp('music')">✕</div>
+  </div>
+  <div class="app-content" id="music-content">
+    <div id="music-art">🎵</div>
+    <div id="music-song">Cosmic Drift</div>
+    <div id="music-artist">LunarBeats • 2024</div>
+    <div id="music-bar-container" style="width:100%">
+      <div id="music-bar-bg"><div id="music-bar-fill"></div></div>
+      <div id="music-time"><span id="music-elapsed">0:00</span><span id="music-total">3:42</span></div>
+    </div>
+    <div id="music-controls">
+      <button class="music-ctrl" onclick="musicPrev()">⏮</button>
+      <button class="music-ctrl" onclick="musicShuffle()" id="shuffle-btn" style="font-size:18px">🔀</button>
+      <button class="music-ctrl play-btn" id="play-btn" onclick="musicToggle()">▶</button>
+      <button class="music-ctrl" onclick="musicRepeat()" id="repeat-btn" style="font-size:18px">🔁</button>
+      <button class="music-ctrl" onclick="musicNext()">⏭</button>
+    </div>
+    <div id="music-playlist">
+      <h3>UP NEXT</h3>
+      <div id="playlist-items"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="app-window" id="app-settings">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">⚙️</span><span class="title">Settings</span></div>
+    <div class="app-close" onclick="closeApp('settings')">✕</div>
+  </div>
+  <div class="app-content" id="settings-content">
+    <!-- Profile -->
+    <div style="padding:20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border)">
+      <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:28px">👤</div>
+      <div>
+        <div style="font-size:18px;font-weight:700">Lunar User</div>
+        <div style="font-size:12px;color:var(--accent);font-family:var(--mono)">root@lunarOS</div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="padding:16px 16px 0">
+      <div class="settings-section-title">Network</div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">📶</div><div class="sr-info"><div class="sr-name">Wi-Fi</div><div class="sr-sub">LunarNet_5G</div></div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">🔵</div><div class="sr-info"><div class="sr-name">Bluetooth</div><div class="sr-sub">2 devices connected</div></div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">✈️</div><div class="sr-info"><div class="sr-name">Airplane Mode</div><div class="sr-sub">Disable all radios</div></div></div>
+        <div class="toggle" onclick="toggleSetting(this)"></div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="padding:16px 16px 0">
+      <div class="settings-section-title">Display</div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">🌙</div><div class="sr-info"><div class="sr-name">Dark Mode</div><div class="sr-sub">Always on</div></div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+      <div class="settings-row">
+        <div class="sr-left" style="flex:1"><div class="sr-icon">☀️</div><div class="sr-info"><div class="sr-name">Brightness</div></div></div>
+        <input type="range" class="settings-slider" value="80" min="0" max="100">
+      </div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">🔄</div><div class="sr-info"><div class="sr-name">Auto-Rotate</div><div class="sr-sub">Enabled</div></div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="padding:16px 16px 0">
+      <div class="settings-section-title">Sound</div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">🔔</div><div class="sr-info"><div class="sr-name">Notifications</div><div class="sr-sub">Enabled</div></div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+      <div class="settings-row">
+        <div class="sr-left"><div class="sr-icon">🔇</div><div class="sr-info"><div class="sr-name">Silent Mode</div></div></div>
+        <div class="toggle" onclick="toggleSetting(this)"></div>
+      </div>
+    </div>
+
+    <div class="settings-section" style="padding:16px 16px 0">
+      <div class="settings-section-title">System</div>
+      <div class="settings-row" onclick="showNotif('🐧','LunarOS v1.0.0 — Powered by Linux Kernel 6.6.0-lunar','System')">
+        <div class="sr-left"><div class="sr-icon">🐧</div><div class="sr-info"><div class="sr-name">About LunarOS</div><div class="sr-sub">Version 1.0.0 • Linux 6.6.0-lunar</div></div></div>
+        <span style="color:var(--text-dim)">›</span>
+      </div>
+      <div class="settings-row" onclick="showNotif('🔒','Biometric auth enabled','Security')">
+        <div class="sr-left"><div class="sr-icon">🔒</div><div class="sr-info"><div class="sr-name">Privacy &amp; Security</div><div class="sr-sub">Face ID • Fingerprint</div></div></div>
+        <span style="color:var(--text-dim)">›</span>
+      </div>
+      <div class="settings-row" onclick="showNotif('🔋','Battery health: 98%','Battery')">
+        <div class="sr-left"><div class="sr-icon">🔋</div><div class="sr-info"><div class="sr-name">Battery</div><div class="sr-sub">80% • Optimized charging</div></div></div>
+        <span style="color:var(--text-dim)">›</span>
+      </div>
+    </div>
+
+    <div style="padding:20px;text-align:center;font-family:var(--mono);font-size:10px;color:rgba(74,222,128,0.5);letter-spacing:3px">
+      LUNAR OS v1.0.0 — POWERED BY LINUX<br>
+      <span style="color:rgba(124,111,250,0.4)">© 2024 Lunar Foundation</span>
+    </div>
+  </div>
+</div>
+
+<!-- WEATHER -->
+<div class="app-window" id="app-weather">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🌤️</span><span class="title">Weather</span></div>
+    <div class="app-close" onclick="closeApp('weather')">✕</div>
+  </div>
+  <div class="app-content" id="weather-content">
+    <div id="weather-main">
+      <div id="weather-city">Lunar City</div>
+      <div id="weather-icon">⛅</div>
+      <div id="weather-temp">72°F</div>
+      <div id="weather-desc">Partly Cloudy</div>
+    </div>
+    <div id="weather-stats">
+      <div class="weather-stat"><div class="ws-label">Humidity</div><div class="ws-val">54%</div></div>
+      <div class="weather-stat"><div class="ws-label">Wind</div><div class="ws-val">8 mph</div></div>
+      <div class="weather-stat"><div class="ws-label">UV</div><div class="ws-val">3</div></div>
+      <div class="weather-stat"><div class="ws-label">Pressure</div><div class="ws-val">1013</div></div>
+      <div class="weather-stat"><div class="ws-label">Dew Pt.</div><div class="ws-val">52°F</div></div>
+      <div class="weather-stat"><div class="ws-label">Visibility</div><div class="ws-val">10 mi</div></div>
+    </div>
+    <div class="weather-forecast">
+      <div class="wf-title">7-Day Forecast</div>
+      <div class="wf-row"><div class="wf-day">Today</div><div class="wf-icon">⛅</div><div class="wf-temps"><span class="hi">72°</span> <span class="lo">58°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Mon</div><div class="wf-icon">☀️</div><div class="wf-temps"><span class="hi">76°</span> <span class="lo">61°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Tue</div><div class="wf-icon">🌧️</div><div class="wf-temps"><span class="hi">65°</span> <span class="lo">55°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Wed</div><div class="wf-icon">⛈️</div><div class="wf-temps"><span class="hi">63°</span> <span class="lo">52°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Thu</div><div class="wf-icon">🌤️</div><div class="wf-temps"><span class="hi">70°</span> <span class="lo">57°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Fri</div><div class="wf-icon">☀️</div><div class="wf-temps"><span class="hi">78°</span> <span class="lo">62°</span></div></div>
+      <div class="wf-row"><div class="wf-day">Sat</div><div class="wf-icon">☀️</div><div class="wf-temps"><span class="hi">81°</span> <span class="lo">65°</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CLOCK -->
+<div class="app-window" id="app-clock">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🕐</span><span class="title">Clock</span></div>
+    <div class="app-close" onclick="closeApp('clock')">✕</div>
+  </div>
+  <div class="app-content" id="clock-content">
+    <div id="analog-clock">
+      <div class="clock-hand" id="hand-hour"></div>
+      <div class="clock-hand" id="hand-min"></div>
+      <div class="clock-hand" id="hand-sec"></div>
+      <div id="clock-center"></div>
+    </div>
+    <div id="digital-clock">00:00:00</div>
+    <div id="digital-date">Loading...</div>
+    <div id="timezone">UTC-5 • EASTERN</div>
+
+    <div class="clock-section-title">⏱ Stopwatch</div>
+    <div id="stopwatch-display">00:00.00</div>
+    <div id="stopwatch-controls">
+      <button class="sw-btn" id="sw-start" onclick="swToggle()">Start</button>
+      <button class="sw-btn" id="sw-reset" onclick="swReset()">Reset</button>
+    </div>
+
+    <div class="clock-section-title" style="margin-top:24px">⏰ Alarms</div>
+    <div id="alarms-list" style="width:100%">
+      <div class="settings-row" style="margin-bottom:6px">
+        <div class="sr-left"><div style="font-size:24px;font-family:var(--mono);font-weight:300">7:00 AM</div></div>
+        <div class="toggle on" onclick="toggleSetting(this)"></div>
+      </div>
+      <div class="settings-row">
+        <div class="sr-left"><div style="font-size:24px;font-family:var(--mono);font-weight:300">8:30 AM</div></div>
+        <div class="toggle" onclick="toggleSetting(this)"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="app-window" id="app-gallery">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🖼️</span><span class="title">Gallery</span></div>
+    <div class="app-close" onclick="closeApp('gallery')">✕</div>
+  </div>
+  <div class="app-content" id="gallery-content">
+    <div id="gallery-grid"></div>
+  </div>
+</div>
+
+<!-- FILES -->
+<div class="app-window" id="app-files">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">📁</span><span class="title">Files</span></div>
+    <div class="app-close" onclick="closeApp('files')">✕</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(10,10,26,0.8);border-bottom:1px solid var(--border);flex-shrink:0">
+    <button id="files-back" onclick="filesGoBack()">←</button>
+    <div id="files-path" style="flex:1;font-family:var(--mono);font-size:11px;color:var(--accent);padding:0">/home/lunar</div>
+  </div>
+  <div class="app-content" id="files-content">
+    <div id="files-list"></div>
+  </div>
+</div>
+
+<!-- BROWSER -->
+<div class="app-window" id="app-browser">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🌐</span><span class="title">LunarWeb</span></div>
+    <div class="app-close" onclick="closeApp('browser')">✕</div>
+  </div>
+  <div class="app-content" id="browser-content">
+    <div id="browser-bar">
+      <button id="browser-back-btn" onclick="browserBack()">‹</button>
+      <input id="browser-url" type="text" value="lunar://home" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button id="browser-go" onclick="browserGo()">Go</button>
+    </div>
+    <div id="browser-viewport">
+      <!-- HOME PAGE -->
+      <div class="browser-page active" id="bpage-home">
+        <div class="bpage-header">🌙 LunarWeb Browser</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+          <div onclick="browserNav('news')" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+            <div style="font-size:24px;margin-bottom:6px">📰</div>
+            <div style="font-size:13px;font-weight:600">LunarNews</div>
+            <div style="font-size:11px;color:var(--text-dim)">Today's headlines</div>
+          </div>
+          <div onclick="browserNav('wiki')" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+            <div style="font-size:24px;margin-bottom:6px">📖</div>
+            <div style="font-size:13px;font-weight:600">LunarWiki</div>
+            <div style="font-size:11px;color:var(--text-dim)">Knowledge base</div>
+          </div>
+          <div onclick="browserNav('market')" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+            <div style="font-size:24px;margin-bottom:6px">📈</div>
+            <div style="font-size:13px;font-weight:600">Markets</div>
+            <div style="font-size:11px;color:var(--text-dim)">Stocks & crypto</div>
+          </div>
+          <div onclick="browserNav('about')" style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='var(--surface)'">
+            <div style="font-size:24px;margin-bottom:6px">🐧</div>
+            <div style="font-size:13px;font-weight:600">About Linux</div>
+            <div style="font-size:11px;color:var(--text-dim)">Learn more</div>
+          </div>
+        </div>
+      </div>
+      <!-- NEWS PAGE -->
+      <div class="browser-page" id="bpage-news">
+        <div class="bpage-header">📰 LunarNews</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+            <div style="font-size:9px;font-family:var(--mono);color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">TECHNOLOGY</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">Linux Kernel 7.0 Released with Major Performance Gains</div>
+            <div class="bpage-p" style="margin:0">The latest kernel update brings 40% improved memory management and native AI acceleration support built right into the OS architecture.</div>
+            <div style="font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:8px">2 hours ago • LunarTech</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+            <div style="font-size:9px;font-family:var(--mono);color:var(--accent2);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">SPACE</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">NASA Confirms Water Ice Deposits on Lunar South Pole</div>
+            <div class="bpage-p" style="margin:0">Scientists using advanced radar imaging have confirmed significant water ice reserves that could support future lunar base operations.</div>
+            <div style="font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:8px">5 hours ago • Space Daily</div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+            <div style="font-size:9px;font-family:var(--mono);color:var(--accent3);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px">OPEN SOURCE</div>
+            <div style="font-size:15px;font-weight:700;margin-bottom:6px">LunarOS Hits 1 Million Active Users</div>
+            <div class="bpage-p" style="margin:0">The privacy-focused, Linux-powered mobile OS continues to grow as users seek alternatives to mainstream smartphone platforms.</div>
+            <div style="font-size:10px;color:var(--text-dim);font-family:var(--mono);margin-top:8px">Yesterday • LunarTimes</div>
+          </div>
+        </div>
+      </div>
+      <!-- WIKI PAGE -->
+      <div class="browser-page" id="bpage-wiki">
+        <div class="bpage-header">📖 LunarWiki</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px">
+          <div style="font-size:18px;font-weight:700;margin-bottom:10px">Linux</div>
+          <div class="bpage-p">Linux is a family of open-source Unix-like operating systems based on the Linux kernel, first released on September 17, 1991 by Linus Torvalds.</div>
+          <div class="bpage-p">It powers everything from smartphones (Android) to the world's top supercomputers, web servers, and now — LunarOS mobile devices.</div>
+          <div style="background:rgba(124,111,250,0.1);border:1px solid rgba(124,111,250,0.2);border-radius:8px;padding:12px;margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--accent2)">
+            "Linux is only free if your time has no value." — Jamie Zawinski<br><br>
+            "Software is like sex: it's better when it's free." — Linus Torvalds
+          </div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px">
+          <div style="font-size:16px;font-weight:700;margin-bottom:10px">LunarOS</div>
+          <div class="bpage-p">LunarOS is an open-source mobile operating system powered by the Linux kernel. It focuses on privacy, customization, and performance.</div>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-dim)">Version</span><span style="font-family:var(--mono)">1.0.0</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid var(--border)"><span style="color:var(--text-dim)">Kernel</span><span style="font-family:var(--mono)">Linux 6.6.0-lunar</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0"><span style="color:var(--text-dim)">License</span><span style="font-family:var(--mono)">GPL v3</span></div>
+          </div>
+        </div>
+      </div>
+      <!-- MARKET PAGE -->
+      <div class="browser-page" id="bpage-market">
+        <div class="bpage-header">📈 Markets</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div id="market-items"></div>
+        </div>
+      </div>
+      <!-- ABOUT PAGE -->
+      <div class="browser-page" id="bpage-about">
+        <div class="bpage-header">🐧 About Linux</div>
+        <div class="bpage-p">Linux was created by Linus Torvalds as a free and open-source alternative to MINIX. The first version (0.01) was released in 1991.</div>
+        <div class="bpage-p">Today, Linux powers over 96% of the world's top web servers, 100% of the top 500 supercomputers, and billions of Android devices worldwide.</div>
+        <div style="background:rgba(74,222,128,0.05);border:1px solid rgba(74,222,128,0.2);border-radius:12px;padding:16px;margin:14px 0;font-family:var(--mono);font-size:12px;line-height:2">
+          <div style="color:var(--green)">$ uname -a</div>
+          <div style="color:var(--text-dim)">Linux lunarOS 6.6.0-lunar #1 SMP Thu Jan 1 00:00:00 UTC 2024 aarch64 GNU/Linux</div>
+          <div style="color:var(--green);margin-top:8px">$ uptime</div>
+          <div style="color:var(--text-dim)" id="browser-uptime"> up 2 hours, 34 min, 1 user, load average: 0.12, 0.08, 0.06</div>
+        </div>
+        <div class="bpage-p" style="text-align:center;font-family:var(--mono);color:rgba(74,222,128,0.6);letter-spacing:2px;font-size:11px">POWERED BY LINUX</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMERA -->
+<div class="app-window" id="app-camera">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">📷</span><span class="title">Camera</span></div>
+    <div class="app-close" onclick="closeApp('camera')">✕</div>
+  </div>
+  <div class="app-content" id="camera-content">
+    <div id="camera-viewfinder">
+      <video id="camera-video" autoplay muted playsinline></video>
+      <div id="camera-overlay">
+        <div class="cam-crosshair"></div>
+        <div class="camera-no-perms" id="cam-msg" style="display:none">
+          📷 Camera preview<br>
+          <span style="font-size:11px;color:var(--text-dim)">Tap allow to use camera</span>
+        </div>
+      </div>
+      <!-- Grid lines -->
+      <div style="position:absolute;inset:0;pointer-events:none">
+        <div style="position:absolute;left:33.3%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.15)"></div>
+        <div style="position:absolute;left:66.6%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.15)"></div>
+        <div style="position:absolute;top:33.3%;left:0;right:0;height:1px;background:rgba(255,255,255,0.15)"></div>
+        <div style="position:absolute;top:66.6%;left:0;right:0;height:1px;background:rgba(255,255,255,0.15)"></div>
+      </div>
+    </div>
+    <div id="camera-controls">
+      <button class="cam-btn" onclick="switchCamera()">🔄</button>
+      <button id="shutter-btn" onclick="takePhoto()"></button>
+      <div style="width:44px;height:44px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer" id="last-photo">🖼️</div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:20px;padding:0 20px 20px;font-size:13px">
+      <span style="opacity:0.5;cursor:pointer">Video</span>
+      <span style="color:var(--accent2);font-weight:600;border-bottom:2px solid var(--accent)">Photo</span>
+      <span style="opacity:0.5;cursor:pointer">Portrait</span>
+    </div>
+  </div>
+</div>
+
+<!-- APP STORE -->
+<div class="app-window" id="app-store">
+  <div class="app-titlebar">
+    <div style="display:flex;align-items:center;gap:10px"><span style="font-size:20px">🏪</span><span class="title">App Store</span></div>
+    <div class="app-close" onclick="closeApp('store')">✕</div>
+  </div>
+  <div class="app-content" id="store-content">
+    <div class="store-banner">
+      <div class="store-banner-title">App of the Day</div>
+      <div class="store-banner-sub">Discover new apps for LunarOS</div>
+    </div>
+    <div class="store-section-title">Featured Apps</div>
+    <div id="store-apps-list"></div>
+  </div>
+</div>
+
+<!-- QUICK SETTINGS PANEL -->
+<div id="quick-panel-dismiss" onclick="toggleQuickPanel()"></div>
+<div id="quick-panel">
+  <div id="quick-tiles">
+    <div class="quick-tile active" onclick="this.classList.toggle('active')"><div class="qt-icon">📶</div><div class="qt-label">Wi-Fi</div></div>
+    <div class="quick-tile active" onclick="this.classList.toggle('active')"><div class="qt-icon">🔵</div><div class="qt-label">BT</div></div>
+    <div class="quick-tile" onclick="this.classList.toggle('active')"><div class="qt-icon">✈️</div><div class="qt-label">Airplane</div></div>
+    <div class="quick-tile active" onclick="this.classList.toggle('active')"><div class="qt-icon">🌙</div><div class="qt-label">Dark</div></div>
+    <div class="quick-tile active" onclick="this.classList.toggle('active')"><div class="qt-icon">🔦</div><div class="qt-label">Torch</div></div>
+    <div class="quick-tile" onclick="this.classList.toggle('active')"><div class="qt-icon">📍</div><div class="qt-label">Location</div></div>
+    <div class="quick-tile active" onclick="this.classList.toggle('active')"><div class="qt-icon">🔄</div><div class="qt-label">Rotate</div></div>
+    <div class="quick-tile" onclick="this.classList.toggle('active')"><div class="qt-icon">🎙️</div><div class="qt-label">DND</div></div>
+  </div>
+  <div id="quick-brightness">
+    <span>🔅</span>
+    <input type="range" id="brightness-slider" value="80" min="0" max="100">
+    <span>🔆</span>
+  </div>
+  <div id="powered-by">⬛ POWERED BY LINUX • LUNAR OS v1.0.0</div>
+</div>
+
+<!-- NOTIFICATION -->
+<div id="notification">
+  <div id="notif-icon">🔔</div>
+  <div id="notif-content">
+    <div id="notif-title">Notification</div>
+    <div id="notif-msg">Message here</div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// BOOT SEQUENCE
+// ============================================================
+const bootLogs = [
+  'Initializing kernel v6.6.0-lunar...',
+  'Loading filesystem drivers...',
+  'Mounting /dev/sda1...',
+  'Starting system services...',
+  'Launching LunarOS GUI...',
+  'Applying lunar theme...',
+  'Ready.',
+];
+let bootIdx = 0;
+const bootFill = document.getElementById('boot-progress-fill');
+const bootLog = document.getElementById('boot-log');
+const bootInterval = setInterval(() => {
+  bootLog.textContent = bootLogs[bootIdx] || '';
+  bootFill.style.width = ((bootIdx + 1) / bootLogs.length * 100) + '%';
+  bootIdx++;
+  if (bootIdx >= bootLogs.length) {
+    clearInterval(bootInterval);
+    setTimeout(() => {
+      document.getElementById('bootscreen').classList.add('done');
+      setTimeout(() => document.getElementById('bootscreen').remove(), 900);
+      startOS();
+    }, 600);
+  }
+}, 380);
+
+// ============================================================
+// OS CORE
+// ============================================================
+function startOS() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  setInterval(updateBattery, 30000);
+  updateGreeting();
+  initTerminal();
+  initNotes();
+  initMusic();
+  initGallery();
+  initFiles();
+  initStore();
+  initMarket();
+  // Notification after 3s
+  setTimeout(() => showNotif('🐧', 'Welcome to LunarOS! Powered by Linux.', 'System'), 3000);
+}
+
+// ============================================================
+// CLOCK
+// ============================================================
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  const timeStr = `${h}:${m}`;
+  document.getElementById('status-time').textContent = timeStr;
+  document.getElementById('lock-clock').textContent = timeStr;
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dateStr = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+  document.getElementById('lock-date').textContent = dateStr;
+  document.getElementById('home-date').textContent = `${days[now.getDay()]} • ${months[now.getMonth()]} ${now.getDate()}`;
+  document.getElementById('digital-clock').textContent = `${h}:${m}:${s}`;
+  document.getElementById('digital-date').textContent = dateStr;
+  // Analog
+  const secDeg = now.getSeconds() * 6;
+  const minDeg = now.getMinutes() * 6 + now.getSeconds() * 0.1;
+  const hrDeg = (now.getHours() % 12) * 30 + now.getMinutes() * 0.5;
+  document.getElementById('hand-sec').style.transform = `translateX(-50%) rotate(${secDeg}deg)`;
+  document.getElementById('hand-min').style.transform = `translateX(-50%) rotate(${minDeg}deg)`;
+  document.getElementById('hand-hour').style.transform = `translateX(-50%) rotate(${hrDeg}deg)`;
+}
+
+function updateGreeting() {
+  const h = new Date().getHours();
+  const greet = h < 12 ? 'Good Morning 🌅' : h < 17 ? 'Good Afternoon ☀️' : h < 21 ? 'Good Evening 🌙' : 'Good Night 🌟';
+  document.getElementById('home-greeting').textContent = greet;
+}
+
+function updateBattery() {
+  // Simulate battery drain
+  const fill = document.getElementById('battery-fill');
+  const pct = document.getElementById('bat-pct');
+  let cur = parseInt(pct.textContent);
+  cur = Math.max(10, cur - 1);
+  fill.style.width = cur + '%';
+  pct.textContent = cur + '%';
+  if (cur < 20) fill.style.background = 'var(--red)';
+}
+
+// ============================================================
+// LOCK SCREEN
+// ============================================================
+function unlock() {
+  document.getElementById('lockscreen').classList.add('unlocking');
+}
+
+// Swipe up on lock screen
+let touchStartY = 0;
+document.getElementById('lockscreen').addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+});
+document.getElementById('lockscreen').addEventListener('touchend', e => {
+  if (touchStartY - e.changedTouches[0].clientY > 60) unlock();
+});
+
+// ============================================================
+// APP MANAGEMENT
+// ============================================================
+let openApps = {};
+function openApp(id) {
+  const win = document.getElementById('app-' + id);
+  if (!win) return;
+  win.classList.add('open');
+  openApps[id] = true;
+  // App-specific init
+  if (id === 'camera') initCamera();
+  if (id === 'clock') setInterval(updateClock, 1000);
+}
+
+function closeApp(id) {
+  const win = document.getElementById('app-' + id);
+  if (!win) return;
+  win.classList.remove('open');
+  openApps[id] = false;
+  if (id === 'camera') stopCamera();
+}
+
+// ============================================================
+// NOTIFICATION
+// ============================================================
+function showNotif(icon, msg, title) {
+  const n = document.getElementById('notification');
+  document.getElementById('notif-icon').textContent = icon;
+  document.getElementById('notif-title').textContent = title;
+  document.getElementById('notif-msg').textContent = msg;
+  n.classList.add('show');
+  setTimeout(() => n.classList.remove('show'), 4000);
+}
+
+// ============================================================
+// TERMINAL
+// ============================================================
+const fs = {
+  '/home/lunar': ['Documents', 'Downloads', 'Pictures', 'Music', '.bashrc', '.profile'],
+  '/home/lunar/Documents': ['readme.txt', 'notes.md', 'lunar_config.json'],
+  '/home/lunar/Downloads': ['lunarOS-1.0.0.iso', 'wallpaper.png'],
+  '/home/lunar/Pictures': ['moon.jpg', 'screenshot.png'],
+  '/home/lunar/Music': ['cosmic_drift.mp3', 'stellar_waves.mp3'],
+  '/': ['home', 'etc', 'usr', 'var', 'bin', 'proc', 'dev', 'tmp'],
+  '/etc': ['passwd', 'hostname', 'fstab', 'lunar.conf'],
+  '/usr': ['bin', 'lib', 'share', 'local'],
+};
+
+const sysInfo = {
+  hostname: 'lunarOS',
+  user: 'lunar',
+  kernel: '6.6.0-lunar',
+  uptime: '2 hours, 34 minutes',
+  shell: '/bin/bash',
+  arch: 'aarch64',
+};
+
+let cwd = '/home/lunar';
+let cmdHistory = [];
+let histIdx = -1;
+let termRunning = false;
+
+function initTerminal() {
+  const out = document.getElementById('terminal-output');
+  out.innerHTML = '';
+  appendTerm('info', `LunarOS Terminal v1.0.0`);
+  appendTerm('info', `Linux ${sysInfo.kernel} ${sysInfo.arch} — Powered by Linux`);
+  appendTerm('info', `Type 'help' for available commands.\n`);
+  const inp = document.getElementById('term-input');
+  inp.addEventListener('keydown', termKeyDown);
+}
+
+function appendTerm(type, text, prompt) {
+  const out = document.getElementById('terminal-output');
+  if (prompt) {
+    const row = document.createElement('div');
+    row.className = 'term-line';
+    row.innerHTML = `<span class="term-prompt">lunar@lunarOS:${cwd.replace('/home/lunar','~')}$</span> <span class="term-cmd">${escHtml(text)}</span>`;
+    out.appendChild(row);
+  } else {
+    const row = document.createElement('div');
+    row.className = `term-line term-${type}`;
+    row.textContent = text;
+    out.appendChild(row);
+  }
+  out.scrollTop = out.scrollHeight;
+}
+
+function escHtml(t) { return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function termKeyDown(e) {
+  if (e.key === 'Enter') {
+    const val = e.target.value.trim();
+    if (val) { cmdHistory.unshift(val); histIdx = -1; }
+    appendTerm('', val, true);
+    e.target.value = '';
+    if (val) runCmd(val);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    histIdx = Math.min(histIdx + 1, cmdHistory.length - 1);
+    e.target.value = cmdHistory[histIdx] || '';
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    histIdx = Math.max(histIdx - 1, -1);
+    e.target.value = histIdx >= 0 ? cmdHistory[histIdx] : '';
+  }
+}
+
+function runCmd(cmd) {
+  const args = cmd.split(' ');
+  const base = args[0];
+  const arg1 = args[1] || '';
+  const delay = 0;
+
+  const commands = {
+    help: () => {
+      appendTerm('info', 'Available commands:');
+      const cmds = [
+        ['ls [-la]','List directory contents'],
+        ['cd <dir>','Change directory'],
+        ['pwd','Print working directory'],
+        ['cat <file>','Read file contents'],
+        ['echo <text>','Print text'],
+        ['mkdir <dir>','Make directory'],
+        ['rm <file>','Remove file'],
+        ['touch <file>','Create empty file'],
+        ['clear','Clear terminal'],
+        ['whoami','Print current user'],
+        ['uname [-a]','System info'],
+        ['uptime','System uptime'],
+        ['ps','Process list'],
+        ['df','Disk usage'],
+        ['free','Memory usage'],
+        ['neofetch','System summary'],
+        ['date','Current date/time'],
+        ['ping <host>','Ping a host'],
+        ['history','Command history'],
+        ['exit','Close terminal'],
+      ];
+      cmds.forEach(([c, d]) => appendTerm('out', `  ${c.padEnd(20)} — ${d}`));
+    },
+    ls: () => {
+      const entries = fs[cwd] || [];
+      if (arg1 === '-la' || arg1 === '-l') {
+        appendTerm('out', 'total ' + (entries.length * 4));
+        appendTerm('out', `drwxr-xr-x  lunar lunar  ${entries.length * 128} ${new Date().toDateString()}  .`);
+        entries.forEach(e => {
+          const isDir = fs[cwd + '/' + e] !== undefined;
+          const perm = isDir ? 'drwxr-xr-x' : '-rw-r--r--';
+          const size = isDir ? 4096 : Math.floor(Math.random() * 5000 + 100);
+          appendTerm('out', `${perm}  lunar  lunar  ${String(size).padStart(6)}  ${new Date().toDateString()}  ${e}`);
+        });
+      } else {
+        const line = entries.join('   ');
+        appendTerm('out', line || '(empty)');
+      }
+    },
+    pwd: () => appendTerm('out', cwd),
+    cd: () => {
+      if (!arg1 || arg1 === '~') { cwd = '/home/lunar'; return; }
+      if (arg1 === '..') {
+        const parts = cwd.split('/').filter(Boolean);
+        parts.pop();
+        cwd = '/' + parts.join('/') || '/';
+        return;
+      }
+      const target = arg1.startsWith('/') ? arg1 : cwd + '/' + arg1;
+      if (fs[target] !== undefined) cwd = target;
+      else appendTerm('err', `cd: ${arg1}: No such file or directory`);
+    },
+    cat: () => {
+      if (!arg1) { appendTerm('err', 'cat: missing file operand'); return; }
+      const fakeContent = {
+        '.bashrc': '# .bashrc for LunarOS\nexport PS1="\\u@\\h:\\w\\$ "\nalias ll="ls -la"\nalias cls="clear"\nexport PATH=$PATH:/usr/local/bin\n# Powered by Linux 🐧',
+        '.profile': '# ~/.profile\n[ -f ~/.bashrc ] && . ~/.bashrc\nexport EDITOR=nano\nexport TERM=xterm-256color',
+        'readme.txt': 'Welcome to LunarOS!\n\nThis is your home directory.\nLunarOS is powered by Linux kernel 6.6.0-lunar.\n\nEnjoy your cosmic computing experience! 🌙',
+        'notes.md': '# My Notes\n\n## TODO\n- [ ] Setup SSH keys\n- [ ] Configure neovim\n- [x] Install LunarOS\n\n## Ideas\n- Build something cool with the terminal\n- Explore the lunar filesystem',
+        'lunar_config.json': '{\n  "theme": "lunar-dark",\n  "fontSize": 12,\n  "powerMode": "balanced",\n  "kernel": "6.6.0-lunar",\n  "poweredBy": "Linux"\n}',
+        'hostname': 'lunarOS',
+        'passwd': 'root:x:0:0:root:/root:/bin/bash\nlunar:x:1000:1000:Lunar User,,,:/home/lunar:/bin/bash\n',
+        'fstab': '/dev/sda1  /       ext4    defaults        0  1\n/dev/sda2  /home   ext4    defaults        0  2\ntmpfs      /tmp    tmpfs   defaults        0  0',
+        'lunar.conf': '[system]\nname=LunarOS\nversion=1.0.0\nkernel=6.6.0-lunar\npoweredBy=Linux\n\n[ui]\ntheme=lunar-dark\nfont=JetBrains Mono',
+      };
+      const fname = arg1.split('/').pop();
+      const content = fakeContent[fname];
+      if (content) appendTerm('out', content);
+      else appendTerm('err', `cat: ${arg1}: No such file or directory`);
+    },
+    echo: () => appendTerm('out', args.slice(1).join(' ')),
+    clear: () => { document.getElementById('terminal-output').innerHTML = ''; },
+    whoami: () => appendTerm('out', sysInfo.user),
+    uname: () => {
+      if (arg1 === '-a') appendTerm('out', `Linux ${sysInfo.hostname} ${sysInfo.kernel} #1 SMP ${new Date().toDateString()} ${sysInfo.arch} GNU/Linux`);
+      else appendTerm('out', 'Linux');
+    },
+    uptime: () => {
+      const now = new Date();
+      appendTerm('out', ` ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')} up ${sysInfo.uptime},  1 user,  load average: 0.12, 0.08, 0.06`);
+    },
+    date: () => appendTerm('out', new Date().toString()),
+    history: () => cmdHistory.forEach((c, i) => appendTerm('out', `  ${String(cmdHistory.length - i).padStart(4)}  ${c}`)),
+    ps: () => {
+      appendTerm('out', '  PID TTY          TIME CMD');
+      const procs = [
+        [1, 'init'], [42, 'systemd'], [101, 'bash'], [234, 'lunarUI'],
+        [312, 'lunarOS'], [400, 'NetworkManager'], [512, 'wpa_supplicant']
+      ];
+      procs.forEach(([pid, name]) => appendTerm('out', `  ${String(pid).padStart(5)} pts/0    00:00:0${Math.floor(Math.random()*9)} ${name}`));
+    },
+    df: () => {
+      appendTerm('out', 'Filesystem      Size  Used Avail Use% Mounted on');
+      appendTerm('out', '/dev/sda1        64G   12G   52G  19% /');
+      appendTerm('out', '/dev/sda2        32G  8.5G   24G  27% /home');
+      appendTerm('out', 'tmpfs           2.0G  1.2M  2.0G   1% /tmp');
+    },
+    free: () => {
+      appendTerm('out', '              total        used        free      shared  buff/cache   available');
+      appendTerm('out', 'Mem:        8192000     1234567     5432109      123456     1525324     6800000');
+      appendTerm('out', 'Swap:       4096000           0     4096000');
+    },
+    neofetch: () => {
+      const lines = [
+        '       🌙🌙🌙       ',
+        '     🌙       🌙     ',
+        '    🌙   ___   🌙    ' + `  lunar@lunarOS`,
+        '    🌙  /   \\  🌙    ' + `  ──────────────`,
+        '    🌙 | OS  | 🌙    ' + `  OS: LunarOS 1.0.0`,
+        '    🌙  \\___/  🌙    ' + `  Kernel: ${sysInfo.kernel}`,
+        '     🌙       🌙     ' + `  Arch: ${sysInfo.arch}`,
+        '       🌙🌙🌙       ' + `  Shell: bash`,
+        '                     ' + `  Uptime: ${sysInfo.uptime}`,
+        '                     ' + `  Powered by: Linux 🐧`,
+      ];
+      lines.forEach(l => appendTerm('out', l));
+    },
+    ping: () => {
+      if (!arg1) { appendTerm('err', 'ping: missing host'); return; }
+      appendTerm('out', `PING ${arg1}: 56 data bytes`);
+      let i = 0;
+      const iv = setInterval(() => {
+        const ms = (Math.random() * 30 + 5).toFixed(3);
+        appendTerm('out', `64 bytes from ${arg1}: icmp_seq=${i++} ttl=64 time=${ms} ms`);
+        if (i >= 4) {
+          clearInterval(iv);
+          appendTerm('out', `\n--- ${arg1} ping statistics ---`);
+          appendTerm('out', `4 packets transmitted, 4 received, 0% packet loss`);
+        }
+      }, 600);
+    },
+    mkdir: () => {
+      if (!arg1) { appendTerm('err', 'mkdir: missing operand'); return; }
+      const path = arg1.startsWith('/') ? arg1 : cwd + '/' + arg1;
+      if (!fs[path]) { fs[cwd] = [...(fs[cwd] || []), arg1]; fs[path] = []; appendTerm('out', ''); }
+      else appendTerm('err', `mkdir: ${arg1}: File exists`);
+    },
+    touch: () => {
+      if (!arg1) { appendTerm('err', 'touch: missing operand'); return; }
+      if (!(fs[cwd] || []).includes(arg1)) { fs[cwd] = [...(fs[cwd] || []), arg1]; }
+      appendTerm('out', '');
+    },
+    rm: () => {
+      if (!arg1) { appendTerm('err', 'rm: missing operand'); return; }
+      if (fs[cwd]) { fs[cwd] = fs[cwd].filter(f => f !== arg1); appendTerm('out', ''); }
+    },
+    exit: () => closeApp('terminal'),
+  };
+
+  const fn = commands[base];
+  if (fn) fn();
+  else appendTerm('err', `${base}: command not found. Type 'help' for commands.`);
+}
+
+// ============================================================
+// CALCULATOR
+// ============================================================
+let calcExpr = '', calcCurrent = '0', calcOp_stored = null, calcPrev = null, calcNewNum = true;
+
+function calcNum(n) {
+  if (calcNewNum) {
+    calcCurrent = n === '.' ? '0.' : n;
+    calcNewNum = false;
+  } else {
+    if (n === '.' && calcCurrent.includes('.')) return;
+    calcCurrent = calcCurrent === '0' && n !== '.' ? n : calcCurrent + n;
+  }
+  document.getElementById('calc-result').textContent = calcCurrent;
+}
+
+function calcOp(op) {
+  if (calcOp_stored && !calcNewNum) calcEquals(true);
+  calcPrev = parseFloat(calcCurrent);
+  calcOp_stored = op;
+  calcExpr = calcCurrent + ' ' + op;
+  document.getElementById('calc-expr').textContent = calcExpr;
+  calcNewNum = true;
+}
+
+function calcEquals(chain) {
+  if (!calcOp_stored || calcPrev === null) return;
+  const cur = parseFloat(calcCurrent);
+  let res;
+  switch (calcOp_stored) {
+    case '+': res = calcPrev + cur; break;
+    case '-': res = calcPrev - cur; break;
+    case '×': res = calcPrev * cur; break;
+    case '÷': res = cur === 0 ? 'Error' : calcPrev / cur; break;
+    default: return;
+  }
+  document.getElementById('calc-expr').textContent = calcExpr + ' ' + calcCurrent + ' =';
+  const disp = typeof res === 'number' ? (Number.isInteger(res) ? res.toString() : parseFloat(res.toFixed(10)).toString()) : res;
+  document.getElementById('calc-result').textContent = disp;
+  calcCurrent = typeof res === 'number' ? res.toString() : '0';
+  if (!chain) { calcOp_stored = null; calcPrev = null; }
+  calcNewNum = true;
+}
+
+function calcFn(fn) {
+  if (fn === 'AC') {
+    calcExpr = ''; calcCurrent = '0'; calcOp_stored = null; calcPrev = null; calcNewNum = true;
+    document.getElementById('calc-expr').textContent = '';
+    document.getElementById('calc-result').textContent = '0';
+  } else if (fn === '+/-') {
+    calcCurrent = (parseFloat(calcCurrent) * -1).toString();
+    document.getElementById('calc-result').textContent = calcCurrent;
+  } else if (fn === '%') {
+    calcCurrent = (parseFloat(calcCurrent) / 100).toString();
+    document.getElementById('calc-result').textContent = calcCurrent;
+  }
+}
+
+// ============================================================
+// NOTES
+// ============================================================
+let notes = [
+  { id: 1, title: 'LunarOS Tips', body: 'Long press app icons to see options.\n\nSwipe down from the top to open Quick Settings.\n\nTerminal supports many Linux commands!', date: 'Today' },
+  { id: 2, title: 'Linux Commands', body: 'ls -la\ncd /home\ncat file.txt\nping google.com\nneofetch\n\nPowered by Linux 🐧', date: 'Yesterday' },
+  { id: 3, title: 'Shopping List', body: 'Milk\nEggs\nButter\nCoffee\nLinux stickers', date: 'Mon' },
+];
+let currentNote = null;
+let nextNoteId = 4;
+
+function initNotes() { renderNotesList(); }
+
+function renderNotesList() {
+  const list = document.getElementById('notes-list');
+  document.getElementById('notes-count').textContent = notes.length + ' note' + (notes.length !== 1 ? 's' : '');
+  list.innerHTML = notes.map(n => `
+    <div class="note-item" onclick="openNote(${n.id})">
+      <div class="note-title">${escHtml(n.title)}</div>
+      <div class="note-preview">${escHtml(n.body.split('\n')[0].substring(0, 50))}</div>
+      <div class="note-date">${n.date}</div>
+    </div>
+  `).join('');
+}
+
+function openNote(id) {
+  currentNote = notes.find(n => n.id === id);
+  document.getElementById('note-editor-title').value = currentNote.title;
+  document.getElementById('note-editor-body').value = currentNote.body;
+  document.getElementById('notes-list-view').style.display = 'none';
+  document.getElementById('note-editor').style.display = 'flex';
+  document.getElementById('notes-title-bar').textContent = currentNote.title || 'Note';
+}
+
+function newNote() {
+  currentNote = { id: nextNoteId++, title: '', body: '', date: 'Just now' };
+  notes.unshift(currentNote);
+  openNote(currentNote.id);
+}
+
+function saveNote() {
+  if (!currentNote) return;
+  currentNote.title = document.getElementById('note-editor-title').value || 'Untitled';
+  currentNote.body = document.getElementById('note-editor-body').value;
+  currentNote.date = 'Just now';
+  document.getElementById('notes-title-bar').textContent = currentNote.title;
+  showNotif('📝', 'Note saved!', 'Notes');
+}
+
+function deleteNote() {
+  if (!currentNote) return;
+  notes = notes.filter(n => n.id !== currentNote.id);
+  backToNotes();
+}
+
+function backToNotes() {
+  renderNotesList();
+  document.getElementById('notes-list-view').style.display = 'block';
+  document.getElementById('note-editor').style.display = 'none';
+  document.getElementById('notes-title-bar').textContent = 'Notes';
+  currentNote = null;
+}
+
+// ============================================================
+// MUSIC
+// ============================================================
+const playlist = [
+  { title: 'Cosmic Drift', artist: 'LunarBeats', duration: '3:42', emoji: '🎵' },
+  { title: 'Stellar Waves', artist: 'OrbitSound', duration: '4:15', emoji: '🌊' },
+  { title: 'Dark Matter', artist: 'Void Engine', duration: '3:58', emoji: '🌌' },
+  { title: 'Moonrise', artist: 'CelestialFM', duration: '5:02', emoji: '🌙' },
+  { title: 'Pulsar Rhythm', artist: 'LunarBeats', duration: '3:33', emoji: '⭐' },
+];
+let musicPlaying = false, musicIdx = 0, musicProgress = 0;
+let musicInterval = null;
+const durations = [222, 255, 238, 302, 213]; // seconds
+
+function initMusic() {
+  renderPlaylist();
+  updateMusicUI();
+}
+
+function renderPlaylist() {
+  const el = document.getElementById('playlist-items');
+  el.innerHTML = playlist.map((s, i) => `
+    <div class="playlist-item ${i === musicIdx ? 'active' : ''}" onclick="selectTrack(${i})">
+      <div class="pi-num">${i === musicIdx && musicPlaying ? '▶' : i + 1}</div>
+      <div class="pi-info">
+        <div class="pi-name">${s.emoji} ${s.title}</div>
+        <div class="pi-artist">${s.artist}</div>
+      </div>
+      <div class="pi-dur">${s.duration}</div>
+    </div>
+  `).join('');
+}
+
+function updateMusicUI() {
+  const s = playlist[musicIdx];
+  document.getElementById('music-song').textContent = s.title;
+  document.getElementById('music-artist').textContent = s.artist + ' • 2024';
+  document.getElementById('music-art').textContent = s.emoji;
+  document.getElementById('music-total').textContent = s.duration;
+  document.getElementById('play-btn').textContent = musicPlaying ? '⏸' : '▶';
+  document.getElementById('music-art').classList.toggle('spinning', musicPlaying);
+}
+
+function musicToggle() {
+  musicPlaying = !musicPlaying;
+  if (musicPlaying) {
+    musicInterval = setInterval(() => {
+      musicProgress += 0.5;
+      if (musicProgress >= durations[musicIdx]) { musicNext(); return; }
+      const pct = (musicProgress / durations[musicIdx]) * 100;
+      document.getElementById('music-bar-fill').style.width = pct + '%';
+      const m = Math.floor(musicProgress / 60);
+      const s = Math.floor(musicProgress % 60).toString().padStart(2, '0');
+      document.getElementById('music-elapsed').textContent = `${m}:${s}`;
+    }, 500);
+  } else {
+    clearInterval(musicInterval);
+  }
+  updateMusicUI();
+  renderPlaylist();
+}
+
+function musicNext() {
+  musicIdx = (musicIdx + 1) % playlist.length;
+  musicProgress = 0;
+  document.getElementById('music-bar-fill').style.width = '0%';
+  document.getElementById('music-elapsed').textContent = '0:00';
+  updateMusicUI();
+  renderPlaylist();
+  if (musicPlaying) { clearInterval(musicInterval); musicPlaying = true; musicToggle(); }
+}
+
+function musicPrev() {
+  if (musicProgress > 5) { musicProgress = 0; return; }
+  musicIdx = (musicIdx - 1 + playlist.length) % playlist.length;
+  musicProgress = 0;
+  document.getElementById('music-bar-fill').style.width = '0%';
+  document.getElementById('music-elapsed').textContent = '0:00';
+  updateMusicUI();
+  renderPlaylist();
+}
+
+function selectTrack(i) {
+  musicIdx = i;
+  musicProgress = 0;
+  document.getElementById('music-bar-fill').style.width = '0%';
+  document.getElementById('music-elapsed').textContent = '0:00';
+  if (!musicPlaying) { musicPlaying = true; musicToggle(); } else { clearInterval(musicInterval); musicPlaying = false; musicToggle(); }
+  renderPlaylist();
+}
+
+function musicShuffle() { showNotif('🔀', 'Shuffle enabled', 'Music'); }
+function musicRepeat() { showNotif('🔁', 'Repeat enabled', 'Music'); }
+
+// ============================================================
+// GALLERY
+// ============================================================
+const galleryItems = [
+  { bg: 'linear-gradient(135deg,#667eea,#764ba2)', emoji: '🌙' },
+  { bg: 'linear-gradient(135deg,#f093fb,#f5576c)', emoji: '🌸' },
+  { bg: 'linear-gradient(135deg,#4facfe,#00f2fe)', emoji: '🌊' },
+  { bg: 'linear-gradient(135deg,#43e97b,#38f9d7)', emoji: '🌿' },
+  { bg: 'linear-gradient(135deg,#fa709a,#fee140)', emoji: '🌅' },
+  { bg: 'linear-gradient(135deg,#a1c4fd,#c2e9fb)', emoji: '❄️' },
+  { bg: 'linear-gradient(135deg,#ffecd2,#fcb69f)', emoji: '🌞' },
+  { bg: 'linear-gradient(135deg,#a8edea,#fed6e3)', emoji: '🦋' },
+  { bg: 'linear-gradient(135deg,#d299c2,#fef9d7)', emoji: '🌺' },
+  { bg: 'linear-gradient(135deg,#89f7fe,#66a6ff)', emoji: '🐳' },
+  { bg: 'linear-gradient(135deg,#fddb92,#d1fdff)', emoji: '🌾' },
+  { bg: 'linear-gradient(135deg,#96fbc4,#f9f586)', emoji: '🍃' },
+];
+
+function initGallery() {
+  const grid = document.getElementById('gallery-grid');
+  grid.innerHTML = galleryItems.map((item, i) => `
+    <div class="gallery-item" style="background:${item.bg}" onclick="viewPhoto(${i})">
+      <span>${item.emoji}</span>
+    </div>
+  `).join('');
+}
+
+function viewPhoto(i) {
+  const item = galleryItems[i];
+  showNotif(item.emoji, 'Photo ' + (i + 1) + ' of ' + galleryItems.length, 'Gallery');
+}
+
+// ============================================================
+// FILES
+// ============================================================
+let filePath = '/home/lunar';
+let fileHistory = [];
+
+function initFiles() { renderFiles('/home/lunar'); }
+
+function renderFiles(path) {
+  filePath = path;
+  document.getElementById('files-path').textContent = path;
+  const entries = fs[path] || [];
+  const list = document.getElementById('files-list');
+  list.innerHTML = entries.map(name => {
+    const fullPath = path + '/' + name;
+    const isDir = fs[fullPath] !== undefined;
+    const icon = isDir ? '📁' : name.endsWith('.txt') || name.endsWith('.md') ? '📄' : name.endsWith('.mp3') ? '🎵' : name.endsWith('.jpg') || name.endsWith('.png') ? '🖼️' : name.endsWith('.json') ? '⚙️' : name.endsWith('.iso') ? '💿' : '📄';
+    const size = isDir ? '—' : Math.floor(Math.random() * 5000 + 100) + ' KB';
+    return `
+      <div class="file-row" onclick="${isDir ? `filesNav('${fullPath}')` : `fileOpen('${name}')`}">
+        <div class="file-icon">${icon}</div>
+        <div class="file-info">
+          <div class="file-name">${name}</div>
+          <div class="file-meta">${isDir ? 'folder' : name.split('.').pop().toUpperCase()}</div>
+        </div>
+        <div class="file-size">${size}</div>
+      </div>
+    `;
+  }).join('') || '<div style="padding:30px;text-align:center;color:var(--text-dim);font-size:14px">📂 Empty folder</div>';
+}
+
+function filesNav(path) {
+  fileHistory.push(filePath);
+  renderFiles(path);
+}
+
+function filesGoBack() {
+  const prev = fileHistory.pop();
+  if (prev) renderFiles(prev);
+}
+
+function fileOpen(name) {
+  showNotif('📄', `Opening ${name}...`, 'Files');
+}
+
+// ============================================================
+// BROWSER
+// ============================================================
+let browserHistory = ['home'];
+let browserCurrent = 'home';
+
+function browserNav(page) {
+  browserHistory.push(browserCurrent);
+  browserCurrent = page;
+  document.querySelectorAll('.browser-page').forEach(p => p.classList.remove('active'));
+  const pg = document.getElementById('bpage-' + page);
+  if (pg) pg.classList.add('active');
+  const urls = { home: 'lunar://home', news: 'lunar://news', wiki: 'lunar://wiki', market: 'lunar://market', about: 'lunar://linux' };
+  document.getElementById('browser-url').value = urls[page] || 'lunar://home';
+}
+
+function browserBack() {
+  const prev = browserHistory.pop();
+  if (prev) browserNav(prev);
+}
+
+function browserGo() {
+  const url = document.getElementById('browser-url').value;
+  if (url.includes('news')) browserNav('news');
+  else if (url.includes('wiki')) browserNav('wiki');
+  else if (url.includes('market') || url.includes('stock')) browserNav('market');
+  else if (url.includes('linux') || url.includes('about')) browserNav('about');
+  else { browserNav('home'); showNotif('🌐', 'Page loaded', 'LunarWeb'); }
+}
+
+function initMarket() {
+  const stocks = [
+    { sym: 'LNUX', name: 'LinuxCorp', price: '142.38', change: '+2.4%', up: true },
+    { sym: 'MOON', name: 'LunarTech', price: '89.12', change: '+5.1%', up: true },
+    { sym: 'OPEN', name: 'OpenSource Inc', price: '234.90', change: '-1.2%', up: false },
+    { sym: 'FOSS', name: 'FOSS Capital', price: '56.44', change: '+0.8%', up: true },
+    { sym: 'TUXO', name: 'Tux Ventures', price: '321.00', change: '-3.5%', up: false },
+  ];
+  const el = document.getElementById('market-items');
+  el.innerHTML = stocks.map(s => `
+    <div style="display:flex;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);gap:12px">
+      <div style="width:46px;height:46px;border-radius:12px;background:${s.up ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)'};border:1px solid ${s.up ? 'rgba(74,222,128,0.2)' : 'rgba(248,113,113,0.2)'};display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;color:${s.up ? 'var(--green)' : 'var(--red)'}">${s.sym.substring(0,4)}</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600">${s.sym}</div>
+        <div style="font-size:11px;color:var(--text-dim)">${s.name}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:14px;font-weight:600;font-family:var(--mono)">$${s.price}</div>
+        <div style="font-size:12px;color:${s.up ? 'var(--green)' : 'var(--red)'};font-family:var(--mono)">${s.change}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// CAMERA
+// ============================================================
+let videoStream = null;
+let facingMode = 'environment';
+
+async function initCamera() {
+  const video = document.getElementById('camera-video');
+  const msg = document.getElementById('cam-msg');
+  try {
+    if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); }
+    videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode }, audio: false });
+    video.srcObject = videoStream;
+    video.style.display = 'block';
+    msg.style.display = 'none';
+  } catch (e) {
+    video.style.display = 'none';
+    msg.style.display = 'flex';
+    msg.innerHTML = `<span style="font-size:50px">📷</span><div class="camera-no-perms">Camera not available<br><span>Allow camera access or use in browser</span></div>`;
+  }
+}
+
+function stopCamera() {
+  if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
+}
+
+function switchCamera() {
+  facingMode = facingMode === 'environment' ? 'user' : 'environment';
+  initCamera();
+}
+
+function takePhoto() {
+  const btn = document.getElementById('shutter-btn');
+  btn.style.transform = 'scale(0.85)';
+  setTimeout(() => { btn.style.transform = ''; }, 150);
+  // Flash effect
+  const flash = document.createElement('div');
+  flash.style.cssText = 'position:absolute;inset:0;background:#fff;opacity:0.8;z-index:10;pointer-events:none;transition:opacity 0.3s';
+  document.getElementById('camera-viewfinder').appendChild(flash);
+  setTimeout(() => { flash.style.opacity = '0'; setTimeout(() => flash.remove(), 300); }, 100);
+  showNotif('📷', 'Photo captured!', 'Camera');
+  document.getElementById('last-photo').textContent = '🖼️';
+}
+
+// ============================================================
+// APP STORE
+// ============================================================
+function initStore() {
+  const apps = [
+    { icon: '🎮', bg: 'linear-gradient(135deg,#1a0050,#6d28d9)', name: 'LunarGames', desc: 'Top mobile games collection', stars: '★★★★★', rating: '4.9' },
+    { icon: '📊', bg: 'linear-gradient(135deg,#1e3a5f,#0ea5e9)', name: 'DataViz Pro', desc: 'Charts & analytics dashboard', stars: '★★★★☆', rating: '4.2' },
+    { icon: '🔐', bg: 'linear-gradient(135deg,#1a2e1a,#15803d)', name: 'VaultPass', desc: 'Secure password manager', stars: '★★★★★', rating: '4.8' },
+    { icon: '🤖', bg: 'linear-gradient(135deg,#1a1a2e,#7c3aed)', name: 'LunarAI', desc: 'AI assistant for LunarOS', stars: '★★★★☆', rating: '4.5' },
+    { icon: '📡', bg: 'linear-gradient(135deg,#0c1f40,#1d4ed8)', name: 'SignalMap', desc: 'Network signal analyzer', stars: '★★★☆☆', rating: '3.7' },
+    { icon: '🌿', bg: 'linear-gradient(135deg,#1a2e1a,#065f46)', name: 'EcoTracker', desc: 'Environmental footprint app', stars: '★★★★☆', rating: '4.1' },
+  ];
+  let installed = new Set();
+  const el = document.getElementById('store-apps-list');
+  el.innerHTML = apps.map((a, i) => `
+    <div class="store-app-row">
+      <div class="store-app-icon" style="background:${a.bg}">${a.icon}</div>
+      <div class="store-app-info">
+        <div class="store-app-name">${a.name}</div>
+        <div class="store-app-desc">${a.desc}</div>
+        <div class="store-app-stars">${a.stars} ${a.rating}</div>
+      </div>
+      <button class="store-get-btn" id="store-btn-${i}" onclick="storeInstall(${i}, '${a.name}')">Get</button>
+    </div>
+  `).join('');
+}
+
+function storeInstall(i, name) {
+  const btn = document.getElementById('store-btn-' + i);
+  btn.textContent = '...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Installed';
+    btn.classList.add('installed');
+    showNotif('✅', `${name} installed!`, 'App Store');
+  }, 1500);
+}
+
+// ============================================================
+// STOPWATCH
+// ============================================================
+let swRunning = false, swMs = 0, swInterval = null;
+
+function swToggle() {
+  swRunning = !swRunning;
+  document.getElementById('sw-start').textContent = swRunning ? 'Stop' : 'Resume';
+  document.getElementById('sw-start').style.color = swRunning ? 'var(--red)' : 'var(--green)';
+  if (swRunning) {
+    swInterval = setInterval(() => {
+      swMs += 10;
+      const m = Math.floor(swMs / 60000);
+      const s = Math.floor((swMs % 60000) / 1000);
+      const cs = Math.floor((swMs % 1000) / 10);
+      document.getElementById('stopwatch-display').textContent = 
+        `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}.${cs.toString().padStart(2,'0')}`;
+    }, 10);
+  } else clearInterval(swInterval);
+}
+
+function swReset() {
+  clearInterval(swInterval);
+  swRunning = false; swMs = 0;
+  document.getElementById('stopwatch-display').textContent = '00:00.00';
+  document.getElementById('sw-start').textContent = 'Start';
+  document.getElementById('sw-start').style.color = '';
+}
+
+// ============================================================
+// SETTINGS TOGGLE
+// ============================================================
+function toggleSetting(el) { el.classList.toggle('on'); }
+
+// ============================================================
+// QUICK PANEL
+// ============================================================
+let quickOpen = false;
+function toggleQuickPanel() {
+  quickOpen = !quickOpen;
+  document.getElementById('quick-panel').classList.toggle('open', quickOpen);
+  document.getElementById('quick-panel-dismiss').classList.toggle('visible', quickOpen);
+}
+
+// Pull-down gesture on status bar
+let pullStartY = 0;
+document.getElementById('statusbar').addEventListener('touchstart', e => { pullStartY = e.touches[0].clientY; });
+document.getElementById('statusbar').addEventListener('touchend', e => {
+  if (e.changedTouches[0].clientY - pullStartY > 40) toggleQuickPanel();
+});
+
+</script>
 </body>
 </html>
