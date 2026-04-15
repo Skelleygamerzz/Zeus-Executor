@@ -1,277 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI CINEMA 🍿 | Enhanced</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CINEMA 🍿 | V2 Network</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    
+    <style>
+        :root {
+            --zeus-red: #ff204e;
+            --bg-black: #050505;
+            --drawer-width: 280px;
+        }
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
 
-<style>
-:root{
-  --red:#ff204e;
-  --bg:#050505;
-  --card:#111;
-  --muted:#666;
-}
+        body {
+            background-color: var(--bg-black);
+            color: white;
+            font-family: 'Arial Black', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            width: 100%;
+        }
 
-*{box-sizing:border-box; user-select:none;}
+        .brand-logo { height: 35px; width: auto; pointer-events: none; }
 
-body{
-  margin:0;
-  background:var(--bg);
-  color:white;
-  font-family:Arial Black, sans-serif;
-}
+        /* --- UI Elements --- */
+        .beta-banner {
+            background: #ffae00; color: black; font-size: 10px; text-align: center;
+            padding: 5px; font-weight: bold; text-transform: uppercase;
+        }
 
-/* LOGIN */
-#login-screen{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.9)),
-    url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2000');
-  background-size:cover;
-}
+        #login-screen {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
+            background-size: cover; background-position: center;
+        }
+        .login-card {
+            background: rgba(10, 10, 10, 0.95); padding: 40px; border-radius: 15px;
+            text-align: center; width: 90%; max-width: 380px; border-top: 4px solid var(--zeus-red);
+        }
 
-.login-card{
-  background:#0f0f0f;
-  padding:40px;
-  border-radius:14px;
-  width:320px;
-  border-top:4px solid var(--red);
-  text-align:center;
-}
+        /* --- Sections & Carousels --- */
+        .section-title {
+            padding: 0 5%; margin-top: 30px; font-size: 18px; color: #fff;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .section-title span { color: var(--zeus-red); font-size: 10px; letter-spacing: 2px; }
 
-.google-btn{
-  width:100%;
-  padding:12px;
-  margin-top:20px;
-  background:white;
-  border:none;
-  cursor:pointer;
-  font-weight:bold;
-}
+        .carousel {
+            display: flex; overflow-x: auto; padding: 20px 5%; gap: 15px;
+            scroll-behavior: smooth; scrollbar-width: none;
+        }
+        .carousel::-webkit-scrollbar { display: none; }
 
-/* APP */
-#main-app{display:none;}
+        .show-card {
+            min-width: 160px; width: 160px; background: #111; border-radius: 10px;
+            overflow: hidden; border: 1px solid #222; transition: 0.3s;
+        }
+        .show-card:active { transform: scale(0.95); }
+        .show-card video, .show-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; }
+        .show-info { padding: 10px; font-size: 12px; }
 
-nav{
-  display:flex;
-  justify-content:space-between;
-  padding:20px;
-}
+        /* --- Admin Panel --- */
+        #admin-link { display: none; color: #555; font-size: 10px; padding: 15px; text-decoration: none; border-top: 1px solid #222; margin-top: 20px; }
 
-.logo{color:var(--red)}
+        /* --- Drawer --- */
+        .drawer {
+            position: fixed; top: 0; right: -300px; width: var(--drawer-width);
+            height: 100vh; background: #0a0a0a; z-index: 1000; transition: 0.4s;
+            padding: 80px 20px; border-left: 1px solid #222;
+        }
+        .drawer.active { right: 0; }
+        .drawer-item { padding: 15px; border-bottom: 1px solid #111; color: #888; cursor: pointer; }
+        .drawer-item:hover { color: var(--zeus-red); }
 
-.drawer{
-  position:fixed;
-  right:-300px;
-  top:0;
-  width:260px;
-  height:100%;
-  background:#0f0f0f;
-  transition:.3s;
-  padding:70px 20px;
-  border-left:1px solid #222;
-}
-.drawer.active{right:0;}
-
-.drawer-item{
-  padding:12px 0;
-  border-bottom:1px solid #222;
-  cursor:pointer;
-  color:#ccc;
-}
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-}
-.overlay.active{display:block;}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-  padding:20px;
-}
-
-.card{
-  background:var(--card);
-  border-radius:12px;
-  overflow:hidden;
-  cursor:pointer;
-  transition:.2s;
-}
-.card:hover{transform:scale(1.03)}
-.card img{width:100%;height:120px;object-fit:cover}
-.card div{padding:10px}
-
-/* ADMIN */
-#admin{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:240px;
-  background:#111;
-  padding:15px;
-  border-radius:12px;
-  border:1px solid #333;
-}
-
-input{
-  width:100%;
-  padding:8px;
-  margin:5px 0;
-  background:black;
-  border:1px solid #333;
-  color:white;
-}
-button{cursor:pointer}
-</style>
+        #main-app { display: none; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.8); sticky; top: 0; z-index: 100; }
+        .hamburger { cursor: pointer; }
+        .hamburger div { width: 22px; height: 2px; background: white; margin: 5px; }
+        
+        #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:999; }
+    </style>
 </head>
-
 <body>
 
-<div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+    <div class="beta-banner">AI CINEMA V2 - PREMIUM NETWORK ACCESS</div>
 
-<div class="drawer" id="drawer">
-  <div id="drawer-name">USER</div>
-  <div class="drawer-item" onclick="logout()">LOG OUT</div>
-</div>
+    <div id="overlay" onclick="toggleDrawer()"></div>
+    <div class="drawer" id="sideDrawer">
+        <h3 style="font-size: 12px; color: #444; padding-left: 15px;">MY ACCOUNT</h3>
+        <div class="drawer-item" id="drawer-name">USER</div>
+        <div class="drawer-item" onclick="signOut()">LOG OUT</div>
+        
+        <a id="admin-link" href="https://console.firebase.google.com/" target="_blank">🛡️ ADMIN: MANAGE DATABASE</a>
+        
+        <div class="drawer-item" style="color:#331111; margin-top: 50px;" onclick="deleteAccount()">DELETE ACCOUNT</div>
+    </div>
 
-<!-- LOGIN -->
-<div id="login-screen">
-  <div class="login-card">
-    <h2 style="color:var(--red)">AI CINEMA 🍿</h2>
-    <button class="google-btn" onclick="signIn()">Sign in with Google</button>
-  </div>
-</div>
+    <div id="login-screen">
+        <div class="login-card">
+            <img src="logo.png" class="brand-logo" style="margin: 0 auto 20px;">
+            <button style="background: white; color: black; border: none; padding: 12px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer;" onclick="signIn('google')">Sign in with Google</button>
+            <p onclick="signIn('guest')" style="color:#444; font-size:10px; margin-top:20px; cursor:pointer;">CONTINUE AS GUEST</p>
+        </div>
+    </div>
 
-<!-- APP -->
-<div id="main-app">
+    <div id="main-app">
+        <nav>
+            <img src="logo.png" class="brand-logo">
+            <div class="hamburger" onclick="toggleDrawer()"><div></div><div></div></div>
+        </nav>
 
-<nav>
-  <div class="logo">AI CINEMA 🍿</div>
-  <button onclick="toggleDrawer()">☰</button>
-</nav>
+        <div class="section-title">FRUIT LOVE ISLAND <span>S1 PREMIERE</span></div>
+        <div class="carousel">
+            <div class="show-card" onclick="alert('Episode 1 Loading...')">
+                <video loop muted autoplay playsinline><source src="episode1.mp4" type="video/mp4"></video>
+                <div class="show-info">E1: THE FIRST SQUEEZE</div>
+            </div>
+            <div class="show-card" style="opacity: 0.5;">
+                <img src="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?q=80&w=1000">
+                <div class="show-info">E2: COMING SOON</div>
+            </div>
+        </div>
 
-<div id="grid" class="grid"></div>
+        <div class="section-title">PRETTY QUEENS <span>COMING SOON</span></div>
+        <div class="carousel">
+            <div class="show-card" style="filter: grayscale(1);">
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000">
+                <div class="show-info">MEET THE QUEENS</div>
+            </div>
+            <div class="show-card" style="filter: grayscale(1);">
+                <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1000">
+                <div class="show-info">S1 TEASER</div>
+            </div>
+        </div>
 
-<!-- ADMIN -->
-<div id="admin" style="display:none;">
-  <h3>Admin</h3>
-  <input id="t" placeholder="title">
-  <input id="d" placeholder="desc">
-  <input id="i" placeholder="image">
-  <input id="v" placeholder="video">
-  <button onclick="add()">Add Episode</button>
-</div>
+        <div style="padding: 50px 5% 100px; text-align: center;">
+            <div id="user-status-tag" style="font-size: 10px; color: #333; letter-spacing: 2px;">NETWORK STATUS: ONLINE</div>
+        </div>
+    </div>
 
-</div>
+    <script>
+        // --- FIREBASE CONFIG (ADD YOURS) ---
+        const firebaseConfig = {
+            apiKey: "YOUR_KEY",
+            authDomain: "YOUR_ID.firebaseapp.com",
+            projectId: "YOUR_ID",
+            storageBucket: "YOUR_ID.appspot.com",
+            messagingSenderId: "YOUR_ID",
+            appId: "YOUR_ID"
+        };
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyA11ejzUSS4Vxuxq2BolT-1zYbbTC6lS58",
-  authDomain: "ai-cinema-7589b.firebaseapp.com",
-  projectId: "ai-cinema-7589b",
-};
+        firebase.initializeApp(firebaseConfig);
 
-firebase.initializeApp(firebaseConfig);
+        // --- AUTH LOGIC ---
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                showMainApp('member', user.displayName);
+                document.getElementById('drawer-name').innerText = user.displayName.toUpperCase();
+                
+                // --- ADMIN CHECK: Replace with YOUR email ---
+                if (user.email === "your-email@gmail.com") {
+                    document.getElementById('admin-link').style.display = "block";
+                    document.getElementById('user-status-tag').innerText = "NETWORK STATUS: ADMIN MODE ACTIVE";
+                }
+            }
+        });
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+        function signIn(type) {
+            if (type === 'guest') { showMainApp('guest'); }
+            else {
+                var provider = new firebase.auth.GoogleAuthProvider();
+                firebase.auth().signInWithPopup(provider).catch(e => alert(e.message));
+            }
+        }
 
-/* PUT YOUR UID HERE */
-const ADMINS = ["YOUR_UID"];
+        function showMainApp(type, name = "") {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            if (type === 'guest') { 
+                document.getElementById('user-status-tag').innerText = "NETWORK STATUS: GUEST MODE";
+            }
+        }
 
-let user=null;
+        // --- DRAWER & UI ---
+        function toggleDrawer() {
+            document.getElementById('sideDrawer').classList.toggle('active');
+            document.getElementById('overlay').style.display = document.getElementById('sideDrawer').classList.contains('active') ? 'block' : 'none';
+        }
 
-/* 🔥 SAME SIMPLE FLOW AS YOUR WORKING VERSION */
-auth.onAuthStateChanged(u=>{
-  if(!u){
-    document.getElementById("login-screen").style.display="flex";
-    document.getElementById("main-app").style.display="none";
-    return;
-  }
-
-  user=u;
-
-  document.getElementById("login-screen").style.display="none";
-  document.getElementById("main-app").style.display="block";
-
-  document.getElementById("drawer-name").innerText = u.displayName?.toUpperCase() || "USER";
-
-  load();
-
-  if(ADMINS.includes(u.uid)){
-    document.getElementById("admin").style.display="block";
-  }
-});
-
-/* LOGIN */
-function signIn(){
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch(e=>alert(e.message));
-}
-
-/* LOGOUT */
-function logout(){
-  auth.signOut();
-}
-
-/* DRAWER */
-function toggleDrawer(){
-  document.getElementById("drawer").classList.toggle("active");
-  document.getElementById("overlay").classList.toggle("active");
-}
-
-/* LOAD EPISODES */
-async function load(){
-  const grid=document.getElementById("grid");
-  grid.innerHTML="";
-
-  const snap=await db.collection("episodes").orderBy("created","desc").get();
-
-  snap.forEach(doc=>{
-    const d=doc.data();
-
-    const el=document.createElement("div");
-    el.className="card";
-
-    el.innerHTML=`
-      <img src="${d.i}">
-      <div>
-        <b>${d.t}</b>
-        <p style="color:#777;font-size:12px">${d.d}</p>
-      </div>
-    `;
-
-    el.onclick=()=>window.open(d.v);
-    grid.appendChild(el);
-  });
-}
-
-/* ADD */
-async function add(){
-  await db.collection("episodes").add({
-    t:t.value,
-    d:d.value,
-    i:i.value,
-    v:v.value,
-    created:Date.now()
-  });
-
-  load();
-}
-</script>
-
+        function signOut() { firebase.auth().signOut().then(() => location.reload()); }
+        
+        function deleteAccount() {
+            const user = firebase.auth().currentUser;
+            if (user && confirm("Delete all data?")) user.delete().then(() => location.reload());
+        }
+    </script>
 </body>
 </html>
