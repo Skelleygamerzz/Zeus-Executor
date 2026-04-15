@@ -1,48 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>AI Cinema v2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI CINEMA 🍿 | Enhanced</title>
 
-<script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
+:root{
+  --red:#ff204e;
+  --bg:#050505;
+  --card:#111;
+  --muted:#666;
+}
+
+*{box-sizing:border-box; user-select:none;}
+
 body{
   margin:0;
-  font-family:Arial;
-  background:#050505;
+  background:var(--bg);
   color:white;
+  font-family:Arial Black, sans-serif;
 }
 
 /* LOGIN */
-#login{
+#login-screen{
   height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
+  background:
+    linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.9)),
+    url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2000');
+  background-size:cover;
 }
-.card{
-  background:#111;
-  padding:40px;
-  border-radius:12px;
-  text-align:center;
-  width:300px;
-}
-button{padding:10px 15px; cursor:pointer}
 
-/* MAIN */
-.hidden{display:none}
+.login-card{
+  background:#0f0f0f;
+  padding:40px;
+  border-radius:14px;
+  width:320px;
+  border-top:4px solid var(--red);
+  text-align:center;
+}
+
+.google-btn{
+  width:100%;
+  padding:12px;
+  margin-top:20px;
+  background:white;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+/* APP */
+#main-app{display:none;}
 
 nav{
   display:flex;
   justify-content:space-between;
   padding:20px;
-  border-bottom:1px solid #222;
 }
-.logo{color:#ff204e;font-weight:900}
+
+.logo{color:var(--red)}
+
+.drawer{
+  position:fixed;
+  right:-300px;
+  top:0;
+  width:260px;
+  height:100%;
+  background:#0f0f0f;
+  transition:.3s;
+  padding:70px 20px;
+  border-left:1px solid #222;
+}
+.drawer.active{right:0;}
+
+.drawer-item{
+  padding:12px 0;
+  border-bottom:1px solid #222;
+  cursor:pointer;
+  color:#ccc;
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+}
+.overlay.active{display:block;}
 
 .grid{
   display:grid;
@@ -51,130 +103,123 @@ nav{
   padding:20px;
 }
 
-.item{
-  background:#111;
-  border-radius:10px;
+.card{
+  background:var(--card);
+  border-radius:12px;
   overflow:hidden;
   cursor:pointer;
-  transition:0.2s;
+  transition:.2s;
 }
-.item:hover{transform:scale(1.03)}
-.item img{width:100%;height:120px;object-fit:cover}
-.item div{padding:10px}
+.card:hover{transform:scale(1.03)}
+.card img{width:100%;height:120px;object-fit:cover}
+.card div{padding:10px}
 
 /* ADMIN */
 #admin{
   position:fixed;
   bottom:20px;
   right:20px;
+  width:240px;
   background:#111;
   padding:15px;
-  border-radius:10px;
+  border-radius:12px;
   border:1px solid #333;
-  width:250px;
 }
+
 input{
   width:100%;
-  margin:5px 0;
   padding:8px;
-  background:#000;
+  margin:5px 0;
+  background:black;
   border:1px solid #333;
   color:white;
 }
+button{cursor:pointer}
 </style>
 </head>
 
 <body>
 
+<div id="overlay" class="overlay" onclick="toggleDrawer()"></div>
+
+<div class="drawer" id="drawer">
+  <div id="drawer-name">USER</div>
+  <div class="drawer-item" onclick="logout()">LOG OUT</div>
+</div>
+
 <!-- LOGIN -->
-<div id="login">
-  <div class="card">
-    <h2 style="color:#ff204e">AI CINEMA</h2>
-    <button onclick="login()">Sign in with Google</button>
-    <p id="err"></p>
+<div id="login-screen">
+  <div class="login-card">
+    <h2 style="color:var(--red)">AI CINEMA 🍿</h2>
+    <button class="google-btn" onclick="signIn()">Sign in with Google</button>
   </div>
 </div>
 
 <!-- APP -->
-<div id="app" class="hidden">
+<div id="main-app">
 
 <nav>
   <div class="logo">AI CINEMA 🍿</div>
-  <button onclick="logout()">Logout</button>
+  <button onclick="toggleDrawer()">☰</button>
 </nav>
 
-<div id="list" class="grid"></div>
+<div id="grid" class="grid"></div>
 
-<!-- ADMIN PANEL -->
-<div id="admin" class="hidden">
+<!-- ADMIN -->
+<div id="admin" style="display:none;">
   <h3>Admin</h3>
   <input id="t" placeholder="title">
   <input id="d" placeholder="desc">
-  <input id="i" placeholder="image url">
-  <input id="v" placeholder="video url">
-  <button onclick="add()">Add</button>
+  <input id="i" placeholder="image">
+  <input id="v" placeholder="video">
+  <button onclick="add()">Add Episode</button>
 </div>
 
 </div>
 
 <script>
 const firebaseConfig = {
-    apiKey: "AIzaSyA11ejzUSS4Vxuxq2BolT-1zYbbTC6lS58",
-    authDomain: "ai-cinema-7589b.firebaseapp.com",
-    projectId: "ai-cinema-7589b",
-    storageBucket: "ai-cinema-7589b.firebasestorage.app",
-    messagingSenderId: "644187979775",
-    appId: "1:644187979775:web:93384ffa68a9b1815c31ca",
-    measurementId: "G-VJXN2W3ETD"
-  };
+  apiKey:"YOUR_KEY",
+  authDomain:"YOUR_ID.firebaseapp.com",
+  projectId:"YOUR_ID"
+};
 
 firebase.initializeApp(firebaseConfig);
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-/* 🔥 PUT YOUR UID HERE */
-const ADMIN_UIDS = ["GFTE6DKoQsdxX0mXoABSXNOyt072"];
+/* PUT YOUR UID HERE */
+const ADMINS = ["YOUR_UID"];
 
-let user = null;
+let user=null;
 
-/* UI */
-function showLogin(){
-  document.getElementById("login").classList.remove("hidden");
-  document.getElementById("app").classList.add("hidden");
-}
-
-function showApp(){
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-}
-
-/* AUTH FIXED */
-auth.onAuthStateChanged(async u=>{
+/* 🔥 SAME SIMPLE FLOW AS YOUR WORKING VERSION */
+auth.onAuthStateChanged(u=>{
   if(!u){
-    user = null;
-    showLogin();
+    document.getElementById("login-screen").style.display="flex";
+    document.getElementById("main-app").style.display="none";
     return;
   }
 
-  user = u;
-  showApp();
+  user=u;
+
+  document.getElementById("login-screen").style.display="none";
+  document.getElementById("main-app").style.display="block";
+
+  document.getElementById("drawer-name").innerText = u.displayName?.toUpperCase() || "USER";
+
   load();
 
-  if(ADMIN_UIDS.includes(u.uid)){
-    document.getElementById("admin").classList.remove("hidden");
-  } else {
-    document.getElementById("admin").classList.add("hidden");
+  if(ADMINS.includes(u.uid)){
+    document.getElementById("admin").style.display="block";
   }
 });
 
 /* LOGIN */
-function login(){
+function signIn(){
   const provider = new firebase.auth.GoogleAuthProvider();
-
-  auth.signInWithPopup(provider).catch(e=>{
-    document.getElementById("err").innerText = e.message;
-  });
+  auth.signInWithPopup(provider).catch(e=>alert(e.message));
 }
 
 /* LOGOUT */
@@ -182,55 +227,49 @@ function logout(){
   auth.signOut();
 }
 
+/* DRAWER */
+function toggleDrawer(){
+  document.getElementById("drawer").classList.toggle("active");
+  document.getElementById("overlay").classList.toggle("active");
+}
+
 /* LOAD EPISODES */
 async function load(){
-  const snap = await db.collection("episodes").orderBy("created","desc").get();
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
 
-  const list = document.getElementById("list");
-  list.innerHTML = "";
+  const snap=await db.collection("episodes").orderBy("created","desc").get();
 
   snap.forEach(doc=>{
-    const d = doc.data();
+    const d=doc.data();
 
-    const el = document.createElement("div");
-    el.className = "item";
+    const el=document.createElement("div");
+    el.className="card";
 
-    el.innerHTML = `
+    el.innerHTML=`
       <img src="${d.i}">
       <div>
         <b>${d.t}</b>
-        <p style="color:#888;font-size:12px">${d.d}</p>
+        <p style="color:#777;font-size:12px">${d.d}</p>
       </div>
     `;
 
-    el.onclick = ()=>play(d.v);
-
-    list.appendChild(el);
+    el.onclick=()=>window.open(d.v);
+    grid.appendChild(el);
   });
 }
 
-/* ADD EPISODE */
+/* ADD */
 async function add(){
   await db.collection("episodes").add({
-    t: document.getElementById("t").value,
-    d: document.getElementById("d").value,
-    i: document.getElementById("i").value,
-    v: document.getElementById("v").value,
-    created: Date.now()
+    t:t.value,
+    d:d.value,
+    i:i.value,
+    v:v.value,
+    created:Date.now()
   });
 
   load();
-}
-
-/* PLAY */
-function play(url){
-  const w = window.open();
-  w.document.write(`
-    <style>body{margin:0;background:black}</style>
-    <video autoplay controls style="width:100%;height:100vh">
-      <source src="${url}">
-    </video>
-  `);
 }
 </script>
 
