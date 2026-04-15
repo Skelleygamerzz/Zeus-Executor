@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI CINEMA 🍿 | V2.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI CINEMA 🍿 | V2.2</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     
@@ -14,44 +14,39 @@
             --drawer-width: 280px;
         }
 
-        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        /* Essential Reset & No-Select */
+        * { box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; outline: none; }
 
         body {
             background-color: var(--bg-black);
             color: white;
             font-family: 'Arial Black', sans-serif;
             margin: 0;
-            overflow: hidden; /* Prevent double scrollbars */
-            width: 100%;
+            overflow: hidden;
             height: 100vh;
         }
 
-        /* --- UI Elements --- */
         .brand-logo { height: 40px; width: auto; pointer-events: none; }
         
-        #main-app { 
-            display: none; 
-            height: 100vh; 
-            overflow-y: auto; 
-            background: var(--bg-black);
-        }
+        #main-app { display: none; height: 100vh; overflow-y: auto; background: var(--bg-black); }
 
         nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 100; }
         .hamburger { cursor: pointer; }
         .hamburger div { width: 22px; height: 2px; background: white; margin: 5px; }
 
-        /* --- Sections --- */
+        /* --- Home Screen Sections --- */
         .section-title { padding: 0 5%; margin-top: 30px; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
         .section-title span { color: var(--zeus-red); font-size: 10px; letter-spacing: 2px; }
 
         .carousel { display: flex; overflow-x: auto; padding: 20px 5%; gap: 15px; scrollbar-width: none; }
         .carousel::-webkit-scrollbar { display: none; }
 
-        .show-card { min-width: 150px; width: 150px; cursor: pointer; }
-        .show-card video, .show-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 10px; border: 1px solid #222; }
-        .show-info { padding: 8px 0; font-size: 10px; font-family: 'Arial'; color: #888; text-transform: uppercase; }
+        .show-card { min-width: 150px; width: 150px; cursor: pointer; transition: 0.2s; }
+        .show-card:active { transform: scale(0.95); }
+        .show-card video, .show-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 12px; border: 1px solid #222; }
+        .show-info { padding: 8px 0; font-size: 10px; font-family: 'Arial'; color: #666; text-transform: uppercase; }
 
-        /* --- TIKTOK STYLE VERTICAL FEED --- */
+        /* --- TIKTOK VERTICAL FEED --- */
         #video-feed {
             display: none;
             position: fixed;
@@ -64,57 +59,59 @@
         }
 
         .feed-item {
-            width: 100%;
-            height: 100vh;
+            width: 100%; height: 100vh;
             scroll-snap-align: start;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .feed-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
+        .feed-item video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Sidebar UI */
+        .feed-sidebar {
+            position: absolute; right: 15px; bottom: 120px;
+            display: flex; flex-direction: column; gap: 20px; align-items: center; z-index: 2100;
         }
 
-        .feed-ui {
-            position: absolute;
-            bottom: 40px;
-            left: 20px;
-            text-align: left;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        .action-btn {
+            background: none; border: none; color: white;
+            display: flex; flex-direction: column; align-items: center; font-size: 24px; cursor: pointer;
         }
+        .action-btn span { font-size: 11px; margin-top: 5px; font-family: Arial; font-weight: bold; }
+        .action-btn.active { color: var(--zeus-red); }
 
-        .close-feed {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2100;
-            font-size: 30px;
-            cursor: pointer;
-            color: white;
-            opacity: 0.7;
-        }
+        /* Scrubber Bar */
+        .video-controls { position: absolute; bottom: 30px; left: 5%; width: 90%; z-index: 2100; }
+        .seeker { width: 100%; accent-color: var(--zeus-red); height: 4px; cursor: pointer; }
 
-        /* --- Login Revamp --- */
+        .feed-ui { position: absolute; bottom: 65px; left: 20px; pointer-events: none; }
+
+        .close-feed { position: fixed; top: 30px; right: 20px; z-index: 2100; font-size: 24px; cursor: pointer; color: white; background: rgba(0,0,0,0.5); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+        /* --- Login Screen --- */
         #login-screen {
             height: 100vh; display: flex; align-items: center; justify-content: center;
             background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
             background-size: cover; background-position: center;
         }
         .login-card {
-            background: rgba(10, 10, 10, 0.95); padding: 50px 30px; border-radius: 20px;
+            background: rgba(10, 10, 10, 0.98); padding: 50px 30px; border-radius: 25px;
             text-align: center; width: 90%; max-width: 360px; border-top: 4px solid var(--zeus-red);
         }
-        .google-circle-btn { width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto; cursor: pointer; border: none; }
-        .google-circle-btn img { width: 30px; }
+        
+        .circle-btn { 
+            width: 70px; height: 70px; background: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; border: none; transition: 0.2s; margin: 30px auto;
+            box-shadow: 0 10px 20px rgba(255, 32, 78, 0.2);
+        }
+        .circle-btn:active { transform: scale(0.9); }
+        .circle-btn img { width: 35px; }
 
         /* --- Drawer --- */
         .drawer { position: fixed; top: 0; right: -300px; width: var(--drawer-width); height: 100vh; background: #0a0a0a; z-index: 1000; transition: 0.4s; padding: 80px 20px; border-left: 1px solid #222; }
         .drawer.active { right: 0; }
-        .drawer-item { padding: 15px; border-bottom: 1px solid #111; color: #888; cursor: pointer; font-size: 14px; }
+        .drawer-item { padding: 18px; border-bottom: 1px solid #111; color: #888; cursor: pointer; font-size: 14px; }
         #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:999; }
     </style>
 </head>
@@ -124,22 +121,23 @@
         <div class="close-feed" onclick="closeFeed()">✕</div>
         
         <div class="feed-item">
-            <video class="feed-video" loop playsinline>
+            <video class="feed-video" loop playsinline onclick="toggleVideo(this)">
                 <source src="episode1.mp4" type="video/mp4">
             </video>
-            <div class="feed-ui">
-                <h2 style="margin:0; font-size: 20px;">FRUIT LOVE ISLAND</h2>
-                <p style="margin:5px 0; font-size:14px; font-family:Arial; color:#ccc;">E1: The First Squeeze</p>
+            
+            <div class="feed-sidebar">
+                <button class="action-btn" onclick="this.classList.toggle('active')">❤️<span>1.2k</span></button>
+                <button class="action-btn" onclick="alert('Join the discussion in V3!')">💬<span>452</span></button>
+                <button class="action-btn" onclick="toggleMute(this)">🔊<span>Mute</span></button>
             </div>
-        </div>
 
-        <div class="feed-item">
-            <video class="feed-video" loop playsinline>
-                <source src="episode2.mp4" type="video/mp4">
-            </video>
             <div class="feed-ui">
-                <h2 style="margin:0; font-size: 20px;">FRUIT LOVE ISLAND</h2>
-                <p style="margin:5px 0; font-size:14px; font-family:Arial; color:#ccc;">E2: Coming Soon...</p>
+                <h2 style="margin:0; font-size: 22px; color: var(--zeus-red);">FRUIT LOVE ISLAND</h2>
+                <p style="margin:5px 0; font-size:14px; color:#fff;">E1: The First Squeeze 🍎</p>
+            </div>
+
+            <div class="video-controls">
+                <input type="range" class="seeker" value="0" min="0" max="100" oninput="seekVideo(this)">
             </div>
         </div>
     </div>
@@ -154,11 +152,14 @@
     <div id="login-screen">
         <div class="login-card">
             <img src="logo.gif" class="brand-logo" style="margin: 0 auto;">
-            <div style="color: #888; font-family: Arial; font-size: 12px; margin-top: 30px; text-transform: uppercase;">Sign in with</div>
-            <button class="google-circle-btn" onclick="signIn('google')">
+            <div id="auth-title" style="color: #666; font-family: Arial; font-size: 11px; margin-top: 35px; text-transform: uppercase; letter-spacing: 2px;">Sign in with</div>
+            
+            <button class="circle-btn" onclick="signIn('google')">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg">
             </button>
-            <p onclick="signIn('guest')" style="color:#333; font-size:10px; margin-top:20px; cursor:pointer;">CONTINUE AS GUEST</p>
+
+            <p id="auth-toggle" onclick="toggleAuthMode()" style="color:var(--zeus-red); font-size:11px; cursor:pointer; font-family: Arial;">NEW TO THE NETWORK? SIGN UP</p>
+            <p onclick="signIn('guest')" style="color:#222; font-size:10px; margin-top:20px; cursor:pointer; font-family: Arial;">CONTINUE AS GUEST</p>
         </div>
     </div>
 
@@ -174,22 +175,19 @@
                 <video muted loop autoplay playsinline><source src="episode1.mp4" type="video/mp4"></video>
                 <div class="show-info">E1: THE FIRST SQUEEZE</div>
             </div>
-            <div class="show-card" onclick="openFeed(1)">
-                <div style="background:#222; aspect-ratio:9/16; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#444;">EP 2</div>
-                <div class="show-info">E2: SOON</div>
-            </div>
         </div>
 
         <div class="section-title">PRETTY QUEENS <span>NEW SERIES</span></div>
         <div class="carousel">
             <div class="show-card" style="filter: grayscale(1); opacity: 0.5;">
                 <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000">
-                <div class="show-info">TEASER</div>
+                <div class="show-info">QUEEN REVEAL</div>
             </div>
         </div>
     </div>
 
     <script>
+        // --- FIREBASE SETUP ---
         const firebaseConfig = {
     apiKey: "AIzaSyA11ejzUSS4Vxuxq2BolT-1zYbbTC6lS58",
     authDomain: "ai-cinema-7589b.firebaseapp.com",
@@ -202,45 +200,63 @@
 
         firebase.initializeApp(firebaseConfig);
 
+        /* --- AUTH --- */
+        let isSignUp = false;
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('auth-title').innerText = isSignUp ? "Sign up with" : "Sign in with";
+            document.getElementById('auth-toggle').innerText = isSignUp ? "ALREADY A MEMBER? LOGIN" : "NEW TO THE NETWORK? SIGN UP";
+        }
+
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                showMainApp('member', user.displayName);
-                document.getElementById('drawer-name').innerText = user.displayName.toUpperCase();
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                document.getElementById('drawer-name').innerText = user.displayName ? user.displayName.toUpperCase() : "MEMBER";
             }
         });
 
         function signIn(type) {
-            if (type === 'guest') { showMainApp('guest'); }
-            else {
-                var provider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithPopup(provider).catch(e => alert(e.message));
+            if (type === 'guest') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                return;
             }
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider).catch(e => alert(e.message));
         }
 
-        function showMainApp(type) {
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-        }
-
-        /* --- FEED LOGIC --- */
+        /* --- FEED CONTROLS --- */
         function openFeed(index) {
-            const feed = document.getElementById('video-feed');
-            feed.style.display = 'block';
-            const items = document.querySelectorAll('.feed-item');
-            
-            // Scroll to the specific episode clicked
-            items[index].scrollIntoView();
-            
-            // Play the video at that index
-            const videos = document.querySelectorAll('.feed-video');
-            videos[index].play();
+            document.getElementById('video-feed').style.display = 'block';
+            const v = document.querySelectorAll('.feed-video')[index];
+            v.play();
         }
 
         function closeFeed() {
             document.getElementById('video-feed').style.display = 'none';
-            const videos = document.querySelectorAll('.feed-video');
-            videos.forEach(v => v.pause());
+            document.querySelectorAll('.feed-video').forEach(v => v.pause());
         }
+
+        function toggleVideo(video) { video.paused ? video.play() : video.pause(); }
+
+        function toggleMute(btn) {
+            const v = btn.closest('.feed-item').querySelector('video');
+            v.muted = !v.muted;
+            btn.innerHTML = v.muted ? '🔇<span>Muted</span>' : '🔊<span>Mute</span>';
+        }
+
+        function seekVideo(range) {
+            const v = range.closest('.feed-item').querySelector('video');
+            v.currentTime = (range.value / 100) * v.duration;
+        }
+
+        document.querySelectorAll('.feed-video').forEach(v => {
+            v.ontimeupdate = () => {
+                const range = v.parentElement.querySelector('.seeker');
+                if(range) range.value = (v.currentTime / v.duration) * 100;
+            };
+        });
 
         function toggleDrawer() {
             document.getElementById('sideDrawer').classList.toggle('active');
@@ -248,10 +264,7 @@
         }
 
         function signOut() { firebase.auth().signOut().then(() => location.reload()); }
-        function deleteAccount() {
-            const user = firebase.auth().currentUser;
-            if (user && confirm("Delete account?")) user.delete().then(() => location.reload());
-        }
+        function deleteAccount() { if(confirm("Delete Account?")) firebase.auth().currentUser.delete().then(()=>location.reload()); }
     </script>
 </body>
 </html>
