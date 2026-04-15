@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI CINEMA 🍿 | The Network</title>
+    <title>AI CINEMA 🍿 | Beta 1.0</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     
@@ -12,6 +12,7 @@
             --zeus-red: #ff204e;
             --bg-black: #050505;
             --card-bg: #111;
+            --drawer-width: 280px;
         }
 
         body {
@@ -22,43 +23,36 @@
             overflow-x: hidden;
         }
 
+        /* --- Beta Warning --- */
+        .beta-banner {
+            background: #ffae00;
+            color: black;
+            font-size: 10px;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
         /* --- Cookie Bar --- */
         #cookie-bar {
             position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #111;
-            color: white;
-            padding: 20px;
-            z-index: 9999;
-            border-top: 2px solid var(--zeus-red);
-            text-align: center;
-            font-family: 'Arial', sans-serif;
+            bottom: 0; width: 100%; background: #111; color: white;
+            padding: 20px; z-index: 9999; border-top: 2px solid var(--zeus-red);
+            text-align: center; font-family: 'Arial', sans-serif;
         }
 
         /* --- Login Screen --- */
         #login-screen {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
-                        url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
             background-size: cover;
         }
-
         .login-card {
-            background: rgba(15, 15, 15, 0.98);
-            padding: 50px;
-            border-radius: 10px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            border-top: 5px solid var(--zeus-red);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: rgba(15, 15, 15, 0.98); padding: 50px; border-radius: 10px;
+            text-align: center; width: 90%; max-width: 400px; border-top: 5px solid var(--zeus-red);
         }
-
-        .logo { font-size: 32px; color: var(--zeus-red); letter-spacing: 2px; margin-bottom: 20px; }
+        .logo { font-size: 32px; color: var(--zeus-red); letter-spacing: 2px; }
 
         .google-btn {
             background: white; color: #757575; border: none; padding: 12px;
@@ -66,68 +60,91 @@
             display: flex; align-items: center; justify-content: center; transition: 0.3s;
         }
         .google-btn img { width: 20px; margin-right: 15px; }
-        .google-btn:hover { background: #f1f1f1; transform: translateY(-2px); }
 
-        .guest-link { color: #888; text-decoration: none; font-size: 14px; display: block; margin-top: 20px; font-family: 'Arial', sans-serif; }
-
-        /* --- Main Dashboard --- */
-        #main-app { display: none; padding: 40px 5%; }
+        /* --- Main App UI --- */
+        #main-app { display: none; padding-top: 20px; }
         
-        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 50px; }
-        .status-badge { background: var(--zeus-red); padding: 5px 15px; border-radius: 20px; font-size: 11px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 5%; }
 
-        .coming-soon-box {
-            text-align: center; margin-top: 10vh;
+        /* --- Hamburger Menu --- */
+        .hamburger {
+            cursor: pointer; display: flex; flex-direction: column; gap: 5px; z-index: 1001;
         }
-        .coming-soon-box h1 { font-size: 50px; line-height: 0.9; }
+        .hamburger div { width: 30px; height: 3px; background: white; transition: 0.3s; }
 
-        .btn-red { background: var(--zeus-red); color: white; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; }
-        .btn-outline { background: transparent; border: 1px solid #444; color: #888; padding: 5px 10px; cursor: pointer; font-size: 10px; }
+        /* --- Side Drawer --- */
+        .drawer {
+            position: fixed; top: 0; right: calc(var(--drawer-width) * -1); width: var(--drawer-width);
+            height: 100vh; background: #111; z-index: 1000; transition: 0.4s; padding: 80px 30px 30px;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        }
+        .drawer.active { right: 0; }
+        .drawer h3 { border-bottom: 1px solid #333; padding-bottom: 10px; font-size: 14px; color: #555; }
+        .drawer-item { padding: 15px 0; border-bottom: 1px solid #222; cursor: pointer; color: #ccc; font-size: 16px; transition: 0.2s; }
+        .drawer-item:hover { color: var(--zeus-red); }
+        .delete-btn { color: #551a1a; margin-top: 50px; font-size: 12px; }
+        .delete-btn:hover { color: var(--zeus-red); }
+
+        .coming-soon-box { text-align: center; margin-top: 15vh; padding: 0 5%; }
+        .coming-soon-box h1 { font-size: clamp(30px, 8vw, 60px); line-height: 0.9; }
+
+        .btn-red { background: var(--zeus-red); color: white; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
+        
+        #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:999; }
 
     </style>
 </head>
 <body>
 
+    <div class="beta-banner">Beta 1.0 - Expect bugs, glitches, and virtual monke chaos</div>
+
     <div id="cookie-bar" style="display:none;">
-        <span>AI CINEMA uses data to keep you logged in. 🍿</span>
+        <span>AI CINEMA uses cookies for members. 🍿</span>
         <button class="btn-red" onclick="acceptCookies()" style="margin-left: 15px;">ACCEPT</button>
+    </div>
+
+    <div id="overlay" onclick="toggleDrawer()"></div>
+    <div class="drawer" id="sideDrawer">
+        <h3>ACCOUNT SETTINGS</h3>
+        <div class="drawer-item" id="drawer-name">User Profile</div>
+        <div class="drawer-item" onclick="signOut()">Log Out</div>
+        <div class="drawer-item delete-btn" onclick="deleteAccount()">Delete Account & Data</div>
     </div>
 
     <div id="login-screen">
         <div class="login-card">
             <div class="logo">AI CINEMA 🍿</div>
-            <h2 style="font-size: 18px; margin-bottom: 30px;">THE NETWORK AWAITS</h2>
+            <p style="color:#555; font-size: 12px; margin-bottom: 30px;">VIRTUAL NETWORK ACCESS</p>
             <button class="google-btn" onclick="signIn('google')">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg">
                 Sign in with Google
             </button>
-            <a href="#" class="guest-link" onclick="signIn('guest')">Continue as Guest</a>
+            <a href="#" style="color:#444; font-size:12px; display:block; margin-top:20px; text-decoration:none;" onclick="signIn('guest')">Continue as Guest</a>
         </div>
     </div>
 
     <div id="main-app">
         <nav>
             <div class="logo">AI CINEMA 🍿</div>
-            <div id="user-info" style="text-align: right;">
-                <div id="user-status"></div>
-                <button class="btn-outline" onclick="signOut()" style="margin-top: 5px;">Log Out</button>
+            <div class="hamburger" onclick="toggleDrawer()">
+                <div></div><div></div><div></div>
             </div>
         </nav>
 
         <div class="coming-soon-box">
-            <p style="color: var(--zeus-red); letter-spacing: 3px;">PREMIUM NETWORK CONTENT</p>
-            <h1>MOVIES & SHOWS<br><span style="color: #333;">COMING SOON</span></h1>
-            <p style="color: #666; font-family: 'Arial'; max-width: 500px; margin: 20px auto;">Our AI is currently rendering "Monke Mayhem" Season 1. Full members will be notified as soon as the first episode drops.</p>
+            <p style="color: var(--zeus-red); letter-spacing: 3px; font-size: 12px;">BETA 1.0 PREMIERE</p>
+            <h1>MONKE MAYHEM<br><span style="color: #222;">LOADING...</span></h1>
+            <p style="color: #666; font-family: 'Arial'; max-width: 500px; margin: 20px auto; font-size: 14px;">The AI is currently rendering the pilot episode. Guests have limited viewing. Members will receive a notification on premiere day.</p>
             
-            <div id="guest-notice" style="display:none; margin-top: 40px; border: 1px dashed #444; padding: 30px;">
-                <p style="font-family: Arial;">⚠️ GUEST MODE: Access to full episodes is restricted.</p>
-                <button class="btn-red" onclick="location.reload()">Upgrade to Premium</button>
+            <div id="guest-notice" style="display:none; margin-top: 40px; border: 1px dashed #333; padding: 20px;">
+                <p style="font-size: 12px; color: #888;">GUEST ACCESS LIMITED</p>
+                <button class="btn-red" onclick="location.reload()">LOGIN FOR FULL ACCESS</button>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. REPLACE THIS WITH YOUR FIREBASE CONFIG CODE
+        // --- 1. CONFIG (REPLACE WITH YOURS) ---
         const firebaseConfig = {
     apiKey: "AIzaSyA11ejzUSS4Vxuxq2BolT-1zYbbTC6lS58",
     authDomain: "ai-cinema-7589b.firebaseapp.com",
@@ -138,61 +155,68 @@
     measurementId: "G-VJXN2W3ETD"
   };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // 2. CHECK LOGIN STATUS ON LOAD
+        // --- 2. AUTH OBSERVER ---
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 showMainApp('member', user.displayName);
+                document.getElementById('drawer-name').innerText = user.displayName;
             }
         });
 
-        // 3. COOKIE BAR LOGIC
-        window.onload = function() {
-            if (!localStorage.getItem('cookiesAccepted')) {
-                document.getElementById('cookie-bar').style.display = 'block';
-            }
-        };
-
-        function acceptCookies() {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-bar').style.display = 'none';
+        // --- 3. UI FUNCTIONS ---
+        function toggleDrawer() {
+            const drawer = document.getElementById('sideDrawer');
+            const overlay = document.getElementById('overlay');
+            drawer.classList.toggle('active');
+            overlay.style.display = drawer.classList.contains('active') ? 'block' : 'none';
         }
 
-        // 4. SIGN IN LOGIC
         function signIn(type) {
             if (type === 'guest') {
                 showMainApp('guest');
             } else {
                 var provider = new firebase.auth.GoogleAuthProvider();
-                firebase.auth().signInWithPopup(provider).then((result) => {
-                    showMainApp('member', result.user.displayName);
-                }).catch((error) => {
-                    alert("Error: " + error.message);
-                });
+                firebase.auth().signInWithPopup(provider).catch(e => alert(e.message));
             }
         }
 
-        // 5. UI UPDATE LOGIC
         function showMainApp(type, name = "") {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-
             if (type === 'guest') {
-                document.getElementById('user-status').innerHTML = '<span class="status-badge">GUEST MODE</span>';
                 document.getElementById('guest-notice').style.display = 'block';
-            } else {
-                document.getElementById('user-status').innerHTML = `<span class="status-badge">MEMBER: ${name.toUpperCase()}</span>`;
-                document.getElementById('guest-notice').style.display = 'none';
             }
         }
 
-        // 6. SIGN OUT LOGIC
         function signOut() {
-            firebase.auth().signOut().then(() => {
-                location.reload();
-            });
+            firebase.auth().signOut().then(() => location.reload());
+        }
+
+        function deleteAccount() {
+            const user = firebase.auth().currentUser;
+            if (user) {
+                if (confirm("WARNING: This will permanently delete your AI Cinema account. Are you sure?")) {
+                    user.delete().then(() => {
+                        alert("Account deleted.");
+                        location.reload();
+                    }).catch(() => {
+                        alert("For security, please log out and log back in before deleting your account.");
+                    });
+                }
+            } else {
+                alert("Guest accounts cannot be deleted (they don't exist!).");
+            }
+        }
+
+        // --- 4. COOKIES ---
+        if (!localStorage.getItem('cookiesAccepted')) {
+            document.getElementById('cookie-bar').style.display = 'block';
+        }
+        function acceptCookies() {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-bar').style.display = 'none';
         }
     </script>
 </body>
