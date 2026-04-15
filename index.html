@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>AI CINEMA 🍿</title>
+    <title>AI CINEMA 🍿 | V2.3 Official</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     
@@ -11,16 +11,16 @@
         :root {
             --zeus-red: #ff204e;
             --bg-black: #050505;
-            --drawer-width: 80%; /* Wider on mobile for better reach */
         }
 
-        /* Prevent overscroll bounce and accidental refresh */
+        /* --- GLOBAL FIXES --- */
         html, body {
             overflow: hidden;
             height: 100%;
             width: 100%;
             position: fixed;
             background-color: var(--bg-black);
+            margin: 0;
         }
 
         * { 
@@ -28,16 +28,12 @@
             user-select: none; 
             -webkit-tap-highlight-color: transparent; 
             outline: none;
-            scrollbar-width: none; 
         }
-        *::-webkit-scrollbar { display: none; }
 
         body {
             color: white;
             font-family: 'Arial Black', sans-serif;
-            margin: 0;
-            /* Use svh (Small Viewport Height) to prevent mobile browser glitches */
-            height: 100svh; 
+            height: 100svh; /* Dynamic viewport height for mobile */
         }
 
         .brand-logo { height: 38px; width: auto; pointer-events: none; }
@@ -47,7 +43,7 @@
             display: none; 
             height: 100svh; 
             overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; /* Smooth inertia scroll for iOS */
+            -webkit-overflow-scrolling: touch;
         }
 
         nav { 
@@ -58,22 +54,26 @@
             backdrop-filter: blur(10px);
         }
 
-        /* --- CAROUSEL FIXES --- */
+        /* --- HOME SCREEN LAYOUT --- */
         .section-title { padding: 0 5%; margin-top: 25px; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .section-title span { color: var(--zeus-red); font-size: 10px; letter-spacing: 2px; }
+        .section-title span { color: var(--zeus-red); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
 
         .carousel { 
             display: flex; overflow-x: auto; padding: 15px 5%; gap: 12px; 
             scroll-snap-type: x proximity;
+            scrollbar-width: none;
         }
+        .carousel::-webkit-scrollbar { display: none; }
 
-        .show-card { min-width: 140px; width: 140px; scroll-snap-align: start; }
+        .show-card { min-width: 145px; width: 145px; scroll-snap-align: start; cursor: pointer; transition: 0.2s; }
+        .show-card:active { transform: scale(0.95); }
         .show-card video, .show-card img { 
             width: 100%; aspect-ratio: 9/16; object-fit: cover; 
-            border-radius: 10px; border: 1px solid #1a1a1a; 
+            border-radius: 12px; border: 1px solid #1a1a1a; 
         }
+        .show-info { padding: 8px 0; font-size: 10px; font-family: 'Arial'; color: #666; text-transform: uppercase; }
 
-        /* --- TIKTOK FEED (THE BIG FIX) --- */
+        /* --- TIKTOK FEED OVERLAY --- */
         #video-feed {
             display: none;
             position: fixed;
@@ -83,7 +83,7 @@
             z-index: 2000;
             overflow-y: scroll;
             scroll-snap-type: y mandatory;
-            touch-action: pan-y; /* Fixes "sticky" scroll glitch */
+            touch-action: pan-y;
         }
 
         .feed-item {
@@ -96,64 +96,81 @@
         .feed-item video { width: 100%; height: 100%; object-fit: contain; }
 
         .feed-sidebar {
-            position: absolute; right: 12px; bottom: 100px;
-            display: flex; flex-direction: column; gap: 18px; z-index: 2100;
+            position: absolute; right: 15px; bottom: 120px;
+            display: flex; flex-direction: column; gap: 22px; z-index: 2100;
         }
 
-        .action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-        .action-btn i { font-size: 26px; }
-        .action-btn span { font-size: 10px; margin-top: 4px; font-family: Arial; }
+        .action-btn { background: none; border: none; color: white; display: flex; flex-direction: column; align-items: center; cursor: pointer; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        .action-btn span { font-size: 10px; margin-top: 5px; font-family: Arial; font-weight: bold; }
 
-        .video-controls { position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); left: 5%; width: 90%; z-index: 2100; }
-        .seeker { width: 100%; accent-color: var(--zeus-red); height: 3px; }
+        .video-controls { position: absolute; bottom: calc(30px + env(safe-area-inset-bottom)); left: 5%; width: 90%; z-index: 2100; }
+        .seeker { width: 100%; accent-color: var(--zeus-red); height: 4px; cursor: pointer; }
+
+        .feed-ui { position: absolute; bottom: 80px; left: 20px; pointer-events: none; text-shadow: 0 2px 10px rgba(0,0,0,1); }
 
         .close-feed { 
-            position: fixed; top: calc(15px + env(safe-area-inset-top)); right: 15px; 
-            z-index: 2200; font-size: 22px; color: white; background: rgba(0,0,0,0.4); 
-            width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            position: fixed; top: calc(20px + env(safe-area-inset-top)); right: 20px; 
+            z-index: 2200; font-size: 20px; color: white; background: rgba(0,0,0,0.5); 
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- LOGIN FIX --- */
+        /* --- LOGIN SCREEN --- */
         #login-screen {
             height: 100svh; display: flex; align-items: center; justify-content: center;
-            background: #000;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.95)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
+            background-size: cover; background-position: center;
         }
         .login-card {
-            background: rgba(15, 15, 15, 0.98); padding: 40px 25px; border-radius: 20px;
-            text-align: center; width: 85%; max-width: 340px; border: 1px solid #222;
+            background: rgba(10, 10, 10, 0.98); padding: 50px 30px; border-radius: 25px;
+            text-align: center; width: 85%; max-width: 350px; border-top: 3px solid var(--zeus-red);
         }
         
-        .circle-btn { width: 65px; height: 65px; background: white; border-radius: 50%; margin: 25px auto; display: flex; align-items: center; justify-content: center; border: none; }
-        .circle-btn img { width: 30px; }
+        .circle-btn { 
+            width: 70px; height: 70px; background: white; border-radius: 50%; margin: 30px auto; 
+            display: flex; align-items: center; justify-content: center; border: none; 
+            box-shadow: 0 10px 20px rgba(255, 32, 78, 0.2); transition: 0.2s;
+        }
+        .circle-btn:active { transform: scale(0.9); }
+        .circle-btn img { width: 35px; }
 
-        /* --- DRAWER --- */
+        /* --- SLIM SIDE DRAWER --- */
         .drawer { 
-            position: fixed; top: 0; right: -100%; width: var(--drawer-width); 
-            height: 100svh; background: #080808; z-index: 1000; transition: 0.3s ease-out; 
-            padding: calc(60px + env(safe-area-inset-top)) 20px; border-left: 1px solid #1a1a1a; 
+            position: fixed; top: 0; right: -100%; 
+            width: 300px; max-width: 80%;
+            height: 100svh; background: #080808; z-index: 3000; 
+            transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1); 
+            padding: calc(70px + env(safe-area-inset-top)) 20px; 
+            border-left: 1px solid #1a1a1a; 
         }
         .drawer.active { right: 0; }
-        .drawer-item { padding: 20px; border-bottom: 1px solid #111; color: #777; font-size: 14px; }
-        #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:999; }
+        .drawer-item { padding: 18px; border-bottom: 1px solid #111; color: #666; font-size: 13px; cursor: pointer; }
+        .drawer-item.admin-link { color: #00d4ff; font-weight: bold; }
+        
+        #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:2999; }
     </style>
 </head>
 <body>
 
     <div id="overlay" onclick="toggleDrawer()"></div>
+    
     <div class="drawer" id="sideDrawer">
-        <div class="drawer-item" id="drawer-name">MEMBER</div>
+        <div class="drawer-item" id="drawer-name">MEMBER ACCESS</div>
+        <a id="admin-link" class="drawer-item admin-link" href="https://console.firebase.google.com/" target="_blank" style="display:none; text-decoration: none;">🛡️ ADMIN PANEL</a>
         <div class="drawer-item" onclick="signOut()">LOG OUT</div>
-        <div class="drawer-item" style="color:#421; margin-top: 40px;" onclick="deleteAccount()">DELETE ACCOUNT</div>
+        <div class="drawer-item" style="color:#311; margin-top: 50px;" onclick="deleteAccount()">DELETE ACCOUNT</div>
     </div>
 
     <div id="login-screen">
         <div class="login-card">
             <img src="logo.gif" class="brand-logo" style="margin: 0 auto;">
-            <p style="color: #555; font-size: 10px; margin-top: 30px; letter-spacing: 2px;">SECURE ACCESS</p>
+            <p id="auth-title" style="color: #444; font-size: 10px; margin-top: 35px; letter-spacing: 2px; font-weight: bold;">SIGN IN WITH</p>
+            
             <button class="circle-btn" onclick="signIn('google')">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg">
             </button>
-            <p onclick="signIn('guest')" style="color:#222; font-size:10px; cursor:pointer;">CONTINUE AS GUEST</p>
+
+            <p id="auth-toggle" onclick="toggleAuthMode()" style="color:var(--zeus-red); font-size:11px; cursor:pointer; font-family: Arial;">NEW TO THE NETWORK? SIGN UP</p>
+            <p onclick="signIn('guest')" style="color:#222; font-size:10px; margin-top:20px; cursor:pointer;">CONTINUE AS GUEST</p>
         </div>
     </div>
 
@@ -161,25 +178,29 @@
         <nav>
             <img src="logo.gif" class="brand-logo">
             <div onclick="toggleDrawer()" style="cursor:pointer; padding: 5px;">
-                <div style="width:20px; height:2px; background:white; margin:4px;"></div>
-                <div style="width:20px; height:2px; background:white; margin:4px;"></div>
+                <div style="width:22px; height:2px; background:white; margin:5px;"></div>
+                <div style="width:22px; height:2px; background:white; margin:5px;"></div>
             </div>
         </nav>
 
-        <div class="section-title">FRUIT LOVE ISLAND <span>SEASON 1</span></div>
+        <div class="section-title">FRUIT LOVE ISLAND <span>S1 PREMIERE</span></div>
         <div class="carousel">
             <div class="show-card" onclick="openFeed(0)">
                 <video muted loop autoplay playsinline><source src="episode1.mp4" type="video/mp4"></video>
                 <div class="show-info">E1: THE FIRST SQUEEZE</div>
             </div>
-            </div>
+        </div>
 
         <div class="section-title">PRETTY QUEENS <span>COMING SOON</span></div>
         <div class="carousel">
             <div class="show-card" style="opacity: 0.3;">
-                <div style="background:#111; aspect-ratio:9/16; border-radius:10px; border:1px solid #222;"></div>
-                <div class="show-info">LOCKED</div>
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000">
+                <div class="show-info">S1 TEASER</div>
             </div>
+        </div>
+        
+        <div style="padding: 40px; text-align: center; font-size: 10px; color: #222; letter-spacing: 2px;">
+            AI CINEMA NETWORK V2.3 ONLINE
         </div>
     </div>
 
@@ -193,18 +214,23 @@
             
             <div class="feed-sidebar">
                 <button class="action-btn" onclick="this.style.color='var(--zeus-red)'">❤️<span>1.2k</span></button>
-                <button class="action-btn">💬<span>452</span></button>
+                <button class="action-btn" onclick="alert('Join the chat soon!')">💬<span>452</span></button>
                 <button class="action-btn" onclick="toggleMute(this)">🔊</button>
+            </div>
+
+            <div class="feed-ui">
+                <h2 style="margin:0; font-size: 20px; color: var(--zeus-red);">FRUIT LOVE ISLAND</h2>
+                <p style="margin:5px 0; font-size:14px; color:#fff;">E1: The First Squeeze 🍎</p>
             </div>
 
             <div class="video-controls">
                 <input type="range" class="seeker" value="0" min="0" max="100" oninput="seekVideo(this)">
             </div>
         </div>
-        </div>
+    </div>
 
     <script>
-        // --- FIREBASE SETUP ---
+        // --- YOUR FIREBASE CONFIG ---
         const firebaseConfig = {
     apiKey: "AIzaSyA11ejzUSS4Vxuxq2BolT-1zYbbTC6lS58",
     authDomain: "ai-cinema-7589b.firebaseapp.com",
@@ -214,14 +240,26 @@
     appId: "1:644187979775:web:93384ffa68a9b1815c31ca",
     measurementId: "G-VJXN2W3ETD"
   };
-
         firebase.initializeApp(firebaseConfig);
+
+        /* --- AUTH SYSTEM --- */
+        let isSignUp = false;
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('auth-title').innerText = isSignUp ? "SIGN UP WITH" : "SIGN IN WITH";
+            document.getElementById('auth-toggle').innerText = isSignUp ? "ALREADY A MEMBER? LOGIN" : "NEW TO THE NETWORK? SIGN UP";
+        }
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('login-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
                 document.getElementById('drawer-name').innerText = user.displayName ? user.displayName.toUpperCase() : "MEMBER";
+                
+                // ADMIN CHECK: Change to your email
+                if (user.email === "your-email@gmail.com") {
+                    document.getElementById('admin-link').style.display = 'block';
+                }
             }
         });
 
@@ -232,10 +270,10 @@
                 return;
             }
             const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider);
+            firebase.auth().signInWithPopup(provider).catch(e => alert(e.message));
         }
 
-        // --- MOBILE SMOOTH FEED ---
+        /* --- VIDEO FEED CONTROLS --- */
         function openFeed(index) {
             const feed = document.getElementById('video-feed');
             feed.style.display = 'block';
@@ -268,6 +306,7 @@
             };
         });
 
+        /* --- UI HELPERS --- */
         function toggleDrawer() {
             const d = document.getElementById('sideDrawer');
             d.classList.toggle('active');
@@ -275,6 +314,7 @@
         }
 
         function signOut() { firebase.auth().signOut().then(() => location.reload()); }
+        function deleteAccount() { if(confirm("Permanently delete account?")) firebase.auth().currentUser.delete().then(()=>location.reload()); }
     </script>
 </body>
 </html>
