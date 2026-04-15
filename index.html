@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI CINEMA 🍿 | V2 Network</title>
+    <title>AI CINEMA 🍿 | V2.1</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     
@@ -21,95 +21,144 @@
             color: white;
             font-family: 'Arial Black', sans-serif;
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden; /* Prevent double scrollbars */
             width: 100%;
+            height: 100vh;
         }
 
-        .brand-logo { height: 45px; width: auto; pointer-events: none; display: block; }
-
-        /* --- Login Screen Revamp --- */
-        #login-screen {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
-            background-size: cover; background-position: center;
+        /* --- UI Elements --- */
+        .brand-logo { height: 40px; width: auto; pointer-events: none; }
+        
+        #main-app { 
+            display: none; 
+            height: 100vh; 
+            overflow-y: auto; 
+            background: var(--bg-black);
         }
 
-        .login-card {
-            background: rgba(10, 10, 10, 0.95); padding: 50px 30px; border-radius: 20px;
-            text-align: center; width: 90%; max-width: 360px; border-top: 4px solid var(--zeus-red);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        .sign-in-text {
-            color: #888; font-family: 'Arial', sans-serif; font-size: 14px;
-            margin: 30px 0 15px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        .google-circle-btn {
-            width: 60px; height: 60px; background: white; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
-            border: none; box-shadow: 0 4px 15px rgba(255, 32, 78, 0.3);
-        }
-
-        .google-circle-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(255, 32, 78, 0.5); }
-        .google-circle-btn:active { transform: scale(0.95); }
-        .google-circle-btn img { width: 30px; height: 30px; }
-
-        /* --- Main UI Elements --- */
-        .beta-banner {
-            background: #ffae00; color: black; font-size: 10px; text-align: center;
-            padding: 5px; font-weight: bold; text-transform: uppercase;
-        }
-
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.95); position: sticky; top: 0; z-index: 100; }
-        .hamburger { cursor: pointer; padding: 5px; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.9); position: sticky; top: 0; z-index: 100; }
+        .hamburger { cursor: pointer; }
         .hamburger div { width: 22px; height: 2px; background: white; margin: 5px; }
 
+        /* --- Sections --- */
         .section-title { padding: 0 5%; margin-top: 30px; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
         .section-title span { color: var(--zeus-red); font-size: 10px; letter-spacing: 2px; }
 
         .carousel { display: flex; overflow-x: auto; padding: 20px 5%; gap: 15px; scrollbar-width: none; }
         .carousel::-webkit-scrollbar { display: none; }
 
-        .show-card { min-width: 160px; width: 160px; background: #111; border-radius: 12px; overflow: hidden; border: 1px solid #222; }
-        .show-card video, .show-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; }
-        .show-info { padding: 10px; font-size: 11px; font-family: 'Arial'; color: #888; }
+        .show-card { min-width: 150px; width: 150px; cursor: pointer; }
+        .show-card video, .show-card img { width: 100%; aspect-ratio: 9/16; object-fit: cover; border-radius: 10px; border: 1px solid #222; }
+        .show-info { padding: 8px 0; font-size: 10px; font-family: 'Arial'; color: #888; text-transform: uppercase; }
+
+        /* --- TIKTOK STYLE VERTICAL FEED --- */
+        #video-feed {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100vh;
+            background: black;
+            z-index: 2000;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        .feed-item {
+            width: 100%;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feed-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feed-ui {
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+            text-align: left;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .close-feed {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2100;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            opacity: 0.7;
+        }
+
+        /* --- Login Revamp --- */
+        #login-screen {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059');
+            background-size: cover; background-position: center;
+        }
+        .login-card {
+            background: rgba(10, 10, 10, 0.95); padding: 50px 30px; border-radius: 20px;
+            text-align: center; width: 90%; max-width: 360px; border-top: 4px solid var(--zeus-red);
+        }
+        .google-circle-btn { width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto; cursor: pointer; border: none; }
+        .google-circle-btn img { width: 30px; }
 
         /* --- Drawer --- */
         .drawer { position: fixed; top: 0; right: -300px; width: var(--drawer-width); height: 100vh; background: #0a0a0a; z-index: 1000; transition: 0.4s; padding: 80px 20px; border-left: 1px solid #222; }
         .drawer.active { right: 0; }
         .drawer-item { padding: 15px; border-bottom: 1px solid #111; color: #888; cursor: pointer; font-size: 14px; }
-        #admin-link { display: none; color: #555; font-size: 10px; padding: 15px; text-decoration: none; border-top: 1px solid #222; margin-top: 20px; }
-
-        #main-app { display: none; }
         #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:999; }
     </style>
 </head>
 <body>
 
-    <div class="beta-banner">AI CINEMA V2 - PREMIUM ACCESS</div>
+    <div id="video-feed">
+        <div class="close-feed" onclick="closeFeed()">✕</div>
+        
+        <div class="feed-item">
+            <video class="feed-video" loop playsinline>
+                <source src="episode1.mp4" type="video/mp4">
+            </video>
+            <div class="feed-ui">
+                <h2 style="margin:0; font-size: 20px;">FRUIT LOVE ISLAND</h2>
+                <p style="margin:5px 0; font-size:14px; font-family:Arial; color:#ccc;">E1: The First Squeeze</p>
+            </div>
+        </div>
+
+        <div class="feed-item">
+            <video class="feed-video" loop playsinline>
+                <source src="episode2.mp4" type="video/mp4">
+            </video>
+            <div class="feed-ui">
+                <h2 style="margin:0; font-size: 20px;">FRUIT LOVE ISLAND</h2>
+                <p style="margin:5px 0; font-size:14px; font-family:Arial; color:#ccc;">E2: Coming Soon...</p>
+            </div>
+        </div>
+    </div>
 
     <div id="overlay" onclick="toggleDrawer()"></div>
     <div class="drawer" id="sideDrawer">
-        <h3 style="font-size: 10px; color: #444; padding-left: 15px; letter-spacing: 2px;">ACCOUNT</h3>
         <div class="drawer-item" id="drawer-name">USER</div>
         <div class="drawer-item" onclick="signOut()">LOG OUT</div>
-        <a id="admin-link" href="https://console.firebase.google.com/" target="_blank">🛡️ ADMIN CONSOLE</a>
         <div class="drawer-item" style="color:#331111; margin-top: 50px;" onclick="deleteAccount()">DELETE ACCOUNT</div>
     </div>
 
     <div id="login-screen">
         <div class="login-card">
             <img src="logo.gif" class="brand-logo" style="margin: 0 auto;">
-            
-            <div class="sign-in-text">Sign in with</div>
-            
+            <div style="color: #888; font-family: Arial; font-size: 12px; margin-top: 30px; text-transform: uppercase;">Sign in with</div>
             <button class="google-circle-btn" onclick="signIn('google')">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg">
             </button>
-
-            <p onclick="signIn('guest')" style="color:#333; font-size:10px; margin-top:30px; cursor:pointer; font-family: Arial; letter-spacing: 1px;">CONTINUE AS GUEST</p>
+            <p onclick="signIn('guest')" style="color:#333; font-size:10px; margin-top:20px; cursor:pointer;">CONTINUE AS GUEST</p>
         </div>
     </div>
 
@@ -121,26 +170,22 @@
 
         <div class="section-title">FRUIT LOVE ISLAND <span>S1 PREMIERE</span></div>
         <div class="carousel">
-            <div class="show-card" onclick="alert('Episode 1 Starting...')">
-                <video loop muted autoplay playsinline><source src="episode1.mp4" type="video/mp4"></video>
+            <div class="show-card" onclick="openFeed(0)">
+                <video muted loop autoplay playsinline><source src="episode1.mp4" type="video/mp4"></video>
                 <div class="show-info">E1: THE FIRST SQUEEZE</div>
             </div>
-            <div class="show-card" style="opacity: 0.4;">
-                <img src="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?q=80&w=1000">
-                <div class="show-info">E2: COMING SOON</div>
+            <div class="show-card" onclick="openFeed(1)">
+                <div style="background:#222; aspect-ratio:9/16; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#444;">EP 2</div>
+                <div class="show-info">E2: SOON</div>
             </div>
         </div>
 
         <div class="section-title">PRETTY QUEENS <span>NEW SERIES</span></div>
         <div class="carousel">
-            <div class="show-card" style="filter: grayscale(1); opacity: 0.6;">
+            <div class="show-card" style="filter: grayscale(1); opacity: 0.5;">
                 <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000">
-                <div class="show-info">MEET THE QUEENS</div>
+                <div class="show-info">TEASER</div>
             </div>
-        </div>
-
-        <div style="padding: 60px 5% 100px; text-align: center;">
-            <div id="user-status-tag" style="font-size: 10px; color: #222; letter-spacing: 3px;">NETWORK STATUS: ONLINE</div>
         </div>
     </div>
 
@@ -161,13 +206,6 @@
             if (user) {
                 showMainApp('member', user.displayName);
                 document.getElementById('drawer-name').innerText = user.displayName.toUpperCase();
-                
-                // ADMIN EMAIL CHECK
-                if (user.email === "your-email@gmail.com") {
-                    document.getElementById('admin-link').style.display = "block";
-                    document.getElementById('user-status-tag').innerText = "NETWORK STATUS: ADMIN CONNECTED";
-                    document.getElementById('user-status-tag').style.color = "var(--zeus-red)";
-                }
             }
         });
 
@@ -179,12 +217,29 @@
             }
         }
 
-        function showMainApp(type, name = "") {
+        function showMainApp(type) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-            if (type === 'guest') { 
-                document.getElementById('user-status-tag').innerText = "NETWORK STATUS: GUEST MODE";
-            }
+        }
+
+        /* --- FEED LOGIC --- */
+        function openFeed(index) {
+            const feed = document.getElementById('video-feed');
+            feed.style.display = 'block';
+            const items = document.querySelectorAll('.feed-item');
+            
+            // Scroll to the specific episode clicked
+            items[index].scrollIntoView();
+            
+            // Play the video at that index
+            const videos = document.querySelectorAll('.feed-video');
+            videos[index].play();
+        }
+
+        function closeFeed() {
+            document.getElementById('video-feed').style.display = 'none';
+            const videos = document.querySelectorAll('.feed-video');
+            videos.forEach(v => v.pause());
         }
 
         function toggleDrawer() {
@@ -193,12 +248,9 @@
         }
 
         function signOut() { firebase.auth().signOut().then(() => location.reload()); }
-        
         function deleteAccount() {
             const user = firebase.auth().currentUser;
-            if (user && confirm("Delete account permanently?")) {
-                user.delete().then(() => location.reload()).catch(() => alert("Verify login first."));
-            }
+            if (user && confirm("Delete account?")) user.delete().then(() => location.reload());
         }
     </script>
 </body>
