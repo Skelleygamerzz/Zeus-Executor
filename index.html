@@ -10,93 +10,76 @@
 <script defer src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
-:root{
-  --bg:#050505;
-  --red:#ff204e;
-  --surface:#121212;
-  --text:#fff;
-  --muted:#888;
-  --radius:14px;
-}
-
 body{
   margin:0;
-  font-family:Arial, sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  font-family:Arial;
+  background:#050505;
+  color:white;
 }
-
-.hidden{display:none}
 
 /* LOGIN */
 #login{
   height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
 }
 .card{
-  background:var(--surface);
+  background:#111;
   padding:40px;
-  border-radius:var(--radius);
-  width:320px;
+  border-radius:12px;
   text-align:center;
-  border:1px solid #222;
+  width:300px;
 }
-button{
-  cursor:pointer;
-}
+button{padding:10px 15px; cursor:pointer}
 
 /* MAIN */
+.hidden{display:none}
+
 nav{
   display:flex;
   justify-content:space-between;
   padding:20px;
   border-bottom:1px solid #222;
 }
-.logo{color:var(--red); font-weight:900}
+.logo{color:#ff204e;font-weight:900}
 
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
+  gap:15px;
   padding:20px;
 }
 
-.card-show{
+.item{
   background:#111;
-  border-radius:12px;
+  border-radius:10px;
   overflow:hidden;
+  cursor:pointer;
   transition:0.2s;
 }
-.card-show:hover{transform:scale(1.03)}
-.card-show img{
-  width:100%;
-  height:120px;
-  object-fit:cover;
-}
-
-.card-body{padding:10px}
+.item:hover{transform:scale(1.03)}
+.item img{width:100%;height:120px;object-fit:cover}
+.item div{padding:10px}
 
 /* ADMIN */
-#adminPanel{
+#admin{
   position:fixed;
-  right:20px;
   bottom:20px;
+  right:20px;
   background:#111;
   padding:15px;
-  border-radius:12px;
+  border-radius:10px;
   border:1px solid #333;
-  width:260px;
+  width:250px;
 }
-
 input{
   width:100%;
   margin:5px 0;
   padding:8px;
   background:#000;
   border:1px solid #333;
-  color:#fff;
+  color:white;
 }
 </style>
 </head>
@@ -106,13 +89,13 @@ input{
 <!-- LOGIN -->
 <div id="login">
   <div class="card">
-    <h2 style="color:var(--red)">AI CINEMA</h2>
+    <h2 style="color:#ff204e">AI CINEMA</h2>
     <button onclick="login()">Sign in with Google</button>
     <p id="err"></p>
   </div>
 </div>
 
-<!-- MAIN -->
+<!-- APP -->
 <div id="app" class="hidden">
 
 <nav>
@@ -120,16 +103,16 @@ input{
   <button onclick="logout()">Logout</button>
 </nav>
 
-<div id="episodes" class="grid"></div>
+<div id="list" class="grid"></div>
 
 <!-- ADMIN PANEL -->
-<div id="adminPanel" class="hidden">
-  <h3>Admin Panel</h3>
-  <input id="title" placeholder="Episode title">
-  <input id="desc" placeholder="Description">
-  <input id="img" placeholder="Thumbnail URL">
-  <input id="video" placeholder="Video URL">
-  <button onclick="addEpisode()">Add Episode</button>
+<div id="admin" class="hidden">
+  <h3>Admin</h3>
+  <input id="t" placeholder="title">
+  <input id="d" placeholder="desc">
+  <input id="i" placeholder="image url">
+  <input id="v" placeholder="video url">
+  <button onclick="add()">Add</button>
 </div>
 
 </div>
@@ -142,87 +125,105 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-/* CHANGE THIS TO YOUR UID */
-const ADMIN_UIDS = ["YOUR_UID_HERE"];
+/* 🔥 PUT YOUR UID HERE */
+const ADMIN_UIDS = ["GFTE6DKoQsdxX0mXoABSXNOyt072"];
 
-let currentUser = null;
+let user = null;
 
-/* AUTH */
-auth.onAuthStateChanged(async user=>{
-  if(!user){
-    document.getElementById("login").classList.remove("hidden");
-    document.getElementById("app").classList.add("hidden");
+/* UI */
+function showLogin(){
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("app").classList.add("hidden");
+}
+
+function showApp(){
+  document.getElementById("login").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+}
+
+/* AUTH FIXED */
+auth.onAuthStateChanged(async u=>{
+  if(!u){
+    user = null;
+    showLogin();
     return;
   }
 
-  currentUser = user;
+  user = u;
+  showApp();
+  load();
 
-  document.getElementById("login").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-
-  loadEpisodes();
-
-  if(ADMIN_UIDS.includes(user.uid)){
-    document.getElementById("adminPanel").classList.remove("hidden");
+  if(ADMIN_UIDS.includes(u.uid)){
+    document.getElementById("admin").classList.remove("hidden");
+  } else {
+    document.getElementById("admin").classList.add("hidden");
   }
 });
 
+/* LOGIN */
 function login(){
   const provider = new firebase.auth.GoogleAuthProvider();
+
   auth.signInWithPopup(provider).catch(e=>{
     document.getElementById("err").innerText = e.message;
   });
 }
 
+/* LOGOUT */
 function logout(){
   auth.signOut();
 }
 
-/* FIRESTORE EPISODES */
-async function loadEpisodes(){
+/* LOAD EPISODES */
+async function load(){
   const snap = await db.collection("episodes").orderBy("created","desc").get();
 
-  const container = document.getElementById("episodes");
-  container.innerHTML = "";
+  const list = document.getElementById("list");
+  list.innerHTML = "";
 
   snap.forEach(doc=>{
     const d = doc.data();
 
-    container.innerHTML += `
-      <div class="card-show" onclick="play('${d.video}')">
-        <img src="${d.img}">
-        <div class="card-body">
-          <b>${d.title}</b>
-          <p style="color:#888;font-size:12px">${d.desc}</p>
-        </div>
+    const el = document.createElement("div");
+    el.className = "item";
+
+    el.innerHTML = `
+      <img src="${d.i}">
+      <div>
+        <b>${d.t}</b>
+        <p style="color:#888;font-size:12px">${d.d}</p>
       </div>
     `;
+
+    el.onclick = ()=>play(d.v);
+
+    list.appendChild(el);
   });
 }
 
-/* ADD EPISODE (ADMIN) */
-async function addEpisode(){
-  const title = document.getElementById("title").value;
-  const desc = document.getElementById("desc").value;
-  const img = document.getElementById("img").value;
-  const video = document.getElementById("video").value;
-
+/* ADD EPISODE */
+async function add(){
   await db.collection("episodes").add({
-    title, desc, img, video,
+    t: document.getElementById("t").value,
+    d: document.getElementById("d").value,
+    i: document.getElementById("i").value,
+    v: document.getElementById("v").value,
     created: Date.now()
   });
 
-  loadEpisodes();
+  load();
 }
 
 /* PLAY */
 function play(url){
   const w = window.open();
   w.document.write(`
-    <video autoplay controls style="width:100%;height:100vh;background:black">
+    <style>body{margin:0;background:black}</style>
+    <video autoplay controls style="width:100%;height:100vh">
       <source src="${url}">
     </video>
   `);
