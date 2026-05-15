@@ -51,12 +51,33 @@
     .hidden {
       display: none;
     }
+
+    /* IMAGE GRID */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      padding: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
   </style>
 </head>
 
 <body>
 
-  <!-- FULL SCREEN COOKIE GATE -->
+   <!-- FULL SCREEN COOKIE GATE -->
   <div class="gate" id="gate">
     <div class="gate-box">
       <h2>ALL ABOUT PEETASTER! how she is a crazy mental bitch</h2>
@@ -68,10 +89,26 @@
     </div>
   </div>
 
+      <button onclick="accept()">enter</button>
+    </div>
+  </div>
+
   <!-- MAIN CONTENT -->
   <div id="content" class="hidden">
+
     <h1 style="padding:20px;">My Streaming Website</h1>
     <p style="padding:20px;">Welcome in 👋</p>
+
+    <!-- IMAGE GALLERY -->
+    <div class="gallery">
+      <img src="photo1.png" alt="photo1">
+      <img src="photo2.png" alt="photo2">
+      <img src="photo3.png" alt="photo3">
+      <img src="photo4.png" alt="photo4">
+      <img src="photo5.png" alt="photo5">
+      <img src="photo6.png" alt="photo6">
+    </div>
+
   </div>
 
   <script>
@@ -118,7 +155,6 @@
         console.error(err);
       }
 
-      // unlock site
       document.getElementById("gate").style.display = "none";
       document.getElementById("content").classList.remove("hidden");
     }
