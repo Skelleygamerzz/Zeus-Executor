@@ -1,173 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ALL ABOUT PEETASTER</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GlassOS Simulator</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --glass:rgba(255,255,255,.12);
+  --glass2:rgba(255,255,255,.2);
+  --border:rgba(255,255,255,.22);
+  --text:#fff;
+  --muted:rgba(255,255,255,.68);
+  --shadow:0 24px 70px rgba(0,0,0,.35);
+}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+body{background:#10131a}
+button,input{font:inherit}
+button{border:0;cursor:pointer;color:inherit}
+.hidden{display:none!important}
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-    }
+/* Setup */
+#setup{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+ background:radial-gradient(circle at 25% 20%,#6277a8 0,#27314b 32%,#10131a 75%);
+}
+.setup-card{width:min(620px,calc(100vw - 36px));min-height:440px;padding:42px;border:1px solid var(--border);
+ border-radius:32px;background:rgba(20,25,38,.58);backdrop-filter:blur(30px);box-shadow:var(--shadow)}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.5px}
+.setup-step{display:none}
+.setup-step.active{display:block}
+.setup-step h1{font-size:42px;line-height:1.02;letter-spacing:-2px;margin:72px 0 12px}
+.setup-step p{color:var(--muted);margin:0 0 28px}
+.setup-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:34px}
+.primary,.secondary{padding:12px 18px;border-radius:14px}
+.primary{background:#fff;color:#111;font-weight:700}
+.secondary{background:var(--glass);border:1px solid var(--border)}
+.field{width:100%;padding:14px 16px;background:rgba(0,0,0,.2);border:1px solid var(--border);
+ border-radius:14px;outline:0;color:#fff}
+.field:focus{border-color:rgba(255,255,255,.55)}
+.progress{height:4px;background:rgba(255,255,255,.12);border-radius:10px;margin-top:34px;overflow:hidden}
+.progress i{display:block;height:100%;background:#fff;width:20%;transition:.3s}
 
-    /* FULL SCREEN GATE */
-    .gate {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.95);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 20px;
-    }
+/* Desktop */
+#desktop{position:fixed;inset:0;background:
+ radial-gradient(circle at 70% 10%,rgba(117,139,196,.55),transparent 35%),
+ radial-gradient(circle at 10% 80%,rgba(83,113,164,.45),transparent 38%),
+ linear-gradient(135deg,#1c263b,#0b1019 70%);
+}
+#desktop:before{content:"";position:absolute;inset:0;background:linear-gradient(125deg,transparent 0 48%,rgba(255,255,255,.04) 50%,transparent 52%);pointer-events:none}
+.topbar{height:44px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:rgba(0,0,0,.18);backdrop-filter:blur(20px);font-size:13px;position:relative;z-index:20}
+.status{display:flex;gap:16px;color:var(--muted)}
+.welcome{position:absolute;top:80px;left:70px}
+.welcome h2{font-size:28px;margin:0 0 5px;letter-spacing:-1px}
+.welcome p{margin:0;color:var(--muted)}
+.dock{position:absolute;bottom:17px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;padding:9px;
+ background:rgba(255,255,255,.13);border:1px solid var(--border);border-radius:22px;backdrop-filter:blur(28px);box-shadow:0 15px 50px rgba(0,0,0,.3)}
+.dock button{width:52px;height:52px;border-radius:15px;background:rgba(255,255,255,.12);font-size:23px;transition:.18s}
+.dock button:hover{transform:translateY(-8px) scale(1.08);background:rgba(255,255,255,.22)}
+.window{position:absolute;z-index:10;width:min(850px,calc(100vw - 34px));height:min(580px,calc(100vh - 120px));left:50%;top:50%;transform:translate(-50%,-50%);
+ background:rgba(18,22,31,.72);border:1px solid var(--border);border-radius:24px;backdrop-filter:blur(30px);box-shadow:var(--shadow);overflow:hidden}
+.window-head{height:52px;display:flex;align-items:center;padding:0 15px;border-bottom:1px solid rgba(255,255,255,.1);gap:12px}
+.controls{display:flex;gap:7px}
+.controls i{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.25)}
+.window-title{flex:1;text-align:center;font-size:13px;color:var(--muted)}
+.close{background:none;font-size:20px;color:var(--muted)}
+.window-body{height:calc(100% - 52px);overflow:auto}
 
-    .gate-box {
-      max-width: 500px;
-      width: 100%;
-      background: #1c1c1c;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 0 30px rgba(0,0,0,0.6);
-    }
+/* Browser */
+.browser-tools{display:flex;gap:8px;padding:12px;border-bottom:1px solid rgba(255,255,255,.1)}
+.browser-tools button{background:var(--glass);border-radius:10px;padding:8px 11px}
+.address{flex:1;border:1px solid var(--border);background:rgba(0,0,0,.18);color:#fff;border-radius:11px;padding:9px 13px;outline:0}
+.browser-page{padding:55px;text-align:center}
+.browser-page h1{font-size:48px;letter-spacing:-3px;margin:25px 0 8px}
+.browser-page p{color:var(--muted)}
+.search{margin:28px auto;width:min(560px,90%);display:flex;gap:8px}
+.search input{flex:1}
 
-    button {
-      margin-top: 15px;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      background: #5865F2;
-      color: white;
-      width: 100%;
-    }
+/* Settings */
+.settings{display:flex;height:100%}
+.sidebar{width:190px;border-right:1px solid rgba(255,255,255,.1);padding:16px}
+.sidebar button{display:block;width:100%;text-align:left;padding:11px 12px;border-radius:10px;background:none;margin-bottom:4px;color:var(--muted)}
+.sidebar button.active,.sidebar button:hover{background:var(--glass);color:#fff}
+.settings-content{padding:30px;flex:1}
+.setting-card{padding:18px;background:var(--glass);border:1px solid rgba(255,255,255,.1);border-radius:17px;margin:12px 0}
+.setting-card h3{margin:0 0 5px}
+.setting-card p{color:var(--muted);font-size:13px;margin:0}
+.toggle{float:right;width:42px;height:24px;border-radius:20px;background:#fff;position:relative}
+.toggle:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#222;right:3px;top:3px}
 
-    /* hide main content until accepted */
-    .hidden {
-      display: none;
-    }
+/* File manager */
+.files{padding:25px;display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px}
+.file{padding:22px 10px;text-align:center;border-radius:16px;background:var(--glass);border:1px solid rgba(255,255,255,.1)}
+.file span{font-size:35px;display:block;margin-bottom:9px}.file small{color:var(--muted)}
 
-    /* IMAGE GRID */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      padding: 20px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-radius: 10px;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-    }
-
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-  </style>
+/* Power */
+#power{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(18px);z-index:100;display:flex;align-items:center;justify-content:center}
+.power-card{text-align:center;padding:35px;border-radius:28px;background:var(--glass);border:1px solid var(--border)}
+.power-card h1{font-size:34px;margin:0 0 8px}
+.power-card p{color:var(--muted)}
+@media(max-width:600px){.setup-card{padding:28px}.setup-step h1{font-size:34px;margin-top:55px}.welcome{left:25px}.settings .sidebar{width:130px}.settings-content{padding:20px}}
+</style>
 </head>
-
 <body>
 
-   <!-- FULL SCREEN COOKIE GATE -->
-  <div class="gate" id="gate">
-    <div class="gate-box">
-      <h2>ALL ABOUT PEETASTER! how she is a crazy mental bitch</h2>
-      <p>
-        This goes over how she is crazy and fucking mentaly ill and some photos of her LOL!
-      </p>
+<section id="setup">
+  <div class="setup-card">
+    <div class="brand">GlassOS</div>
 
-      <button onclick="accept()">enter niggerrrrr</button>
-    </div>
-  </div>
-
-      <button onclick="accept()">enter</button>
-    </div>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div id="content" class="hidden">
-
-    <h1 style="padding:20px;">My Streaming Website</h1>
-    <p style="padding:20px;">Welcome in 👋</p>
-
-    <!-- IMAGE GALLERY -->
-    <div class="gallery">
-      <img src="photo1.png" alt="photo1">
-      <img src="photo2.png" alt="photo2">
-      <img src="photo3.png" alt="photo3">
-      <img src="photo4.png" alt="photo4">
-      <img src="photo5.png" alt="photo5">
-      <img src="photo6.png" alt="photo6">
+    <div class="setup-step active" data-step="1">
+      <h1>Welcome to GlassOS</h1>
+      <p>A clean little operating system simulator built entirely in your browser</p>
+      <div class="setup-actions"><button class="primary" onclick="nextStep()">Get started</button></div>
     </div>
 
+    <div class="setup-step" data-step="2">
+      <h1>Choose your region</h1>
+      <p>This only changes the simulator display</p>
+      <select class="field" id="region">
+        <option>United States</option><option>Canada</option><option>United Kingdom</option>
+        <option>Australia</option><option>Other</option>
+      </select>
+      <div class="setup-actions"><button class="primary" onclick="nextStep()">Continue</button></div>
+    </div>
+
+    <div class="setup-step" data-step="3">
+      <h1>Who's using GlassOS?</h1>
+      <p>Create the local account for this simulation</p>
+      <input class="field" id="username" placeholder="Your name" maxlength="24">
+      <div class="setup-actions"><button class="primary" onclick="nextStep()">Continue</button></div>
+    </div>
+
+    <div class="setup-step" data-step="4">
+      <h1>Make a PIN</h1>
+      <p>Just for the simulator. Nothing is sent anywhere</p>
+      <input class="field" id="pin" placeholder="4 digit PIN" inputmode="numeric" maxlength="4" type="password">
+      <div class="setup-actions"><button class="primary" onclick="finishSetup()">Finish setup</button></div>
+    </div>
+
+    <div class="progress"><i id="progress"></i></div>
+  </div>
+</section>
+
+<main id="desktop" class="hidden">
+  <div class="topbar">
+    <b>GlassOS</b>
+    <div class="status"><span id="clock">12:00</span><span>Wi-Fi</span><span>100%</span></div>
+  </div>
+  <div class="welcome">
+    <h2 id="hello">Good morning</h2>
+    <p id="userLabel">Welcome back</p>
   </div>
 
-  <script>
-    const WEBHOOK_URL = "https://discord.com/api/webhooks/1504925874116628643/Emz-0cjWg3xGrXjJwuc9jijhsxSA2msREN9hAWZfbGdH432hLiqxQEJo2uIFGqiNvIum";
+  <div id="windows"></div>
 
-    function getSessionId() {
-      let id = localStorage.getItem("sessionId");
-      if (!id) {
-        id = crypto.randomUUID();
-        localStorage.setItem("sessionId", id);
-      }
-      return id;
-    }
+  <nav class="dock">
+    <button title="Browser" onclick="openApp('browser')">🌐</button>
+    <button title="Files" onclick="openApp('files')">📁</button>
+    <button title="Settings" onclick="openApp('settings')">⚙️</button>
+    <button title="About" onclick="openApp('about')">◉</button>
+    <button title="Power" onclick="showPower()">⏻</button>
+  </nav>
+</main>
 
-    async function accept() {
+<div id="power" class="hidden">
+  <div class="power-card">
+    <h1>GlassOS</h1><p>What do you want to do?</p>
+    <button class="primary" onclick="restartOS()">Restart</button>
+    <button class="secondary" onclick="hidePower()">Cancel</button>
+  </div>
+</div>
 
-      localStorage.setItem("cookieConsent", "accepted");
+<script>
+const state={
+  step:1,
+  user:localStorage.getItem("glass_user")||"",
+  setup:localStorage.getItem("glass_setup")==="yes"
+};
 
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-
-        const payload = {
-          content:
-`📊 New Visitor Entered Site
-
-🆔 Session: ${getSessionId()}
-🌎 City: ${data.city}, ${data.region}
-🏳 Country: ${data.country_name}
-
-🖥 Screen: ${screen.width}x${screen.height}
-🧭 Referrer: ${document.referrer || "Direct"}
-💻 Device: ${navigator.userAgent}
-🕒 Time: ${new Date().toISOString()}`
-        };
-
-        await fetch(WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-      } catch (err) {
-        console.error(err);
-      }
-
-      document.getElementById("gate").style.display = "none";
-      document.getElementById("content").classList.remove("hidden");
-    }
-
-    window.onload = () => {
-      const consent = localStorage.getItem("cookieConsent");
-
-      if (consent === "accepted") {
-        document.getElementById("gate").style.display = "none";
-        document.getElementById("content").classList.remove("hidden");
-      }
-    };
-  </script>
-
+function updateProgress(){
+  document.getElementById("progress").style.width=(state.step/4*100)+"%";
+}
+function nextStep(){
+  if(state.step===3 && !document.getElementById("username").value.trim()) return;
+  state.step++;
+  document.querySelectorAll(".setup-step").forEach(x=>x.classList.remove("active"));
+  document.querySelector(`[data-step="${state.step}"]`).classList.add("active");
+  updateProgress();
+}
+function finishSetup(){
+  const name=document.getElementById("username").value.trim();
+  const pin=document.getElementById("pin").value.trim();
+  if(!name || !/^\d{4}$/.test(pin)) return alert("Enter a name and a 4 digit PIN");
+  localStorage.setItem("glass_user",name);
+  localStorage.setItem("glass_setup","yes");
+  state.user=name;
+  boot();
+}
+function boot(){
+  document.getElementById("setup").classList.add("hidden");
+  document.getElementById("desktop").classList.remove("hidden");
+  document.getElementById("userLabel").textContent="Welcome back, "+state.user;
+  updateClock(); setInterval(updateClock,1000);
+}
+function updateClock(){
+  const d=new Date();
+  document.getElementById("clock").textContent=d.toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
+  const h=d.getHours();
+  document.getElementById("hello").textContent=h<12?"Good morning":h<18?"Good afternoon":"Good evening";
+}
+function openApp(app){
+  const existing=document.querySelector(`[data-app="${app}"]`);
+  if(existing){existing.classList.remove("hidden");return}
+  const w=document.createElement("section");
+  w.className="window";w.dataset.app=app;
+  const titles={browser:"Browser",files:"Files",settings:"Settings",about:"About GlassOS"};
+  w.innerHTML=`<div class="window-head"><div class="controls"><i></i><i></i><i></i></div><div class="window-title">${titles[app]}</div><button class="close" onclick="this.closest('.window').remove()">×</button></div><div class="window-body">${appContent(app)}</div>`;
+  document.getElementById("windows").appendChild(w);
+}
+function appContent(app){
+  if(app==="browser") return `<div class="browser-tools"><button onclick="history.back()">‹</button><button onclick="location.reload()">↻</button><input class="address" id="urlBox" value="glass://home" onkeydown="if(event.key==='Enter')fakeBrowse(this.value)"></div><div class="browser-page" id="browserPage"><div style="font-size:28px">⌁</div><h1>Glass Browser</h1><p>Simple browsing, simulated.</p><div class="search"><input class="field" placeholder="Search the web..." onkeydown="if(event.key==='Enter')fakeBrowse(this.value)"><button class="primary" onclick="fakeBrowse(this.previousElementSibling.value)">Search</button></div></div>`;
+  if(app==="files") return `<div class="files"><div class="file">📄<small>Welcome.txt</small></div><div class="file">📁<small>Documents</small></div><div class="file">🖼️<small>Pictures</small></div><div class="file">📁<small>Downloads</small></div><div class="file">🎵<small>Music</small></div><div class="file">📁<small>Desktop</small></div></div>`;
+  if(app==="settings") return `<div class="settings"><aside class="sidebar"><button class="active">General</button><button>Personalization</button><button>Privacy</button><button onclick="resetOS()">Reset</button></aside><div class="settings-content"><h2>Settings</h2><div class="setting-card"><h3>Appearance <span class="toggle"></span></h3><p>GlassOS uses a clean liquid glass interface</p></div><div class="setting-card"><h3>Account</h3><p>${state.user}</p></div><div class="setting-card"><h3>About</h3><p>GlassOS Simulator • Browser edition</p></div></div></div>`;
+  return `<div style="padding:50px;text-align:center"><div style="font-size:55px">◉</div><h1>GlassOS</h1><p style="color:var(--muted)">A tiny operating system simulator</p><p style="color:var(--muted)">Version 1.0 • Runs locally in your browser</p></div>`;
+}
+function fakeBrowse(q){
+  const page=document.getElementById("browserPage"); if(!page)return;
+  const value=(q||"").trim();
+  if(!value)return;
+  document.getElementById("urlBox").value=value;
+  page.innerHTML=`<div style="font-size:45px">⌁</div><h1>${escapeHtml(value)}</h1><p>This is a simulated browser page</p><button class="secondary" onclick="openApp('browser')">Back home</button>`;
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function showPower(){document.getElementById("power").classList.remove("hidden")}
+function hidePower(){document.getElementById("power").classList.add("hidden")}
+function restartOS(){location.reload()}
+function resetOS(){
+  if(confirm("Reset the GlassOS setup?")){localStorage.clear();location.reload()}
+}
+if(state.setup) boot(); else updateProgress();
+</script>
 </body>
 </html>
