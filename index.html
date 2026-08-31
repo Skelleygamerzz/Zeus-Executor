@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,905 +8,1452 @@
 
 <style>
 *{box-sizing:border-box}
+
 :root{
- --glass:rgba(255,255,255,.12);
- --glass2:rgba(255,255,255,.2);
- --border:rgba(255,255,255,.2);
- --text:#fff;
- --muted:rgba(255,255,255,.65);
- --shadow:0 25px 80px rgba(0,0,0,.4);
+  --accent:#7da5ff;
+  --accent2:#9c7dff;
+  --glass:rgba(255,255,255,.11);
+  --glass2:rgba(255,255,255,.18);
+  --border:rgba(255,255,255,.19);
+  --text:#fff;
+  --muted:rgba(255,255,255,.62);
+  --shadow:0 25px 80px rgba(0,0,0,.42);
+  --blur:28px;
 }
 
 html,body{
- margin:0;
- width:100%;
- height:100%;
- overflow:hidden;
- font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- color:var(--text);
- background:#10131a;
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--text);
+  background:#080b11;
 }
 
-button,input,textarea,select{font:inherit}
-button{border:0;cursor:pointer;color:inherit}
-.hidden{display:none!important}
-
-button:active{transform:scale(.96)}
-
-#setup{
- position:fixed;
- inset:0;
- display:flex;
- align-items:center;
- justify-content:center;
- background:
- radial-gradient(circle at 20% 20%,#7287bd,transparent 35%),
- radial-gradient(circle at 80% 80%,#364c7d,transparent 40%),
- #0b1019;
+body.no-glass *{
+  backdrop-filter:none!important;
 }
 
-.setup-card{
- width:min(650px,calc(100vw - 30px));
- min-height:460px;
- padding:42px;
- border:1px solid var(--border);
- border-radius:32px;
- background:rgba(15,20,32,.65);
- backdrop-filter:blur(35px);
- box-shadow:var(--shadow);
+button,input,select,textarea{
+  font:inherit;
 }
 
-.brand{
- font-weight:800;
- font-size:21px;
+button{
+  border:0;
+  cursor:pointer;
+  color:inherit;
 }
 
-.setup-step{display:none}
-.setup-step.active{display:block}
-
-.setup-step h1{
- font-size:44px;
- line-height:1;
- letter-spacing:-2px;
- margin:75px 0 12px;
+button:active{
+  transform:scale(.97);
 }
 
-.setup-step p{
- color:var(--muted);
- margin-bottom:28px;
+.hidden{
+  display:none!important;
 }
 
-.setup-actions{
- display:flex;
- justify-content:flex-end;
- gap:10px;
- margin-top:35px;
+/* =========================
+   BOOT / INSTALLATION
+========================= */
+
+#installer{
+  position:fixed;
+  inset:0;
+  z-index:50000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(111,143,220,.75),transparent 34%),
+    radial-gradient(circle at 80% 80%,rgba(132,91,190,.55),transparent 35%),
+    #090d15;
 }
 
-.primary,.secondary{
- padding:12px 18px;
- border-radius:14px;
+.install-card{
+  width:min(720px,calc(100vw - 30px));
+  min-height:510px;
+  padding:42px;
+  border:1px solid var(--border);
+  border-radius:34px;
+  background:rgba(15,20,32,.67);
+  backdrop-filter:blur(35px);
+  box-shadow:var(--shadow);
+}
+
+.install-brand{
+  font-weight:800;
+  font-size:20px;
+}
+
+.install-step{
+  display:none;
+}
+
+.install-step.active{
+  display:block;
+}
+
+.install-step h1{
+  font-size:43px;
+  line-height:.98;
+  letter-spacing:-2px;
+  margin:65px 0 12px;
+}
+
+.install-step p{
+  color:var(--muted);
+  line-height:1.5;
+}
+
+.install-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:30px;
 }
 
 .primary{
- background:#fff;
- color:#111;
- font-weight:700;
+  padding:12px 19px;
+  border-radius:14px;
+  background:#fff;
+  color:#111;
+  font-weight:700;
 }
 
 .secondary{
- background:var(--glass);
- border:1px solid var(--border);
+  padding:12px 19px;
+  border-radius:14px;
+  background:var(--glass);
+  border:1px solid var(--border);
 }
 
 .field{
- width:100%;
- padding:14px 16px;
- background:rgba(0,0,0,.2);
- border:1px solid var(--border);
- border-radius:14px;
- outline:0;
- color:#fff;
+  width:100%;
+  padding:14px 16px;
+  background:rgba(0,0,0,.22);
+  border:1px solid var(--border);
+  border-radius:14px;
+  outline:0;
+  color:#fff;
 }
 
-.progress{
- height:4px;
- background:rgba(255,255,255,.12);
- border-radius:10px;
- margin-top:35px;
- overflow:hidden;
+.field:focus{
+  border-color:rgba(255,255,255,.55);
 }
 
-.progress i{
- display:block;
- height:100%;
- background:#fff;
- width:25%;
- transition:.3s;
+select.field option{
+  background:#151923;
 }
 
-/* DESKTOP */
+.install-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.check{
+  padding:15px;
+  border-radius:15px;
+  background:var(--glass);
+  border:1px solid var(--border);
+}
+
+.check strong{
+  display:block;
+}
+
+.check small{
+  color:var(--muted);
+}
+
+.progress-track{
+  width:100%;
+  height:6px;
+  border-radius:20px;
+  background:rgba(255,255,255,.1);
+  overflow:hidden;
+  margin-top:20px;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:.2s;
+}
+
+.big-percent{
+  font-size:42px;
+  font-weight:700;
+  margin-top:20px;
+}
+
+.install-spinner{
+  width:55px;
+  height:55px;
+  border:4px solid rgba(255,255,255,.15);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:30px auto;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* =========================
+   DESKTOP
+========================= */
 
 #desktop{
- position:fixed;
- inset:0;
- background:
- radial-gradient(circle at 75% 5%,rgba(125,150,220,.55),transparent 32%),
- radial-gradient(circle at 5% 80%,rgba(74,105,165,.5),transparent 38%),
- linear-gradient(135deg,#1d2940,#080d15 75%);
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 75% 5%,rgba(110,145,225,.48),transparent 33%),
+    radial-gradient(circle at 10% 80%,rgba(76,103,170,.42),transparent 38%),
+    linear-gradient(135deg,#1c273c,#080d15 75%);
+  transition:.4s;
 }
 
 #desktop:before{
- content:"";
- position:absolute;
- inset:0;
- background:
- linear-gradient(125deg,transparent 0 48%,rgba(255,255,255,.035) 50%,transparent 52%);
- pointer-events:none;
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    125deg,
+    transparent 0 48%,
+    rgba(255,255,255,.035) 50%,
+    transparent 52%
+  );
+  pointer-events:none;
 }
 
 .topbar{
- height:44px;
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:0 18px;
- background:rgba(0,0,0,.2);
- backdrop-filter:blur(25px);
- font-size:13px;
- position:relative;
- z-index:1000;
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 17px;
+  background:rgba(0,0,0,.2);
+  backdrop-filter:blur(var(--blur));
+  position:relative;
+  z-index:10000;
+  font-size:13px;
 }
 
-.top-left{
- display:flex;
- gap:18px;
- align-items:center;
+.top-left,
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:17px;
 }
 
 .status{
- display:flex;
- gap:15px;
- color:var(--muted);
+  display:flex;
+  gap:15px;
+  color:var(--muted);
+}
+
+.menu-item{
+  cursor:pointer;
 }
 
 .welcome{
- position:absolute;
- top:85px;
- left:70px;
+  position:absolute;
+  top:85px;
+  left:70px;
 }
 
 .welcome h2{
- font-size:29px;
- margin:0 0 5px;
- letter-spacing:-1px;
+  font-size:30px;
+  margin:0 0 5px;
+  letter-spacing:-1px;
 }
 
 .welcome p{
- margin:0;
- color:var(--muted);
+  color:var(--muted);
+  margin:0;
 }
 
-/* DOCK */
+/* =========================
+   DOCK
+========================= */
 
 .dock{
- position:absolute;
- bottom:17px;
- left:50%;
- transform:translateX(-50%);
- z-index:5000;
- display:flex;
- gap:8px;
- padding:9px;
- background:rgba(255,255,255,.13);
- border:1px solid var(--border);
- border-radius:24px;
- backdrop-filter:blur(30px);
- box-shadow:0 15px 50px rgba(0,0,0,.35);
+  position:absolute;
+  left:50%;
+  bottom:17px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:7px;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:24px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(30px);
+  box-shadow:0 20px 55px rgba(0,0,0,.38);
+  z-index:20000;
 }
 
 .dock button{
- width:52px;
- height:52px;
- border-radius:16px;
- background:rgba(255,255,255,.1);
- font-size:22px;
- transition:.18s;
+  width:52px;
+  height:52px;
+  border-radius:16px;
+  background:rgba(255,255,255,.1);
+  font-size:22px;
+  transition:.18s;
 }
 
 .dock button:hover{
- transform:translateY(-9px) scale(1.08);
- background:rgba(255,255,255,.22);
+  transform:translateY(-9px) scale(1.08);
+  background:rgba(255,255,255,.2);
 }
 
-/* WINDOWS */
+/* =========================
+   WINDOWS
+========================= */
 
 .window{
- position:absolute;
- z-index:100;
- width:min(850px,calc(100vw - 35px));
- height:min(580px,calc(100vh - 120px));
- left:50%;
- top:50%;
- transform:translate(-50%,-50%);
- background:rgba(15,20,29,.76);
- border:1px solid var(--border);
- border-radius:24px;
- backdrop-filter:blur(32px);
- box-shadow:var(--shadow);
- overflow:hidden;
- resize:both;
- min-width:330px;
- min-height:220px;
+  position:absolute;
+  width:min(850px,calc(100vw - 30px));
+  height:min(580px,calc(100vh - 115px));
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(15,20,29,.76);
+  border:1px solid var(--border);
+  border-radius:25px;
+  backdrop-filter:blur(var(--blur));
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  resize:both;
+  min-width:330px;
+  min-height:220px;
 }
 
 .window.maximized{
- left:0!important;
- top:44px!important;
- width:100%!important;
- height:calc(100% - 44px)!important;
- transform:none!important;
- border-radius:0;
+  left:0!important;
+  top:44px!important;
+  width:100%!important;
+  height:calc(100% - 44px)!important;
+  transform:none!important;
+  border-radius:0;
 }
 
 .window-head{
- height:52px;
- display:flex;
- align-items:center;
- padding:0 15px;
- border-bottom:1px solid rgba(255,255,255,.1);
- gap:12px;
- cursor:grab;
+  height:52px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 15px;
+  border-bottom:1px solid rgba(255,255,255,.09);
+  cursor:grab;
 }
 
 .controls{
- display:flex;
- gap:7px;
+  display:flex;
+  gap:7px;
 }
 
 .controls i{
- width:12px;
- height:12px;
- border-radius:50%;
- background:rgba(255,255,255,.25);
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,.25);
 }
 
 .window-title{
- flex:1;
- text-align:center;
- font-size:13px;
- color:var(--muted);
+  flex:1;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
 }
 
 .window-actions{
- display:flex;
- gap:5px;
+  display:flex;
+  gap:5px;
 }
 
 .window-actions button{
- background:none;
- color:var(--muted);
- width:25px;
+  width:26px;
+  background:none;
+  color:var(--muted);
 }
 
 .window-body{
- height:calc(100% - 52px);
- overflow:auto;
+  height:calc(100% - 52px);
+  overflow:auto;
 }
 
-/* BROWSER */
+/* =========================
+   BROWSER
+========================= */
 
 .browser-tools{
- display:flex;
- gap:8px;
- padding:12px;
- border-bottom:1px solid rgba(255,255,255,.1);
+  display:flex;
+  gap:8px;
+  padding:12px;
+  border-bottom:1px solid rgba(255,255,255,.1);
 }
 
 .browser-tools button{
- background:var(--glass);
- border-radius:10px;
- padding:8px 11px;
+  padding:8px 11px;
+  border-radius:10px;
+  background:var(--glass);
 }
 
 .address{
- flex:1;
- border:1px solid var(--border);
- background:rgba(0,0,0,.18);
- color:#fff;
- border-radius:11px;
- padding:9px 13px;
- outline:0;
+  flex:1;
+  padding:9px 13px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  outline:0;
+  background:rgba(0,0,0,.18);
+  color:#fff;
 }
 
 .browser-page{
- padding:55px;
- text-align:center;
+  padding:55px;
+  text-align:center;
 }
 
 .browser-page h1{
- font-size:48px;
- letter-spacing:-3px;
- margin:20px 0 8px;
+  font-size:48px;
+  letter-spacing:-3px;
+  margin:20px 0 8px;
 }
 
 .browser-page p{
- color:var(--muted);
+  color:var(--muted);
 }
 
 .search{
- margin:28px auto;
- width:min(560px,90%);
- display:flex;
- gap:8px;
+  width:min(560px,90%);
+  margin:28px auto;
+  display:flex;
+  gap:8px;
 }
 
-/* FILES */
-
-.files{
- padding:25px;
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
- gap:14px;
-}
-
-.file{
- padding:22px 10px;
- text-align:center;
- border-radius:16px;
- background:var(--glass);
- border:1px solid rgba(255,255,255,.1);
- cursor:pointer;
- transition:.15s;
-}
-
-.file:hover{
- background:var(--glass2);
- transform:translateY(-3px);
-}
-
-.file span{
- font-size:35px;
- display:block;
- margin-bottom:9px;
-}
-
-.file small{color:var(--muted)}
-
-/* SETTINGS */
+/* =========================
+   SETTINGS
+========================= */
 
 .settings{
- display:flex;
- height:100%;
+  display:flex;
+  height:100%;
 }
 
 .sidebar{
- width:190px;
- border-right:1px solid rgba(255,255,255,.1);
- padding:16px;
+  width:190px;
+  padding:15px;
+  border-right:1px solid rgba(255,255,255,.1);
 }
 
 .sidebar button{
- display:block;
- width:100%;
- text-align:left;
- padding:11px 12px;
- border-radius:10px;
- background:none;
- margin-bottom:4px;
- color:var(--muted);
+  width:100%;
+  padding:11px 12px;
+  margin-bottom:4px;
+  text-align:left;
+  background:none;
+  color:var(--muted);
+  border-radius:10px;
 }
 
 .sidebar button:hover,
 .sidebar button.active{
- background:var(--glass);
- color:#fff;
+  color:#fff;
+  background:var(--glass);
 }
 
 .settings-content{
- padding:30px;
- flex:1;
+  flex:1;
+  padding:30px;
+  overflow:auto;
 }
 
 .setting-card{
- padding:18px;
- background:var(--glass);
- border:1px solid rgba(255,255,255,.1);
- border-radius:17px;
- margin:12px 0;
+  padding:18px;
+  margin:12px 0;
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:17px;
+  background:var(--glass);
 }
 
 .setting-card h3{
- margin:0 0 5px;
+  margin:0 0 6px;
 }
 
 .setting-card p{
- color:var(--muted);
- font-size:13px;
- margin:0;
+  margin:0;
+  font-size:13px;
+  color:var(--muted);
+}
+
+.setting-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
 }
 
 .switch{
- float:right;
- width:43px;
- height:25px;
- border-radius:20px;
- background:#555;
- cursor:pointer;
+  width:45px;
+  height:25px;
+  border-radius:20px;
+  background:#555;
+  cursor:pointer;
+  flex:none;
 }
 
-.switch.on{background:#fff}
+.switch.on{
+  background:var(--accent);
+}
 
 .switch:after{
- content:"";
- display:block;
- width:19px;
- height:19px;
- margin:3px;
- border-radius:50%;
- background:#222;
- transition:.2s;
+  content:"";
+  display:block;
+  width:19px;
+  height:19px;
+  margin:3px;
+  border-radius:50%;
+  background:#fff;
+  transition:.2s;
 }
 
 .switch.on:after{
- transform:translateX(18px);
+  transform:translateX(20px);
 }
 
-/* CALCULATOR */
-
-.calculator{
- padding:20px;
- max-width:400px;
- margin:auto;
+.range{
+  width:100%;
+  accent-color:var(--accent);
 }
 
-.calc-display{
- width:100%;
- padding:20px;
- border:0;
- background:rgba(0,0,0,.25);
- color:#fff;
- border-radius:17px;
- font-size:34px;
- text-align:right;
- margin-bottom:12px;
+/* =========================
+   FILES
+========================= */
+
+.files{
+  padding:25px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:14px;
 }
 
-.calc-grid{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:8px;
+.file{
+  padding:22px 10px;
+  text-align:center;
+  border-radius:16px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.1);
+  cursor:pointer;
+  transition:.15s;
 }
 
-.calc-grid button{
- padding:18px;
- border-radius:14px;
- background:var(--glass);
+.file:hover{
+  background:var(--glass2);
+  transform:translateY(-3px);
 }
 
-.calc-grid button:hover{
- background:var(--glass2);
+.file span{
+  display:block;
+  font-size:36px;
+  margin-bottom:8px;
 }
 
-/* NOTES */
+.file small{
+  color:var(--muted);
+}
+
+/* =========================
+   NOTES
+========================= */
 
 .notes{
- display:flex;
- height:100%;
+  display:flex;
+  height:100%;
 }
 
 .notes-list{
- width:180px;
- border-right:1px solid rgba(255,255,255,.1);
- padding:15px;
-}
-
-.notes-list button{
- width:100%;
- padding:11px;
- border-radius:10px;
- background:var(--glass);
- text-align:left;
+  width:180px;
+  padding:15px;
+  border-right:1px solid rgba(255,255,255,.1);
 }
 
 .note-editor{
- flex:1;
- padding:25px;
- display:flex;
- flex-direction:column;
+  flex:1;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
 }
 
 .note-title{
- font-size:25px;
- font-weight:700;
- background:none;
- border:0;
- color:white;
- outline:none;
- margin-bottom:15px;
+  border:0;
+  outline:0;
+  color:#fff;
+  background:none;
+  font-size:25px;
+  font-weight:700;
+  margin-bottom:15px;
 }
 
 .note-text{
- flex:1;
- resize:none;
- background:none;
- border:0;
- outline:none;
- color:white;
- line-height:1.6;
+  flex:1;
+  resize:none;
+  border:0;
+  outline:0;
+  color:#fff;
+  background:none;
+  line-height:1.6;
 }
 
-/* TERMINAL */
+/* =========================
+   CALCULATOR
+========================= */
+
+.calculator{
+  max-width:390px;
+  margin:auto;
+  padding:20px;
+}
+
+.calc-display{
+  width:100%;
+  padding:20px;
+  margin-bottom:12px;
+  border:0;
+  border-radius:17px;
+  background:rgba(0,0,0,.25);
+  color:#fff;
+  font-size:34px;
+  text-align:right;
+}
+
+.calc-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.calc-grid button{
+  padding:18px;
+  border-radius:14px;
+  background:var(--glass);
+}
+
+/* =========================
+   TERMINAL
+========================= */
 
 .terminal{
- padding:20px;
- height:100%;
- background:rgba(0,0,0,.2);
- font-family:monospace;
+  height:100%;
+  padding:20px;
+  background:rgba(0,0,0,.2);
+  font-family:monospace;
 }
 
 .terminal-output{
- height:calc(100% - 45px);
- overflow:auto;
- white-space:pre-wrap;
- color:#ddd;
+  height:calc(100% - 45px);
+  overflow:auto;
+  white-space:pre-wrap;
+  color:#ddd;
 }
 
 .terminal-input{
- display:flex;
- gap:8px;
+  display:flex;
+  gap:8px;
 }
 
 .terminal-input input{
- flex:1;
- background:none;
- border:0;
- outline:none;
- color:#fff;
- font-family:monospace;
+  flex:1;
+  border:0;
+  outline:0;
+  background:none;
+  color:#fff;
+  font-family:monospace;
 }
 
-/* APP STORE */
+/* =========================
+   CAMERA
+========================= */
+
+.camera{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  background:#05070a;
+}
+
+.camera video{
+  flex:1;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#000;
+}
+
+.camera-controls{
+  display:flex;
+  justify-content:center;
+  padding:18px;
+  gap:10px;
+}
+
+.shutter{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:#fff;
+  border:6px solid rgba(255,255,255,.35);
+  background-clip:padding-box;
+}
+
+.camera-msg{
+  position:absolute;
+  top:80px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.6);
+  padding:10px 15px;
+  border-radius:12px;
+}
+
+/* =========================
+   STORE
+========================= */
 
 .store{
- padding:25px;
+  padding:25px;
 }
 
 .apps-grid{
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
- gap:15px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:15px;
 }
 
 .app-card{
- padding:20px;
- background:var(--glass);
- border:1px solid rgba(255,255,255,.1);
- border-radius:18px;
+  padding:20px;
+  border-radius:18px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.1);
 }
 
 .app-icon{
- font-size:38px;
- margin-bottom:12px;
+  font-size:38px;
+  margin-bottom:10px;
 }
 
 .app-card p{
- color:var(--muted);
- font-size:13px;
+  color:var(--muted);
+  font-size:13px;
 }
 
 .app-card button{
- background:#fff;
- color:#111;
- padding:8px 13px;
- border-radius:10px;
- font-weight:600;
+  padding:8px 13px;
+  border-radius:10px;
+  background:#fff;
+  color:#111;
+  font-weight:600;
 }
 
-/* CONTROL CENTER */
+/* =========================
+   CONTROL CENTER
+========================= */
 
 #controlCenter{
- position:fixed;
- right:15px;
- top:55px;
- width:330px;
- padding:18px;
- border-radius:25px;
- background:rgba(20,25,35,.72);
- backdrop-filter:blur(30px);
- border:1px solid var(--border);
- box-shadow:var(--shadow);
- z-index:9000;
+  position:fixed;
+  right:15px;
+  top:55px;
+  width:350px;
+  padding:18px;
+  border-radius:25px;
+  background:rgba(18,23,33,.78);
+  backdrop-filter:blur(30px);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  z-index:30000;
 }
 
 .cc-grid{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .cc-button{
- padding:18px;
- background:var(--glass);
- border-radius:17px;
- text-align:left;
+  padding:17px;
+  border-radius:17px;
+  text-align:left;
+  background:var(--glass);
 }
 
 .cc-button strong{
- display:block;
+  display:block;
 }
 
 .cc-button small{
- color:var(--muted);
+  color:var(--muted);
 }
 
-/* LAUNCHER */
+/* =========================
+   LAUNCHER
+========================= */
 
 #launcher{
- position:fixed;
- inset:44px 0 0;
- z-index:7000;
- background:rgba(5,8,14,.72);
- backdrop-filter:blur(35px);
- padding:70px;
- overflow:auto;
+  position:fixed;
+  inset:44px 0 0;
+  z-index:25000;
+  padding:65px;
+  background:rgba(5,8,14,.72);
+  backdrop-filter:blur(35px);
+  overflow:auto;
 }
 
 .launcher-search{
- width:min(600px,100%);
- margin:auto;
- padding:17px 20px;
- background:var(--glass);
- border:1px solid var(--border);
- border-radius:17px;
- color:#fff;
- outline:0;
+  display:block;
+  width:min(600px,100%);
+  margin:auto;
+  padding:17px 20px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  outline:0;
+  background:var(--glass);
+  color:#fff;
 }
 
 .launcher-grid{
- max-width:800px;
- margin:35px auto;
- display:grid;
- grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
- gap:15px;
+  width:min(850px,100%);
+  margin:35px auto;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:15px;
 }
 
 .launcher-app{
- padding:20px;
- background:var(--glass);
- border:1px solid rgba(255,255,255,.1);
- border-radius:18px;
- text-align:center;
+  padding:20px;
+  text-align:center;
+  border-radius:18px;
+  background:var(--glass);
+  border:1px solid rgba(255,255,255,.1);
+  cursor:pointer;
 }
 
 .launcher-app div{
- font-size:35px;
- margin-bottom:8px;
+  font-size:35px;
+  margin-bottom:8px;
 }
 
-/* NOTIFICATIONS */
+/* =========================
+   NOTIFICATIONS
+========================= */
 
 #notifications{
- position:fixed;
- right:20px;
- top:60px;
- z-index:9999;
- display:flex;
- flex-direction:column;
- gap:10px;
+  position:fixed;
+  right:20px;
+  top:60px;
+  z-index:40000;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
 .notification{
- width:300px;
- padding:16px;
- border-radius:17px;
- background:rgba(20,25,35,.75);
- backdrop-filter:blur(25px);
- border:1px solid var(--border);
- box-shadow:var(--shadow);
- animation:slide .25s ease;
+  width:310px;
+  padding:16px;
+  border-radius:17px;
+  background:rgba(20,25,35,.8);
+  backdrop-filter:blur(25px);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  animation:slide .25s ease;
 }
 
 .notification strong{
- display:block;
- margin-bottom:4px;
+  display:block;
+  margin-bottom:4px;
 }
 
 .notification small{
- color:var(--muted);
+  color:var(--muted);
 }
 
 @keyframes slide{
- from{transform:translateX(30px);opacity:0}
- to{transform:translateX(0);opacity:1}
+  from{
+    transform:translateX(30px);
+    opacity:0;
+  }
+  to{
+    transform:translateX(0);
+    opacity:1;
+  }
 }
 
-/* POWER */
-
-#power{
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.72);
- backdrop-filter:blur(18px);
- z-index:10000;
- display:flex;
- align-items:center;
- justify-content:center;
-}
-
-.power-card{
- text-align:center;
- padding:35px;
- border-radius:28px;
- background:var(--glass);
- border:1px solid var(--border);
-}
-
-.power-card h1{
- font-size:34px;
- margin:0 0 8px;
-}
-
-.power-card p{
- color:var(--muted);
-}
-
-.power-card button{
- margin:5px;
-}
-
-/* CONTEXT MENU */
-
-#contextMenu{
- position:fixed;
- z-index:99999;
- width:190px;
- padding:7px;
- background:rgba(20,25,35,.9);
- backdrop-filter:blur(25px);
- border:1px solid var(--border);
- border-radius:14px;
- box-shadow:var(--shadow);
-}
-
-#contextMenu button{
- display:block;
- width:100%;
- text-align:left;
- background:none;
- padding:10px;
- border-radius:8px;
-}
-
-#contextMenu button:hover{
- background:var(--glass);
-}
-
-/* LOGIN */
+/* =========================
+   LOCK / POWER
+========================= */
 
 #lock{
- position:fixed;
- inset:0;
- z-index:11000;
- background:
- radial-gradient(circle at 50% 20%,#596f9e,transparent 35%),
- #080d15;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- text-align:center;
+  position:fixed;
+  inset:0;
+  z-index:45000;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 20%,#536b9e,transparent 35%),
+    #080d15;
 }
 
 .lock-time{
- font-size:90px;
- font-weight:700;
- letter-spacing:-5px;
+  font-size:88px;
+  font-weight:700;
+  letter-spacing:-5px;
 }
 
 .lock-user{
- margin:20px;
- color:var(--muted);
+  margin:18px;
+  color:var(--muted);
 }
 
 .lock-pin{
- width:220px;
- text-align:center;
+  width:230px;
+  text-align:center;
 }
 
-@media(max-width:600px){
- .setup-card{padding:28px}
- .setup-step h1{font-size:34px;margin-top:55px}
- .welcome{left:25px}
- .sidebar{width:130px}
- .settings-content{padding:20px}
- .lock-time{font-size:65px}
+#power{
+  position:fixed;
+  inset:0;
+  z-index:46000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(18px);
+}
+
+.power-card{
+  padding:35px;
+  border-radius:28px;
+  text-align:center;
+  background:var(--glass);
+  border:1px solid var(--border);
+}
+
+.power-card button{
+  margin:4px;
+}
+
+/* =========================
+   UPDATE UI
+========================= */
+
+.beta-badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:8px;
+  background:rgba(255,180,80,.15);
+  color:#ffd18a;
+  font-size:11px;
+  font-weight:700;
+}
+
+.update-box{
+  padding:20px;
+  border-radius:18px;
+  background:var(--glass);
+  border:1px solid var(--border);
+}
+
+.update-title{
+  font-size:22px;
+  font-weight:700;
+}
+
+.update-version{
+  color:var(--muted);
+  margin:5px 0 15px;
+}
+
+.warning{
+  padding:15px;
+  border-radius:14px;
+  background:rgba(255,160,50,.1);
+  border:1px solid rgba(255,180,80,.2);
+  color:#ffd69b;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* =========================
+   CONTEXT MENU
+========================= */
+
+#contextMenu{
+  position:fixed;
+  z-index:50000;
+  width:200px;
+  padding:7px;
+  border-radius:14px;
+  background:rgba(20,25,35,.92);
+  backdrop-filter:blur(25px);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+#contextMenu button{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  text-align:left;
+  background:none;
+}
+
+#contextMenu button:hover{
+  background:var(--glass);
+}
+
+/* =========================
+   SHUTDOWN
+========================= */
+
+#shutdown{
+  position:fixed;
+  inset:0;
+  z-index:60000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:#05070b;
+}
+
+.shutdown-logo{
+  font-size:50px;
+  font-weight:800;
+}
+
+.shutdown-text{
+  color:var(--muted);
+  margin-top:12px;
+}
+
+@media(max-width:650px){
+
+  .install-card{
+    padding:28px;
+  }
+
+  .install-step h1{
+    font-size:34px;
+    margin-top:55px;
+  }
+
+  .install-grid{
+    grid-template-columns:1fr;
+  }
+
+  .welcome{
+    left:25px;
+  }
+
+  .sidebar{
+    width:130px;
+  }
+
+  .settings-content{
+    padding:20px;
+  }
+
+  .dock button{
+    width:44px;
+    height:44px;
+  }
+
+  .dock{
+    max-width:95vw;
+    overflow:auto;
+  }
+
+  .lock-time{
+    font-size:65px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- SETUP -->
+<!-- =====================================================
+     INSTALLER
+===================================================== -->
 
-<section id="setup">
-<div class="setup-card">
+<section id="installer">
 
-<div class="brand">GlassOS</div>
+<div class="install-card">
 
-<div class="setup-step active" data-step="1">
+<div class="install-brand">GlassOS</div>
+
+<!-- STEP 1 -->
+
+<div class="install-step active" data-step="1">
+
 <h1>Welcome to GlassOS</h1>
-<p>A simple liquid glass operating system simulator</p>
-<div class="setup-actions">
-<button class="primary" onclick="nextStep()">Get started</button>
-</div>
+
+<p>
+A fresh operating system experience built entirely inside your browser.
+Everything here is simulated locally.
+</p>
+
+<div class="install-grid">
+
+<div class="check">
+<strong>◈ Liquid Glass</strong>
+<small>Modern translucent interface</small>
 </div>
 
-<div class="setup-step" data-step="2">
-<h1>Choose your region</h1>
-<p>This only changes the simulator experience</p>
-<select class="field" id="region">
+<div class="check">
+<strong>⚡ Fast setup</strong>
+<small>Install in just a few steps</small>
+</div>
+
+<div class="check">
+<strong>◎ Local account</strong>
+<small>Your data stays in this browser</small>
+</div>
+
+<div class="check">
+<strong>⌁ Updates</strong>
+<small>Stable and beta channels</small>
+</div>
+
+</div>
+
+<div class="install-actions">
+<button class="primary" onclick="nextInstall()">Continue</button>
+</div>
+
+</div>
+
+
+<!-- STEP 2 -->
+
+<div class="install-step" data-step="2">
+
+<h1>Let's get connected</h1>
+
+<p>
+Choose your region and network settings.
+</p>
+
+<label>Region</label>
+
+<select id="setupRegion" class="field">
 <option>United States</option>
 <option>Canada</option>
 <option>United Kingdom</option>
 <option>Australia</option>
 <option>Japan</option>
-<option>Other</option>
+<option>Germany</option>
 </select>
-<div class="setup-actions">
-<button class="primary" onclick="nextStep()">Continue</button>
-</div>
+
+<br><br>
+
+<label>Keyboard</label>
+
+<select id="setupKeyboard" class="field">
+<option>US QWERTY</option>
+<option>UK QWERTY</option>
+<option>Canadian Multilingual</option>
+</select>
+
+<div class="install-actions">
+<button class="secondary" onclick="prevInstall()">Back</button>
+<button class="primary" onclick="nextInstall()">Continue</button>
 </div>
 
-<div class="setup-step" data-step="3">
-<h1>Who's using GlassOS?</h1>
-<p>Create your local simulator account</p>
-<input class="field" id="username" placeholder="Your name" maxlength="24">
-<div class="setup-actions">
-<button class="primary" onclick="nextStep()">Continue</button>
-</div>
 </div>
 
-<div class="setup-step" data-step="4">
-<h1>Create a PIN</h1>
-<p>This PIN only exists inside this simulator</p>
-<input class="field" id="pin" placeholder="4 digit PIN" inputmode="numeric" maxlength="4" type="password">
-<div class="setup-actions">
-<button class="primary" onclick="finishSetup()">Finish setup</button>
-</div>
+
+<!-- STEP 3 -->
+
+<div class="install-step" data-step="3">
+
+<h1>Connect to Wi-Fi</h1>
+
+<p>
+Choose a simulated network.
+</p>
+
+<div class="check" onclick="selectWifi(this,'GlassNet')">
+<strong>⌁ GlassNet</strong>
+<small>Connected • Excellent signal</small>
 </div>
 
-<div class="progress">
-<i id="progress"></i>
+<br>
+
+<div class="check" onclick="selectWifi(this,'Home Network')">
+<strong>⌁ Home Network</strong>
+<small>Strong signal</small>
+</div>
+
+<br>
+
+<div class="check" onclick="selectWifi(this,'Public Wi-Fi')">
+<strong>⌁ Public Wi-Fi</strong>
+<small>Weak signal</small>
+</div>
+
+<p id="wifiStatus">Select a network to continue</p>
+
+<div class="install-actions">
+<button class="secondary" onclick="prevInstall()">Back</button>
+<button class="primary" onclick="nextWifi()">Continue</button>
+</div>
+
+</div>
+
+
+<!-- STEP 4 -->
+
+<div class="install-step" data-step="4">
+
+<h1>Create your account</h1>
+
+<p>
+This account exists only inside the GlassOS simulation.
+</p>
+
+<input
+ id="setupName"
+ class="field"
+ maxlength="24"
+ placeholder="Full name"
+>
+
+<br><br>
+
+<input
+ id="setupUsername"
+ class="field"
+ maxlength="20"
+ placeholder="Username"
+>
+
+<br><br>
+
+<input
+ id="setupPin"
+ class="field"
+ maxlength="4"
+ inputmode="numeric"
+ type="password"
+ placeholder="Create a 4 digit PIN"
+>
+
+<div class="install-actions">
+<button class="secondary" onclick="prevInstall()">Back</button>
+<button class="primary" onclick="nextAccount()">Continue</button>
+</div>
+
+</div>
+
+
+<!-- STEP 5 -->
+
+<div class="install-step" data-step="5">
+
+<h1>Personalize GlassOS</h1>
+
+<p>
+Choose how your desktop should look.
+</p>
+
+<select id="setupTheme" class="field">
+<option value="dark">Dark Glass</option>
+<option value="light">Light Glass</option>
+</select>
+
+<br><br>
+
+<label>Accent color</label>
+
+<select id="setupAccent" class="field">
+<option value="#7da5ff">Ocean Blue</option>
+<option value="#9c7dff">Purple</option>
+<option value="#63d6b1">Mint</option>
+<option value="#ff8b8b">Coral</option>
+<option value="#e7c66a">Gold</option>
+</select>
+
+<div class="install-actions">
+<button class="secondary" onclick="prevInstall()">Back</button>
+<button class="primary" onclick="nextInstall()">Continue</button>
+</div>
+
+</div>
+
+
+<!-- STEP 6 -->
+
+<div class="install-step" data-step="6">
+
+<h1>Terms & privacy</h1>
+
+<p>
+GlassOS Simulator does not send your account information to a server.
+Your simulator data is stored in your browser's local storage.
+</p>
+
+<div class="check">
+<strong>Local storage</strong>
+<small>Account, notes and settings remain in this browser.</small>
+</div>
+
+<br>
+
+<div class="check">
+<strong>Camera permission</strong>
+<small>The Camera app may request your browser's camera permission.</small>
+</div>
+
+<div class="install-actions">
+<button class="secondary" onclick="prevInstall()">Back</button>
+<button class="primary" onclick="startDownload()">Agree & Install</button>
+</div>
+
+</div>
+
+
+<!-- STEP 7 DOWNLOAD -->
+
+<div class="install-step" data-step="7">
+
+<h1>Downloading GlassOS</h1>
+
+<p id="downloadText">
+Preparing installation...
+</p>
+
+<div class="install-spinner"></div>
+
+<div class="progress-track">
+<div class="progress-bar" id="downloadProgress"></div>
+</div>
+
+<div class="big-percent" id="downloadPercent">0%</div>
+
+</div>
+
+
+<!-- STEP 8 VERIFY -->
+
+<div class="install-step" data-step="8">
+
+<h1>Verifying installation</h1>
+
+<p id="verifyText">
+Checking downloaded components...
+</p>
+
+<div class="install-spinner"></div>
+
+</div>
+
+
+<!-- STEP 9 INSTALL -->
+
+<div class="install-step" data-step="9">
+
+<h1>Installing GlassOS</h1>
+
+<p id="installText">
+Preparing system...
+</p>
+
+<div class="progress-track">
+<div class="progress-bar" id="installProgress"></div>
+</div>
+
+<div class="big-percent" id="installPercent">0%</div>
+
+</div>
+
+
+<!-- STEP 10 RESTART -->
+
+<div class="install-step" data-step="10">
+
+<h1>Installation complete</h1>
+
+<p>
+GlassOS has been installed successfully.
+Your computer will restart to finish setup.
+</p>
+
+<div class="install-actions">
+<button class="primary" onclick="finishInstall()">Restart now</button>
+</div>
+
 </div>
 
 </div>
 </section>
 
 
-<!-- DESKTOP -->
+<!-- =====================================================
+     DESKTOP
+===================================================== -->
 
 <main id="desktop" class="hidden">
 
 <div class="topbar">
 
 <div class="top-left">
-<b onclick="toggleLauncher()" style="cursor:pointer">GlassOS</b>
-<span id="menuButton" onclick="toggleLauncher()" style="cursor:pointer">⌘</span>
+
+<b onclick="toggleLauncher()" style="cursor:pointer">
+GlassOS
+</b>
+
+<span
+ onclick="toggleLauncher()"
+ class="menu-item"
+>⌘</span>
+
 </div>
+
+<div class="top-right">
 
 <div class="status">
 <span id="clock">12:00</span>
-<span>⌁ Wi-Fi</span>
-<span onclick="toggleControlCenter()" style="cursor:pointer">100%</span>
+<span id="wifiIndicator">⌁ Wi-Fi</span>
+<span id="batteryIndicator">100%</span>
+</div>
+
+<span
+ onclick="toggleControlCenter()"
+ style="cursor:pointer"
+>◉</span>
+
 </div>
 
 </div>
 
 
 <div class="welcome">
-<h2 id="hello">Good morning</h2>
-<p id="userLabel">Welcome back</p>
+
+<h2 id="hello">
+Good morning
+</h2>
+
+<p id="userLabel">
+Welcome back
+</p>
+
 </div>
 
 
@@ -913,37 +1461,38 @@ button:active{transform:scale(.96)}
 <div id="notifications"></div>
 
 
-<!-- DOCK -->
-
 <nav class="dock">
 
-<button title="Launcher" onclick="toggleLauncher()">⌘</button>
-<button title="Browser" onclick="openApp('browser')">🌐</button>
-<button title="Files" onclick="openApp('files')">📁</button>
-<button title="Notes" onclick="openApp('notes')">📝</button>
-<button title="Calculator" onclick="openApp('calculator')">🧮</button>
-<button title="Terminal" onclick="openApp('terminal')">⌨️</button>
-<button title="Settings" onclick="openApp('settings')">⚙️</button>
-<button title="App Store" onclick="openApp('store')">🛍️</button>
-<button title="Power" onclick="showPower()">⏻</button>
+<button onclick="toggleLauncher()" title="Apps">⌘</button>
+<button onclick="openApp('browser')" title="Browser">🌐</button>
+<button onclick="openApp('files')" title="Files">📁</button>
+<button onclick="openApp('notes')" title="Notes">📝</button>
+<button onclick="openApp('calculator')" title="Calculator">🧮</button>
+<button onclick="openApp('terminal')" title="Terminal">⌨️</button>
+<button onclick="openApp('camera')" title="Camera">📷</button>
+<button onclick="openApp('settings')" title="Settings">⚙️</button>
+<button onclick="openApp('store')" title="App Store">🛍️</button>
+<button onclick="showPower()" title="Power">⏻</button>
 
 </nav>
 
 </main>
 
 
-<!-- LAUNCHER -->
+<!-- =====================================================
+     LAUNCHER
+===================================================== -->
 
 <div id="launcher" class="hidden">
 
 <input
- class="launcher-search"
  id="launcherSearch"
+ class="launcher-search"
  placeholder="Search apps..."
  oninput="filterLauncher(this.value)"
 >
 
-<div class="launcher-grid" id="launcherGrid">
+<div class="launcher-grid">
 
 <div class="launcher-app" data-name="Browser" onclick="openFromLauncher('browser')">
 <div>🌐</div>Browser
@@ -965,6 +1514,10 @@ button:active{transform:scale(.96)}
 <div>⌨️</div>Terminal
 </div>
 
+<div class="launcher-app" data-name="Camera" onclick="openFromLauncher('camera')">
+<div>📷</div>Camera
+</div>
+
 <div class="launcher-app" data-name="Calendar" onclick="openFromLauncher('calendar')">
 <div>📅</div>Calendar
 </div>
@@ -973,7 +1526,7 @@ button:active{transform:scale(.96)}
 <div>⚙️</div>Settings
 </div>
 
-<div class="launcher-app" data-name="Store" onclick="openFromLauncher('store')">
+<div class="launcher-app" data-name="App Store" onclick="openFromLauncher('store')">
 <div>🛍️</div>App Store
 </div>
 
@@ -985,7 +1538,9 @@ button:active{transform:scale(.96)}
 </div>
 
 
-<!-- CONTROL CENTER -->
+<!-- =====================================================
+     CONTROL CENTER
+===================================================== -->
 
 <div id="controlCenter" class="hidden">
 
@@ -993,60 +1548,78 @@ button:active{transform:scale(.96)}
 
 <div class="cc-grid">
 
-<button class="cc-button" onclick="notify('Wi-Fi','Connected to GlassNet')">
-<strong>⌁ Wi-Fi</strong>
-<small>GlassNet</small>
+<button class="cc-button" onclick="toggleWifi()">
+<strong id="ccWifi">⌁ Wi-Fi</strong>
+<small id="ccWifiText">Connected</small>
 </button>
 
-<button class="cc-button" onclick="notify('Bluetooth','Bluetooth is on')">
-<strong>◉ Bluetooth</strong>
-<small>On</small>
+<button class="cc-button" onclick="toggleBluetooth()">
+<strong id="ccBluetooth">◉ Bluetooth</strong>
+<small id="ccBluetoothText">On</small>
 </button>
 
-<button class="cc-button" onclick="changeWallpaper()">
-<strong>◐ Wallpaper</strong>
-<small>Change background</small>
+<button class="cc-button" onclick="toggleAppearance()">
+<strong>◐ Appearance</strong>
+<small id="ccAppearance">Dark</small>
 </button>
 
-<button class="cc-button" onclick="lockOS()">
-<strong>🔒 Lock</strong>
-<small>Lock GlassOS</small>
+<button class="cc-button" onclick="openApp('settings')">
+<strong>⚙ Settings</strong>
+<small>System settings</small>
 </button>
+
+</div>
+
+<div style="margin-top:18px">
+
+<strong>Brightness</strong>
+
+<input
+ id="brightness"
+ class="range"
+ type="range"
+ min="40"
+ max="100"
+ value="100"
+ oninput="setBrightness(this.value)"
+>
+
+</div>
+
+<div style="margin-top:18px">
+
+<strong>Volume</strong>
+
+<input
+ id="volume"
+ class="range"
+ type="range"
+ min="0"
+ max="100"
+ value="70"
+ oninput="setVolume(this.value)"
+>
 
 </div>
 
 </div>
 
 
-<!-- POWER -->
-
-<div id="power" class="hidden">
-
-<div class="power-card">
-
-<h1>GlassOS</h1>
-<p>What do you want to do?</p>
-
-<button class="primary" onclick="restartOS()">Restart</button>
-<button class="secondary" onclick="lockOS();hidePower()">Lock</button>
-<button class="secondary" onclick="hidePower()">Cancel</button>
-
-</div>
-
-</div>
-
-
-<!-- LOCK -->
+<!-- =====================================================
+     LOCK
+===================================================== -->
 
 <div id="lock" class="hidden">
 
-<div class="lock-time" id="lockTime">12:00</div>
+<div class="lock-time" id="lockTime">
+12:00
+</div>
 
 <div class="lock-user" id="lockUser"></div>
 
 <input
- class="field lock-pin"
  id="unlockPin"
+ class="field lock-pin"
  type="password"
  maxlength="4"
  placeholder="Enter PIN"
@@ -1055,106 +1628,476 @@ button:active{transform:scale(.96)}
 
 <br>
 
-<button class="primary" onclick="unlockOS()">Unlock</button>
+<button class="primary" onclick="unlockOS()">
+Unlock
+</button>
 
 </div>
 
 
-<!-- CONTEXT MENU -->
+<!-- =====================================================
+     POWER
+===================================================== -->
+
+<div id="power" class="hidden">
+
+<div class="power-card">
+
+<h1>GlassOS</h1>
+
+<p>What do you want to do?</p>
+
+<button class="primary" onclick="restartOS()">
+Restart
+</button>
+
+<button class="secondary" onclick="lockOS();hidePower()">
+Lock
+</button>
+
+<button class="secondary" onclick="sleepOS()">
+Sleep
+</button>
+
+<button class="secondary" onclick="shutdownOS()">
+Shut down
+</button>
+
+<button class="secondary" onclick="hidePower()">
+Cancel
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     CONTEXT MENU
+===================================================== -->
 
 <div id="contextMenu" class="hidden">
 
-<button onclick="openApp('browser');hideContext()">Open Browser</button>
-<button onclick="openApp('files');hideContext()">Open Files</button>
-<button onclick="openApp('settings');hideContext()">Settings</button>
-<button onclick="changeWallpaper();hideContext()">Change wallpaper</button>
-<button onclick="hideContext()">Close menu</button>
+<button onclick="openApp('browser');hideContext()">
+Open Browser
+</button>
+
+<button onclick="openApp('files');hideContext()">
+Open Files
+</button>
+
+<button onclick="openApp('settings');hideContext()">
+Settings
+</button>
+
+<button onclick="changeWallpaper();hideContext()">
+Change wallpaper
+</button>
+
+<button onclick="toggleLauncher();hideContext()">
+App launcher
+</button>
+
+</div>
+
+
+<!-- =====================================================
+     SHUTDOWN
+===================================================== -->
+
+<div id="shutdown" class="hidden">
+
+<div class="shutdown-logo">
+GlassOS
+</div>
+
+<div class="shutdown-text" id="shutdownText">
+Shutting down...
+</div>
 
 </div>
 
 
 <script>
 
+/* =====================================================
+   STATE
+===================================================== */
+
 const state={
- step:1,
- user:localStorage.getItem("glass_user")||"",
- pin:localStorage.getItem("glass_pin")||"",
+
  setup:localStorage.getItem("glass_setup")==="yes",
+
+ user:localStorage.getItem("glass_user")||"",
+
+ username:localStorage.getItem("glass_username")||"",
+
+ pin:localStorage.getItem("glass_pin")||"",
+
+ region:localStorage.getItem("glass_region")||"United States",
+
+ keyboard:localStorage.getItem("glass_keyboard")||"US QWERTY",
+
+ wifi:localStorage.getItem("glass_wifi")!=="off",
+
+ bluetooth:localStorage.getItem("glass_bluetooth")!=="off",
+
+ theme:localStorage.getItem("glass_theme")||"dark",
+
+ accent:localStorage.getItem("glass_accent")||"#7da5ff",
+
+ glass:localStorage.getItem("glass_mode")!=="off",
+
+ brightness:localStorage.getItem("glass_brightness")||"100",
+
+ volume:localStorage.getItem("glass_volume")||"70",
+
  wallpaper:localStorage.getItem("glass_wallpaper")||"default",
- notes:localStorage.getItem("glass_notes")||""
+
+ notes:localStorage.getItem("glass_notes")||"",
+
+ beta:localStorage.getItem("glass_beta")==="yes",
+
+ version:localStorage.getItem("glass_version")||
+   "26.0",
+
+ installStep:1
+
 };
 
 let zIndex=100;
 
 
-/* SETUP */
+/* =====================================================
+   SAVE
+===================================================== */
 
-function updateProgress(){
- document.getElementById("progress").style.width=(state.step/4*100)+"%";
+function saveState(){
+
+ localStorage.setItem("glass_user",state.user);
+ localStorage.setItem("glass_username",state.username);
+ localStorage.setItem("glass_pin",state.pin);
+ localStorage.setItem("glass_region",state.region);
+ localStorage.setItem("glass_keyboard",state.keyboard);
+ localStorage.setItem("glass_wifi",state.wifi?"on":"off");
+ localStorage.setItem("glass_bluetooth",state.bluetooth?"on":"off");
+ localStorage.setItem("glass_theme",state.theme);
+ localStorage.setItem("glass_accent",state.accent);
+ localStorage.setItem("glass_mode",state.glass?"on":"off");
+ localStorage.setItem("glass_brightness",state.brightness);
+ localStorage.setItem("glass_volume",state.volume);
+ localStorage.setItem("glass_wallpaper",state.wallpaper);
+ localStorage.setItem("glass_notes",state.notes);
 }
 
-function nextStep(){
 
- if(state.step===3 &&
- !document.getElementById("username").value.trim()){
+/* =====================================================
+   INSTALLER
+===================================================== */
 
- alert("Enter your name first");
- return;
+function showInstallStep(step){
+
+ document
+  .querySelectorAll(".install-step")
+  .forEach(x=>x.classList.remove("active"));
+
+ const target=
+  document.querySelector(`[data-step="${step}"]`);
+
+ if(target)
+  target.classList.add("active");
+
+ state.installStep=step;
+}
+
+function nextInstall(){
+
+ state.installStep++;
+
+ showInstallStep(state.installStep);
+
+}
+
+function prevInstall(){
+
+ state.installStep--;
+
+ showInstallStep(state.installStep);
+
+}
+
+
+/* WIFI SETUP */
+
+let selectedWifi="";
+
+function selectWifi(element,name){
+
+ document
+  .querySelectorAll(".install-step[data-step='3'] .check")
+  .forEach(x=>x.style.borderColor="");
+
+ element.style.borderColor="rgba(255,255,255,.7)";
+
+ selectedWifi=name;
+
+ document.getElementById("wifiStatus").textContent=
+  name+" selected";
+
+}
+
+function nextWifi(){
+
+ if(!selectedWifi){
+
+  alert("Choose a Wi-Fi network first");
+  return;
 
  }
 
- state.step++;
+ nextInstall();
 
- document.querySelectorAll(".setup-step")
- .forEach(x=>x.classList.remove("active"));
-
- document
- .querySelector(`[data-step="${state.step}"]`)
- .classList.add("active");
-
- updateProgress();
 }
 
-function finishSetup(){
 
- const name=document.getElementById("username").value.trim();
- const pin=document.getElementById("pin").value.trim();
+/* ACCOUNT */
 
- if(!name || !/^\d{4}$/.test(pin)){
-  alert("Enter a name and a 4 digit PIN");
+function nextAccount(){
+
+ const name=
+  document.getElementById("setupName").value.trim();
+
+ const username=
+  document.getElementById("setupUsername").value.trim();
+
+ const pin=
+  document.getElementById("setupPin").value.trim();
+
+ if(!name){
+
+  alert("Enter your name");
   return;
+
+ }
+
+ if(!username){
+
+  alert("Choose a username");
+  return;
+
+ }
+
+ if(!/^\d{4}$/.test(pin)){
+
+  alert("Your PIN must be 4 digits");
+  return;
+
  }
 
  state.user=name;
+ state.username=username;
  state.pin=pin;
 
- localStorage.setItem("glass_user",name);
- localStorage.setItem("glass_pin",pin);
- localStorage.setItem("glass_setup","yes");
+ nextInstall();
 
- boot();
 }
 
 
-/* BOOT */
+/* DOWNLOAD */
+
+function startDownload(){
+
+ state.region=
+  document.getElementById("setupRegion").value;
+
+ state.keyboard=
+  document.getElementById("setupKeyboard").value;
+
+ state.theme=
+  document.getElementById("setupTheme").value;
+
+ state.accent=
+  document.getElementById("setupAccent").value;
+
+ saveState();
+
+ showInstallStep(7);
+
+ let progress=0;
+
+ const timer=setInterval(()=>{
+
+  progress+=Math.floor(Math.random()*8)+3;
+
+  if(progress>100)
+   progress=100;
+
+  document.getElementById("downloadProgress")
+   .style.width=progress+"%";
+
+  document.getElementById("downloadPercent")
+   .textContent=progress+"%";
+
+  const text=document.getElementById("downloadText");
+
+  if(progress<25)
+   text.textContent="Connecting to GlassOS servers...";
+
+  else if(progress<55)
+   text.textContent="Downloading system components...";
+
+  else if(progress<80)
+   text.textContent="Downloading Liquid Glass interface...";
+
+  else
+   text.textContent="Finalizing download...";
+
+  if(progress>=100){
+
+   clearInterval(timer);
+
+   setTimeout(verifyInstall,700);
+
+  }
+
+ },220);
+
+}
+
+
+/* VERIFY */
+
+function verifyInstall(){
+
+ showInstallStep(8);
+
+ const messages=[
+  "Checking downloaded components...",
+  "Verifying system packages...",
+  "Checking system integrity...",
+  "Verifying user environment...",
+  "Everything looks good."
+ ];
+
+ let i=0;
+
+ const timer=setInterval(()=>{
+
+  document.getElementById("verifyText")
+   .textContent=messages[i];
+
+  i++;
+
+  if(i>=messages.length){
+
+   clearInterval(timer);
+
+   setTimeout(installSystem,700);
+
+  }
+
+ },700);
+
+}
+
+
+/* INSTALL */
+
+function installSystem(){
+
+ showInstallStep(9);
+
+ let progress=0;
+
+ const timer=setInterval(()=>{
+
+  progress+=Math.floor(Math.random()*7)+2;
+
+  if(progress>100)
+   progress=100;
+
+  document.getElementById("installProgress")
+   .style.width=progress+"%";
+
+  document.getElementById("installPercent")
+   .textContent=progress+"%";
+
+  const text=document.getElementById("installText");
+
+  if(progress<20)
+   text.textContent="Preparing system files...";
+
+  else if(progress<40)
+   text.textContent="Installing GlassOS core...";
+
+  else if(progress<60)
+   text.textContent="Installing Liquid Glass interface...";
+
+  else if(progress<80)
+   text.textContent="Configuring account...";
+
+  else if(progress<95)
+   text.textContent="Applying settings...";
+
+  else
+   text.textContent="Finishing installation...";
+
+  if(progress>=100){
+
+   clearInterval(timer);
+
+   localStorage.setItem("glass_setup","yes");
+
+   setTimeout(()=>{
+    showInstallStep(10);
+   },700);
+
+  }
+
+ },180);
+
+}
+
+
+/* FINAL RESTART */
+
+function finishInstall(){
+
+ document.getElementById("installer")
+  .classList.add("hidden");
+
+ boot();
+
+ notify(
+  "GlassOS",
+  "Installation completed successfully"
+ );
+
+}
+
+
+/* =====================================================
+   BOOT
+===================================================== */
 
 function boot(){
 
- document.getElementById("setup").classList.add("hidden");
- document.getElementById("desktop").classList.remove("hidden");
+ document
+  .getElementById("installer")
+  .classList.add("hidden");
 
- document.getElementById("userLabel").textContent=
- "Welcome back, "+state.user;
+ document
+  .getElementById("desktop")
+  .classList.remove("hidden");
 
+ document.getElementById("userLabel")
+  .textContent=
+  "Welcome back, "+state.user;
+
+ applySettings();
  updateClock();
+
  setInterval(updateClock,1000);
-
- applyWallpaper();
-
- notify(
-  "Welcome to GlassOS",
-  "Your desktop is ready"
- );
 
 }
 
@@ -1162,28 +2105,82 @@ function updateClock(){
 
  const d=new Date();
 
- document.getElementById("clock").textContent=
- d.toLocaleTimeString([],{
-  hour:"numeric",
-  minute:"2-digit"
- });
+ document.getElementById("clock")
+  .textContent=
+  d.toLocaleTimeString([],{
+   hour:"numeric",
+   minute:"2-digit"
+  });
 
- document.getElementById("lockTime").textContent=
- d.toLocaleTimeString([],{
-  hour:"numeric",
-  minute:"2-digit"
- });
+ document.getElementById("lockTime")
+  .textContent=
+  d.toLocaleTimeString([],{
+   hour:"numeric",
+   minute:"2-digit"
+  });
 
  const h=d.getHours();
 
- document.getElementById("hello").textContent=
- h<12?"Good morning":
- h<18?"Good afternoon":
- "Good evening";
+ document.getElementById("hello")
+  .textContent=
+  h<12
+   ?"Good morning"
+   :h<18
+   ?"Good afternoon"
+   :"Good evening";
+
+ document.getElementById("lockUser")
+  .textContent=state.user;
 }
 
 
-/* APPS */
+/* =====================================================
+   SETTINGS APPLICATION
+===================================================== */
+
+function applySettings(){
+
+ document.documentElement
+  .style.setProperty("--accent",state.accent);
+
+ if(state.glass)
+  document.body.classList.remove("no-glass");
+ else
+  document.body.classList.add("no-glass");
+
+ applyTheme();
+ applyWallpaper();
+
+ document.getElementById("brightness").value=
+  state.brightness;
+
+ document.getElementById("volume").value=
+  state.volume;
+
+}
+
+function applyTheme(){
+
+ const desktop=document.getElementById("desktop");
+
+ if(state.theme==="light"){
+
+  desktop.style.background=
+   "radial-gradient(circle at 75% 5%,rgba(150,180,230,.5),transparent 33%),linear-gradient(135deg,#d9e2f2,#9aa8bc)";
+
+ }else{
+
+  desktop.style.background=
+   "radial-gradient(circle at 75% 5%,rgba(110,145,225,.48),transparent 33%),radial-gradient(circle at 10% 80%,rgba(76,103,170,.42),transparent 38%),linear-gradient(135deg,#1c273c,#080d15 75%)";
+
+ }
+
+}
+
+
+/* =====================================================
+   APPS
+===================================================== */
 
 const titles={
  browser:"Browser",
@@ -1191,6 +2188,7 @@ const titles={
  notes:"Notes",
  calculator:"Calculator",
  terminal:"Terminal",
+ camera:"Camera",
  calendar:"Calendar",
  settings:"Settings",
  store:"App Store",
@@ -1199,12 +2197,15 @@ const titles={
 
 function openApp(app){
 
- const existing=document.querySelector(`[data-app="${app}"]`);
+ const existing=
+  document.querySelector(`[data-app="${app}"]`);
 
  if(existing){
 
   existing.classList.remove("hidden");
+
   existing.style.zIndex=++zIndex;
+
   return;
 
  }
@@ -1223,12 +2224,16 @@ function openApp(app){
  <i></i><i></i><i></i>
  </div>
 
- <div class="window-title">${titles[app]}</div>
+ <div class="window-title">
+ ${titles[app]}
+ </div>
 
  <div class="window-actions">
 
  <button onclick="minimizeWindow(this)">−</button>
+
  <button onclick="maximizeWindow(this)">□</button>
+
  <button onclick="this.closest('.window').remove()">×</button>
 
  </div>
@@ -1241,15 +2246,23 @@ function openApp(app){
 
  `;
 
- document.getElementById("windows").appendChild(w);
+ document.getElementById("windows")
+  .appendChild(w);
 
  makeDraggable(w);
+
+ if(app==="camera")
+  startCamera(w);
 
  if(app==="terminal"){
 
   setTimeout(()=>{
-   const input=w.querySelector(".terminal-input input");
-   if(input)input.focus();
+   const input=
+    w.querySelector(".terminal-input input");
+
+   if(input)
+    input.focus();
+
   },100);
 
  }
@@ -1257,405 +2270,374 @@ function openApp(app){
 }
 
 
-/* APP CONTENT */
+/* =====================================================
+   APP CONTENT
+===================================================== */
 
 function appContent(app){
 
  if(app==="browser"){
 
- return `
+  return `
 
- <div class="browser-tools">
+  <div class="browser-tools">
 
- <button onclick="browserHome(this)">‹</button>
- <button onclick="browserHome(this)">↻</button>
+  <button onclick="browserHome(this)">‹</button>
 
- <input
- class="address"
- value="glass://home"
- onkeydown="if(event.key==='Enter')fakeBrowse(this.value,this)"
- >
+  <button onclick="browserHome(this)">↻</button>
 
- </div>
+  <input
+   class="address"
+   value="glass://home"
+   onkeydown="
+   if(event.key==='Enter')
+   fakeBrowse(this.value,this)
+   "
+  >
 
- <div class="browser-page">
+  </div>
 
- <div style="font-size:35px">⌁</div>
+  <div class="browser-page">
 
- <h1>Glass Browser</h1>
+  <div style="font-size:38px">⌁</div>
 
- <p>A simulated browser inside GlassOS</p>
+  <h1>Glass Browser</h1>
 
- <div class="search">
+  <p>Welcome to the simulated web.</p>
 
- <input
- class="field"
- placeholder="Search the simulated web..."
- onkeydown="if(event.key==='Enter')fakeBrowse(this.value,this)"
- >
+  <div class="search">
 
- <button
- class="primary"
- onclick="fakeBrowse(this.previousElementSibling.value,this)"
- >Search</button>
+  <input
+   class="field"
+   placeholder="Search the simulated web..."
+   onkeydown="
+   if(event.key==='Enter')
+   fakeBrowse(this.value,this)
+   "
+  >
 
- </div>
+  <button
+   class="primary"
+   onclick="
+   fakeBrowse(
+   this.previousElementSibling.value,
+   this
+   )
+   "
+  >Search</button>
 
- <div style="
- display:flex;
- gap:10px;
- justify-content:center;
- flex-wrap:wrap;
- ">
+  </div>
 
- <button class="secondary" onclick="fakeBrowse('glass://news',this)">
- News
- </button>
+  <button
+   class="secondary"
+   onclick="fakeBrowse('glass://news',this)"
+  >News</button>
 
- <button class="secondary" onclick="fakeBrowse('glass://weather',this)">
- Weather
- </button>
+  <button
+   class="secondary"
+   onclick="fakeBrowse('glass://weather',this)"
+  >Weather</button>
 
- <button class="secondary" onclick="fakeBrowse('glass://games',this)">
- Games
- </button>
+  <button
+   class="secondary"
+   onclick="fakeBrowse('glass://games',this)"
+  >Games</button>
 
- <button class="secondary" onclick="fakeBrowse('glass://music',this)">
- Music
- </button>
+  </div>
 
- </div>
-
- </div>
-
- `;
+  `;
 
  }
 
 
  if(app==="files"){
 
- return `
+  return `
 
- <div style="padding:20px">
+  <div style="padding:20px">
 
- <div style="
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:15px
- ">
+  <div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  ">
 
- <h2>Files</h2>
+  <h2>Files</h2>
 
- <button
- class="secondary"
- onclick="createFakeFile()"
- >＋ New file</button>
+  <button
+   class="secondary"
+   onclick="createFakeFile(this)"
+  >＋ New file</button>
 
- </div>
+  </div>
 
- <div class="files" id="fileGrid">
+  <div class="files" id="fileGrid">
 
- <div class="file" ondblclick="openFile('Welcome.txt')">
- <span>📄</span>
- <small>Welcome.txt</small>
- </div>
+  <div
+   class="file"
+   ondblclick="openFile('Welcome.txt')"
+  >
+   <span>📄</span>
+   <small>Welcome.txt</small>
+  </div>
 
- <div class="file">
- <span>📁</span>
- <small>Documents</small>
- </div>
+  <div class="file">
+   <span>📁</span>
+   <small>Documents</small>
+  </div>
 
- <div class="file">
- <span>🖼️</span>
- <small>Pictures</small>
- </div>
+  <div class="file">
+   <span>🖼️</span>
+   <small>Pictures</small>
+  </div>
 
- <div class="file">
- <span>📥</span>
- <small>Downloads</small>
- </div>
+  <div class="file">
+   <span>📥</span>
+   <small>Downloads</small>
+  </div>
 
- <div class="file">
- <span>🎵</span>
- <small>Music</small>
- </div>
+  <div class="file">
+   <span>🎵</span>
+   <small>Music</small>
+  </div>
 
- <div class="file">
- <span>🖥️</span>
- <small>Desktop</small>
- </div>
+  <div class="file">
+   <span>🖥️</span>
+   <small>Desktop</small>
+  </div>
 
- </div>
+  </div>
 
- </div>
+  </div>
 
- `;
+  `;
 
  }
 
 
  if(app==="notes"){
 
- return `
+  return `
 
- <div class="notes">
+  <div class="notes">
 
- <div class="notes-list">
+  <div class="notes-list">
 
- <button onclick="newNote()">＋ New note</button>
+  <button
+   class="secondary"
+   style="width:100%"
+   onclick="newNote(this)"
+  >＋ New note</button>
 
- <div style="
- margin-top:15px;
- color:var(--muted);
- font-size:13px;
- ">
- My Notes
- </div>
+  </div>
 
- </div>
+  <div class="note-editor">
 
- <div class="note-editor">
+  <input
+   id="noteTitle"
+   class="note-title"
+   value="Welcome to Notes"
+  >
 
- <input
- id="noteTitle"
- class="note-title"
- value="Welcome to Notes"
- >
+  <textarea
+   id="noteText"
+   class="note-text"
+   placeholder="Start writing..."
+   oninput="saveNote()"
+  >${escapeHtml(state.notes)}</textarea>
 
- <textarea
- id="noteText"
- class="note-text"
- placeholder="Start writing..."
- oninput="saveNote()"
- >${escapeHtml(state.notes)}</textarea>
+  </div>
 
- </div>
+  </div>
 
- </div>
-
- `;
+  `;
 
  }
 
 
  if(app==="calculator"){
 
- return `
+  return `
 
- <div class="calculator">
+  <div class="calculator">
 
- <input
- id="calcDisplay"
- class="calc-display"
- value="0"
- readonly
- >
+  <input
+   id="calcDisplay"
+   class="calc-display"
+   value="0"
+   readonly
+  >
 
- <div class="calc-grid">
+  <div class="calc-grid">
 
- ${[
- "C","⌫","%","/",
- "7","8","9","*",
- "4","5","6","-",
- "1","2","3","+",
- "0",".","(",")",
- "="
- ].map(x=>`
- <button onclick="calc('${x}')">${x}</button>
- `).join("")}
+  ${[
+   "C","⌫","%","/",
+   "7","8","9","*",
+   "4","5","6","-",
+   "1","2","3","+",
+   "0",".","(",")",
+   "="
+  ].map(x=>`
 
- </div>
+   <button onclick="calc('${x}')">
+   ${x}
+   </button>
 
- </div>
+  `).join("")}
 
- `;
+  </div>
+
+  </div>
+
+  `;
 
  }
 
 
  if(app==="terminal"){
 
- return `
+  return `
 
- <div class="terminal">
+  <div class="terminal">
 
- <div class="terminal-output" id="terminalOutput">
+  <div
+   class="terminal-output"
+   id="terminalOutput"
+  >GlassOS Terminal v2.0
 
- GlassOS Terminal v1.0
+Type "help" for available commands.
 
- Type "help" for available commands.
+  </div>
 
- </div>
+  <div class="terminal-input">
 
- <div class="terminal-input">
+  <span>${escapeHtml(state.username)}@glassos:~$</span>
 
- <span>guest@glassos:~$</span>
+  <input
+   onkeydown="
+   if(event.key==='Enter')
+   terminalCommand(this)
+   "
+  >
 
- <input
- onkeydown="if(event.key==='Enter')terminalCommand(this)"
- autofocus
- >
+  </div>
 
- </div>
+  </div>
 
- </div>
+  `;
 
- `;
+ }
+
+
+ if(app==="camera"){
+
+  return `
+
+  <div class="camera">
+
+  <div
+   class="camera-msg"
+   id="cameraMsg"
+  >Camera ready</div>
+
+  <video
+   autoplay
+   playsinline
+   id="cameraVideo"
+  ></video>
+
+  <div class="camera-controls">
+
+  <button
+   class="shutter"
+   onclick="takePhoto(this)"
+  ></button>
+
+  </div>
+
+  </div>
+
+  `;
 
  }
 
 
  if(app==="calendar"){
 
- const d=new Date();
+  const d=new Date();
 
- return `
+  return `
 
- <div style="padding:30px">
+  <div style="padding:30px">
 
- <h1>${d.toLocaleString([],{
-  month:"long",
-  year:"numeric"
- })}</h1>
+  <h1>
+  ${d.toLocaleString([],{
+   month:"long",
+   year:"numeric"
+  })}
+  </h1>
 
- <div style="
- display:grid;
- grid-template-columns:repeat(7,1fr);
- gap:7px;
- margin-top:25px;
- ">
+  <div style="
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+  ">
 
- ${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
- .map(x=>`
- <div style="
- color:var(--muted);
- text-align:center;
- padding:10px
- ">${x}</div>
- `).join("")}
+  ${
+   ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+   .map(x=>`
+   <div style="
+   padding:10px;
+   text-align:center;
+   color:var(--muted)
+   ">${x}</div>
+   `).join("")
+  }
 
- ${generateCalendar(d)}
+  ${generateCalendar(d)}
 
- </div>
+  </div>
 
- </div>
+  </div>
 
- `;
+  `;
 
  }
 
 
  if(app==="settings"){
 
- return `
-
- <div class="settings">
-
- <aside class="sidebar">
-
- <button class="active">General</button>
- <button onclick="notify('Personalization','Wallpaper controls are in Control Center')">
- Personalization
- </button>
- <button onclick="notify('Privacy','This simulator stores data only in your browser')">
- Privacy
- </button>
- <button onclick="notify('Updates','GlassOS is already up to date')">
- Updates
- </button>
- <button onclick="resetOS()">Reset</button>
-
- </aside>
-
- <div class="settings-content">
-
- <h2>Settings</h2>
-
- <div class="setting-card">
-
- <h3>
- Glass Mode
-
- <span
- class="switch on"
- onclick="this.classList.toggle('on')"
- ></span>
-
- </h3>
-
- <p>Use the liquid glass interface</p>
-
- </div>
-
- <div class="setting-card">
-
- <h3>Account</h3>
-
- <p>${escapeHtml(state.user)}</p>
-
- </div>
-
- <div class="setting-card">
-
- <h3>Region</h3>
-
- <p>${localStorage.getItem("glass_region")||"United States"}</p>
-
- </div>
-
- <div class="setting-card">
-
- <h3>Storage</h3>
-
- <p>128 GB total • 37 GB used</p>
-
- </div>
-
- <div class="setting-card">
-
- <h3>System</h3>
-
- <p>GlassOS Simulator 2.0</p>
-
- </div>
-
- </div>
-
- </div>
-
- `;
+  return settingsContent("general");
 
  }
 
 
  if(app==="store"){
 
- return `
+  return `
 
- <div class="store">
+  <div class="store">
 
- <h2>App Store</h2>
+  <h2>App Store</h2>
 
- <p style="color:var(--muted)">
- Discover simulated apps for GlassOS
- </p>
+  <p style="color:var(--muted)">
+  Discover simulated apps
+  </p>
 
- <div class="apps-grid">
+  <div class="apps-grid">
 
- ${storeApp("🎮","Games","Play simulated games")}
- ${storeApp("🎨","Paint","Create digital art")}
- ${storeApp("📺","Glass TV","Watch simulated channels")}
- ${storeApp("🎵","Glass Music","Listen to your library")}
- ${storeApp("💬","Messages","Send simulated messages")}
- ${storeApp("☁️","Cloud","Sync your simulated files")}
+  ${storeApp("🎮","Glass Games","Games for GlassOS")}
+  ${storeApp("🎨","Glass Paint","Digital drawing app")}
+  ${storeApp("🎵","Glass Music","Music player")}
+  ${storeApp("💬","Messages","Simulated messaging")}
+  ${storeApp("☁️","Glass Cloud","Simulated cloud storage")}
+  ${storeApp("📺","Glass TV","Simulated television")}
 
- </div>
+  </div>
 
- </div>
+  </div>
 
- `;
+  `;
 
  }
 
@@ -1664,7 +2646,7 @@ function appContent(app){
 
  <div style="
  padding:55px;
- text-align:center
+ text-align:center;
  ">
 
  <div style="font-size:60px">◉</div>
@@ -1672,11 +2654,11 @@ function appContent(app){
  <h1>GlassOS</h1>
 
  <p style="color:var(--muted)">
- A browser based operating system simulator
+ Version ${state.version}
  </p>
 
  <p style="color:var(--muted)">
- Version 2.0
+ ${state.beta?"Liquid Reframe Beta":"Stable Release"}
  </p>
 
  </div>
@@ -1686,64 +2668,776 @@ function appContent(app){
 }
 
 
-/* WINDOW FUNCTIONS */
+/* =====================================================
+   SETTINGS
+===================================================== */
 
-function minimizeWindow(btn){
+function settingsContent(tab){
 
- btn.closest(".window").classList.add("hidden");
+ let main="";
+
+ if(tab==="general"){
+
+  main=`
+
+  <h2>General</h2>
+
+  <div class="setting-card">
+
+  <div class="setting-row">
+
+  <div>
+  <h3>Liquid Glass</h3>
+  <p>Use translucent GlassOS surfaces</p>
+  </div>
+
+  <div
+   class="switch ${state.glass?"on":""}"
+   onclick="toggleGlass(this)"
+  ></div>
+
+  </div>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Appearance</h3>
+
+  <select
+   class="field"
+   onchange="setTheme(this.value)"
+  >
+
+  <option value="dark"
+  ${state.theme==="dark"?"selected":""}>
+  Dark
+  </option>
+
+  <option value="light"
+  ${state.theme==="light"?"selected":""}>
+  Light
+  </option>
+
+  </select>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Accent color</h3>
+
+  <select
+   class="field"
+   onchange="setAccent(this.value)"
+  >
+
+  <option value="#7da5ff">Ocean Blue</option>
+  <option value="#9c7dff">Purple</option>
+  <option value="#63d6b1">Mint</option>
+  <option value="#ff8b8b">Coral</option>
+  <option value="#e7c66a">Gold</option>
+
+  </select>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Wallpaper</h3>
+
+  <button
+   class="secondary"
+   onclick="changeWallpaper()"
+  >Change wallpaper</button>
+
+  </div>
+
+  `;
+
+ }
+
+
+ if(tab==="account"){
+
+  main=`
+
+  <h2>Account</h2>
+
+  <div class="setting-card">
+
+  <h3>${escapeHtml(state.user)}</h3>
+
+  <p>@${escapeHtml(state.username)}</p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Region</h3>
+
+  <p>${escapeHtml(state.region)}</p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Keyboard</h3>
+
+  <p>${escapeHtml(state.keyboard)}</p>
+
+  </div>
+
+  `;
+
+ }
+
+
+ if(tab==="updates"){
+
+  main=updateSettingsContent();
+
+ }
+
+
+ if(tab==="privacy"){
+
+  main=`
+
+  <h2>Privacy</h2>
+
+  <div class="setting-card">
+
+  <h3>Local data</h3>
+
+  <p>
+  GlassOS stores simulator information
+  in this browser only.
+  </p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Camera</h3>
+
+  <p>
+  The Camera app uses your browser's
+  camera permission when enabled.
+  </p>
+
+  </div>
+
+  `;
+
+ }
+
+
+ if(tab==="system"){
+
+  main=`
+
+  <h2>System</h2>
+
+  <div class="setting-card">
+
+  <h3>GlassOS</h3>
+
+  <p>Version ${state.version}</p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Storage</h3>
+
+  <p>128 GB simulated storage</p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Build</h3>
+
+  <p>
+  ${state.beta
+   ?"Liquid Reframe Beta"
+   :"Stable"}
+  </p>
+
+  </div>
+
+  <div class="setting-card">
+
+  <h3>Reset</h3>
+
+  <button
+   class="secondary"
+   onclick="resetOS()"
+  >Reset GlassOS</button>
+
+  </div>
+
+  `;
+
+ }
+
+
+ return `
+
+ <div class="settings">
+
+ <aside class="sidebar">
+
+ <button
+  class="${tab==="general"?"active":""}"
+  onclick="changeSettingsTab(this,'general')"
+ >General</button>
+
+ <button
+  class="${tab==="account"?"active":""}"
+  onclick="changeSettingsTab(this,'account')"
+ >Account</button>
+
+ <button
+  class="${tab==="updates"?"active":""}"
+  onclick="changeSettingsTab(this,'updates')"
+ >Updates</button>
+
+ <button
+  class="${tab==="privacy"?"active":""}"
+  onclick="changeSettingsTab(this,'privacy')"
+ >Privacy</button>
+
+ <button
+  class="${tab==="system"?"active":""}"
+  onclick="changeSettingsTab(this,'system')"
+ >System</button>
+
+ </aside>
+
+ <div class="settings-content">
+
+ ${main}
+
+ </div>
+
+ </div>
+
+ `;
 
 }
 
-function maximizeWindow(btn){
 
- btn.closest(".window").classList.toggle("maximized");
+/* SETTINGS TABS */
 
-}
+function changeSettingsTab(button,tab){
 
-function makeDraggable(win){
+ const win=button.closest(".window");
 
- const head=win.querySelector(".window-head");
-
- let dragging=false;
- let ox=0;
- let oy=0;
-
- head.addEventListener("mousedown",e=>{
-
-  if(win.classList.contains("maximized"))return;
-
-  dragging=true;
-
-  const rect=win.getBoundingClientRect();
-
-  ox=e.clientX-rect.left;
-  oy=e.clientY-rect.top;
-
-  win.style.transform="none";
-  win.style.left=rect.left+"px";
-  win.style.top=rect.top+"px";
-
-  win.style.zIndex=++zIndex;
-
- });
-
- document.addEventListener("mousemove",e=>{
-
-  if(!dragging)return;
-
-  win.style.left=(e.clientX-ox)+"px";
-  win.style.top=(e.clientY-oy)+"px";
-
- });
-
- document.addEventListener("mouseup",()=>{
-  dragging=false;
- });
+ win.querySelector(".window-body")
+  .innerHTML=settingsContent(tab);
 
 }
 
 
-/* BROWSER */
+/* GLASS */
+
+function toggleGlass(el){
+
+ state.glass=!state.glass;
+
+ el.classList.toggle("on",state.glass);
+
+ saveState();
+
+ applySettings();
+
+ notify(
+  "Appearance",
+  state.glass
+   ?"Liquid Glass enabled"
+   :"Liquid Glass disabled"
+ );
+
+}
+
+
+/* THEME */
+
+function toggleAppearance(){
+
+ state.theme=
+  state.theme==="dark"
+  ?"light"
+  :"dark";
+
+ saveState();
+ applySettings();
+
+ document.getElementById("ccAppearance")
+  .textContent=
+  state.theme==="dark"
+  ?"Dark"
+  :"Light";
+
+}
+
+
+/* THEME SELECT */
+
+function setTheme(theme){
+
+ state.theme=theme;
+
+ saveState();
+ applySettings();
+
+ notify(
+  "Appearance",
+  theme==="dark"
+   ?"Dark appearance enabled"
+   :"Light appearance enabled"
+ );
+
+}
+
+
+/* ACCENT */
+
+function setAccent(color){
+
+ state.accent=color;
+
+ saveState();
+ applySettings();
+
+ notify(
+  "Appearance",
+  "Accent color changed"
+ );
+
+}
+
+
+/* =====================================================
+   UPDATE SYSTEM
+===================================================== */
+
+function updateSettingsContent(){
+
+ if(state.beta){
+
+  return `
+
+  <h2>
+  Software Update
+  <span class="beta-badge">BETA</span>
+  </h2>
+
+  <div class="update-box">
+
+  <div class="update-title">
+  GlassOS Liquid Reframe
+  </div>
+
+  <div class="update-version">
+  Version 27.0 Beta
+  </div>
+
+  <p style="color:var(--muted)">
+  You are currently running a beta build.
+  </p>
+
+  <div class="warning">
+
+  ⚠ Beta builds can contain bugs and unfinished
+  features.
+
+  <br><br>
+
+  You cannot leave the beta channel from inside
+  this simulation. A reset is required to return
+  to the stable installation.
+
+  </div>
+
+  <br>
+
+  <button
+   class="secondary"
+   onclick="checkBetaUpdate()"
+  >Check for beta updates</button>
+
+  </div>
+
+  `;
+
+ }
+
+
+ return `
+
+ <h2>Software Update</h2>
+
+ <div class="update-box">
+
+ <div class="update-title">
+ GlassOS ${state.version}
+ </div>
+
+ <div class="update-version">
+ You're up to date
+ </div>
+
+ <button
+  class="secondary"
+  onclick="checkStableUpdate()"
+ >Check for updates</button>
+
+ </div>
+
+ <br>
+
+ <div class="update-box">
+
+ <div class="update-title">
+ Beta Updates
+ </div>
+
+ <div class="update-version">
+ Try upcoming GlassOS features
+ </div>
+
+ <p style="color:var(--muted)">
+ Enable beta updates to receive experimental
+ versions before everyone else.
+ </p>
+
+ <div class="warning">
+
+ ⚠ Once you install a beta build you cannot
+ opt out through the normal update settings.
+
+ </div>
+
+ <br>
+
+ <button
+  class="primary"
+  onclick="scanForBeta()"
+ >Check for beta builds</button>
+
+ </div>
+
+ `;
+
+}
+
+
+/* STABLE UPDATE */
+
+function checkStableUpdate(){
+
+ notify(
+  "Software Update",
+  "Checking for updates..."
+ );
+
+ setTimeout(()=>{
+
+  notify(
+   "Software Update",
+   "GlassOS is up to date"
+  );
+
+ },1800);
+
+}
+
+
+/* BETA SCAN */
+
+function scanForBeta(){
+
+ notify(
+  "Beta Updates",
+  "Searching for beta builds..."
+ );
+
+ setTimeout(()=>{
+
+  const win=
+   document.querySelector('[data-app="settings"]');
+
+  if(!win)return;
+
+  const content=
+   win.querySelector(".settings-content");
+
+  content.innerHTML=`
+
+  <h2>Beta build found</h2>
+
+  <div class="update-box">
+
+  <div class="update-title">
+  GlassOS Liquid Reframe
+  </div>
+
+  <div class="update-version">
+  Version 27.0 Beta
+  </div>
+
+  <p style="color:var(--muted)">
+  A major interface redesign with new system
+  animations, Control Center improvements,
+  updated window behavior and experimental
+  GlassOS features.
+  </p>
+
+  <div class="warning">
+
+  ⚠ This is a beta build.
+
+  <br><br>
+
+  Once installed, you cannot leave the beta
+  channel without resetting the simulated OS.
+
+  </div>
+
+  <br>
+
+  <button
+   class="primary"
+   onclick="downloadBeta()"
+  >Download & Install Beta</button>
+
+  </div>
+
+  `;
+
+ },1800);
+
+}
+
+
+/* BETA DOWNLOAD */
+
+function downloadBeta(){
+
+ const win=
+  document.querySelector('[data-app="settings"]');
+
+ if(!win)return;
+
+ const content=
+  win.querySelector(".settings-content");
+
+ content.innerHTML=`
+
+ <h2>Installing Liquid Reframe</h2>
+
+ <p style="color:var(--muted)">
+ Downloading beta system components...
+ </p>
+
+ <div class="progress-track">
+
+ <div
+  class="progress-bar"
+  id="betaProgress"
+ ></div>
+
+ </div>
+
+ <div
+  class="big-percent"
+  id="betaPercent"
+ >0%</div>
+
+ `;
+
+ let progress=0;
+
+ const timer=setInterval(()=>{
+
+  progress+=Math.floor(Math.random()*8)+4;
+
+  if(progress>100)
+   progress=100;
+
+  document.getElementById("betaProgress")
+   .style.width=progress+"%";
+
+  document.getElementById("betaPercent")
+   .textContent=progress+"%";
+
+  if(progress>=100){
+
+   clearInterval(timer);
+
+   installBeta();
+
+  }
+
+ },240);
+
+}
+
+
+/* INSTALL BETA */
+
+function installBeta(){
+
+ const win=
+  document.querySelector('[data-app="settings"]');
+
+ if(!win)return;
+
+ const content=
+  win.querySelector(".settings-content");
+
+ content.innerHTML=`
+
+ <h2>Applying Liquid Reframe</h2>
+
+ <p style="color:var(--muted)">
+ Restarting GlassOS and applying beta changes...
+ </p>
+
+ <div class="install-spinner"></div>
+
+ `;
+
+ setTimeout(()=>{
+
+  state.beta=true;
+  state.version="27.0 Beta";
+
+  saveState();
+
+  notify(
+   "GlassOS",
+   "Liquid Reframe Beta installed"
+  );
+
+  setTimeout(restartOS,1200);
+
+ },2500);
+
+}
+
+
+/* BETA UPDATE CHECK */
+
+function checkBetaUpdate(){
+
+ notify(
+  "Beta Updates",
+  "Searching beta channel..."
+ );
+
+ setTimeout(()=>{
+
+  notify(
+   "Beta Updates",
+   "You're running the latest beta build"
+  );
+
+ },1800);
+
+}
+
+
+/* =====================================================
+   CAMERA
+===================================================== */
+
+async function startCamera(win){
+
+ const video=win.querySelector("video");
+ const msg=win.querySelector("#cameraMsg");
+
+ if(!navigator.mediaDevices ||
+    !navigator.mediaDevices.getUserMedia){
+
+  msg.textContent=
+   "Camera is unavailable in this browser";
+
+  return;
+
+ }
+
+ try{
+
+  const stream=
+   await navigator.mediaDevices.getUserMedia({
+    video:true,
+    audio:false
+   });
+
+  video.srcObject=stream;
+
+  msg.textContent="Camera active";
+
+  setTimeout(()=>{
+   msg.remove();
+  },1800);
+
+ }catch{
+
+  msg.textContent=
+   "Camera permission was not granted";
+
+ }
+
+}
+
+function takePhoto(button){
+
+ const win=button.closest(".window");
+
+ const video=win.querySelector("video");
+
+ if(!video.srcObject){
+
+  notify(
+   "Camera",
+   "Camera is not active"
+  );
+
+  return;
+
+ }
+
+ const canvas=document.createElement("canvas");
+
+ canvas.width=video.videoWidth||640;
+ canvas.height=video.videoHeight||480;
+
+ const ctx=canvas.getContext("2d");
+
+ ctx.drawImage(
+  video,
+  0,
+  0,
+  canvas.width,
+  canvas.height
+ );
+
+ notify(
+  "Camera",
+  "Photo captured and saved to simulated Pictures"
+ );
+
+}
+
+
+/* =====================================================
+   BROWSER
+===================================================== */
 
 function fakeBrowse(q,element){
 
@@ -1753,32 +3447,39 @@ function fakeBrowse(q,element){
 
  const win=element.closest(".window");
 
- const page=win.querySelector(".browser-page");
- const address=win.querySelector(".address");
+ const page=
+  win.querySelector(".browser-page");
+
+ const address=
+  win.querySelector(".address");
 
  address.value=value;
 
  let title=escapeHtml(value);
- let text="This is a simulated GlassOS webpage";
+ let text="This is a simulated GlassOS webpage.";
 
  if(value.includes("news")){
+
   title="Glass News";
-  text="Welcome to the simulated GlassOS news network.";
+  text=
+   "Breaking simulated news from the GlassOS network.";
+
  }
 
  if(value.includes("weather")){
+
   title="Glass Weather";
-  text="☀️ 72° • Clear skies • Simulated forecast";
+  text=
+   "72° • Clear skies • Simulated forecast";
+
  }
 
  if(value.includes("games")){
-  title="Glass Games";
-  text="No games installed yet. Visit the App Store.";
- }
 
- if(value.includes("music")){
-  title="Glass Music";
-  text="♪ Your simulated music library is ready.";
+  title="Glass Games";
+  text=
+   "Visit the App Store to install simulated games.";
+
  }
 
  page.innerHTML=`
@@ -1790,64 +3491,83 @@ function fakeBrowse(q,element){
  <p>${text}</p>
 
  <button
- class="secondary"
- onclick="browserHome(this)"
+  class="secondary"
+  onclick="browserHome(this)"
  >Back to home</button>
 
  `;
 
 }
 
-function browserHome(btn){
+function browserHome(button){
 
- const win=btn.closest(".window");
+ const win=button.closest(".window");
 
- win.querySelector(".address").value="glass://home";
+ win.querySelector(".address")
+  .value="glass://home";
 
- win.querySelector(".browser-page").innerHTML=`
+ win.querySelector(".browser-page")
+  .innerHTML=`
 
- <div style="font-size:35px">⌁</div>
+  <div style="font-size:38px">⌁</div>
 
- <h1>Glass Browser</h1>
+  <h1>Glass Browser</h1>
 
- <p>A simulated browser inside GlassOS</p>
+  <p>Welcome to the simulated web.</p>
 
- <div class="search">
+  <div class="search">
 
- <input
- class="field"
- placeholder="Search the simulated web..."
- onkeydown="if(event.key==='Enter')fakeBrowse(this.value,this)"
- >
+  <input
+   class="field"
+   placeholder="Search the simulated web..."
+   onkeydown="
+   if(event.key==='Enter')
+   fakeBrowse(this.value,this)
+   "
+  >
 
- <button
- class="primary"
- onclick="fakeBrowse(this.previousElementSibling.value,this)"
- >Search</button>
+  <button
+   class="primary"
+   onclick="
+   fakeBrowse(
+   this.previousElementSibling.value,
+   this
+   )
+   "
+  >Search</button>
 
- </div>
+  </div>
 
- `;
+  `;
 
 }
 
 
-/* CALCULATOR */
+/* =====================================================
+   CALCULATOR
+===================================================== */
 
 function calc(x){
 
- const d=document.getElementById("calcDisplay");
+ const d=
+  document.getElementById("calcDisplay");
 
  if(!d)return;
 
  if(x==="C"){
+
   d.value="0";
   return;
+
  }
 
  if(x==="⌫"){
-  d.value=d.value.slice(0,-1)||"0";
+
+  d.value=
+   d.value.slice(0,-1)||"0";
+
   return;
+
  }
 
  if(x==="="){
@@ -1857,58 +3577,85 @@ function calc(x){
    if(!/^[0-9+\-*/().% ]+$/.test(d.value))
     throw 0;
 
-   d.value=Function(
-    '"use strict";return ('+d.value+')'
-   )();
+   d.value=
+    Function(
+     '"use strict";return ('+
+     d.value+
+     ')'
+    )();
 
   }catch{
+
    d.value="Error";
+
   }
 
   return;
+
  }
 
- if(d.value==="0" || d.value==="Error")
+ if(
+  d.value==="0" ||
+  d.value==="Error"
+ ){
+
   d.value="";
+
+ }
 
  d.value+=x;
 
 }
 
 
-/* NOTES */
+/* =====================================================
+   NOTES
+===================================================== */
 
 function saveNote(){
 
- const text=document.getElementById("noteText");
+ const text=
+  document.getElementById("noteText");
 
- if(text){
-  state.notes=text.value;
-  localStorage.setItem("glass_notes",text.value);
- }
+ if(!text)return;
+
+ state.notes=text.value;
+
+ saveState();
 
 }
 
-function newNote(){
+function newNote(button){
 
- const title=document.getElementById("noteTitle");
- const text=document.getElementById("noteText");
+ const win=button.closest(".window");
 
- if(title)title.value="New Note";
- if(text)text.value="";
+ const title=
+  win.querySelector("#noteTitle");
+
+ const text=
+  win.querySelector("#noteText");
+
+ title.value="New Note";
+ text.value="";
 
  state.notes="";
- localStorage.setItem("glass_notes","");
+
+ saveState();
 
 }
 
 
-/* TERMINAL */
+/* =====================================================
+   TERMINAL
+===================================================== */
 
 function terminalCommand(input){
 
- const command=input.value.trim();
- const output=document.getElementById("terminalOutput");
+ const command=
+  input.value.trim();
+
+ const output=
+  document.getElementById("terminalOutput");
 
  if(!output)return;
 
@@ -1916,100 +3663,180 @@ function terminalCommand(input){
 
  if(command==="help"){
 
- result=
+  result=
 `Available commands:
 
-help       Show commands
-clear      Clear terminal
-date       Show date
-time       Show time
-whoami     Show current user
-about      System information
-apps       List apps
-reboot     Restart GlassOS`;
+help
+clear
+date
+time
+whoami
+version
+system
+wifi
+beta
+apps
+lock
+reboot
+shutdown`;
 
  }
 
  else if(command==="clear"){
+
   output.textContent="";
   input.value="";
   return;
+
  }
 
  else if(command==="date"){
+
   result=new Date().toDateString();
+
  }
 
  else if(command==="time"){
+
   result=new Date().toLocaleTimeString();
+
  }
 
  else if(command==="whoami"){
-  result=state.user;
+
+  result=state.username;
+
  }
 
- else if(command==="about"){
-  result="GlassOS Simulator v2.0";
+ else if(command==="version"){
+
+  result=state.version;
+
+ }
+
+ else if(command==="system"){
+
+  result=
+   "GlassOS Simulator\n"+
+   "Version: "+state.version+
+   "\nRegion: "+state.region+
+   "\nBeta: "+(state.beta?"Yes":"No");
+
+ }
+
+ else if(command==="wifi"){
+
+  result=
+   state.wifi
+   ?"Wi-Fi connected"
+   :"Wi-Fi disabled";
+
+ }
+
+ else if(command==="beta"){
+
+  result=
+   state.beta
+   ?"Liquid Reframe Beta"
+   :"Stable channel";
+
  }
 
  else if(command==="apps"){
-  result="Browser  Files  Notes  Calculator  Terminal  Calendar  Settings  Store";
+
+  result=
+   "Browser Files Notes Calculator Terminal Camera Calendar Settings Store";
+
+ }
+
+ else if(command==="lock"){
+
+  lockOS();
+  result="Locking GlassOS...";
+
  }
 
  else if(command==="reboot"){
+
   restartOS();
   return;
+
+ }
+
+ else if(command==="shutdown"){
+
+  shutdownOS();
+  return;
+
  }
 
  else if(command){
-  result=`Command not found: ${command}`;
+
+  result=
+   "Command not found: "+command;
+
  }
 
  output.textContent+=
- `\n\n${command}\n${result}`;
+  "\n\n"+
+  state.username+
+  "@glassos:~$ "+
+  command+
+  "\n"+
+  result;
 
- output.scrollTop=output.scrollHeight;
+ output.scrollTop=
+  output.scrollHeight;
 
  input.value="";
 
 }
 
 
-/* CALENDAR */
+/* =====================================================
+   CALENDAR
+===================================================== */
 
 function generateCalendar(date){
 
  const year=date.getFullYear();
  const month=date.getMonth();
 
- const first=new Date(year,month,1).getDay();
- const days=new Date(year,month+1,0).getDate();
+ const first=
+  new Date(year,month,1).getDay();
+
+ const days=
+  new Date(year,month+1,0).getDate();
 
  let html="";
 
- for(let i=0;i<first;i++){
+ for(let i=0;i<first;i++)
   html+="<div></div>";
- }
 
  for(let d=1;d<=days;d++){
 
+  const now=new Date();
+
   const today=
-   d===new Date().getDate() &&
-   month===new Date().getMonth() &&
-   year===new Date().getFullYear();
+   d===now.getDate() &&
+   month===now.getMonth() &&
+   year===now.getFullYear();
 
   html+=`
 
-  <div onclick="notify('Calendar','Selected ${d}')"
-  style="
+  <div
+   onclick="notify('Calendar','Selected ${d}')"
+   style="
    padding:12px;
    text-align:center;
    border-radius:12px;
-   background:${today?"rgba(255,255,255,.25)":"rgba(255,255,255,.05)"};
    cursor:pointer;
-  ">
-  ${d}
-  </div>
+   background:
+   ${today
+    ?"rgba(255,255,255,.25)"
+    :"rgba(255,255,255,.05)"}
+   "
+  >${d}</div>
 
   `;
 
@@ -2020,7 +3847,9 @@ function generateCalendar(date){
 }
 
 
-/* APP STORE */
+/* =====================================================
+   STORE
+===================================================== */
 
 function storeApp(icon,name,description){
 
@@ -2028,7 +3857,9 @@ function storeApp(icon,name,description){
 
  <div class="app-card">
 
- <div class="app-icon">${icon}</div>
+ <div class="app-icon">
+ ${icon}
+ </div>
 
  <strong>${name}</strong>
 
@@ -2048,7 +3879,7 @@ function installApp(name){
 
  notify(
   name,
-  "Installing..."
+  "Downloading..."
  );
 
  setTimeout(()=>{
@@ -2058,29 +3889,33 @@ function installApp(name){
    "Installation complete"
   );
 
- },1000);
+ },1200);
 
 }
 
 
-/* FILES */
+/* =====================================================
+   FILES
+===================================================== */
 
-function createFakeFile(){
+function createFakeFile(button){
 
- const grid=document.querySelector("#fileGrid");
+ const win=button.closest(".window");
 
- if(!grid)return;
+ const grid=
+  win.querySelector("#fileGrid");
 
- const div=document.createElement("div");
+ const file=
+  document.createElement("div");
 
- div.className="file";
+ file.className="file";
 
- div.innerHTML=`
+ file.innerHTML=`
  <span>📄</span>
  <small>New File.txt</small>
  `;
 
- grid.appendChild(div);
+ grid.appendChild(file);
 
  notify(
   "Files",
@@ -2093,96 +3928,181 @@ function openFile(name){
 
  notify(
   name,
-  "This file is part of the simulation"
+  "Opened in the simulated file system"
  );
 
 }
 
 
-/* NOTIFICATIONS */
+/* =====================================================
+   WINDOW MANAGEMENT
+===================================================== */
 
-function notify(title,text){
+function minimizeWindow(button){
 
- const box=document.getElementById("notifications");
-
- if(!box)return;
-
- const n=document.createElement("div");
-
- n.className="notification";
-
- n.innerHTML=`
-
- <strong>${escapeHtml(title)}</strong>
-
- <small>${escapeHtml(text)}</small>
-
- `;
-
- box.appendChild(n);
-
- setTimeout(()=>{
-  n.remove();
- },3500);
+ button
+  .closest(".window")
+  .classList.add("hidden");
 
 }
 
+function maximizeWindow(button){
 
-/* LAUNCHER */
-
-function toggleLauncher(){
-
- const launcher=document.getElementById("launcher");
-
- launcher.classList.toggle("hidden");
-
- if(!launcher.classList.contains("hidden")){
-
-  const input=document.getElementById("launcherSearch");
-
-  input.value="";
-  input.focus();
-
- }
+ button
+  .closest(".window")
+  .classList.toggle("maximized");
 
 }
 
-function openFromLauncher(app){
+function makeDraggable(win){
 
- document.getElementById("launcher").classList.add("hidden");
+ const head=
+  win.querySelector(".window-head");
 
- openApp(app);
+ let dragging=false;
+ let ox=0;
+ let oy=0;
 
-}
+ head.addEventListener("mousedown",e=>{
 
-function filterLauncher(value){
+  if(win.classList.contains("maximized"))
+   return;
 
- document.querySelectorAll(".launcher-app")
- .forEach(app=>{
+  dragging=true;
 
-  app.style.display=
-   app.dataset.name
-   .toLowerCase()
-   .includes(value.toLowerCase())
-   ?"block":"none";
+  const rect=
+   win.getBoundingClientRect();
+
+  ox=e.clientX-rect.left;
+  oy=e.clientY-rect.top;
+
+  win.style.transform="none";
+
+  win.style.left=
+   rect.left+"px";
+
+  win.style.top=
+   rect.top+"px";
+
+  win.style.zIndex=++zIndex;
+
+ });
+
+ document.addEventListener("mousemove",e=>{
+
+  if(!dragging)return;
+
+  win.style.left=
+   e.clientX-ox+"px";
+
+  win.style.top=
+   e.clientY-oy+"px";
+
+ });
+
+ document.addEventListener("mouseup",()=>{
+
+  dragging=false;
+
+ });
+
+ win.addEventListener("mousedown",()=>{
+
+  win.style.zIndex=++zIndex;
 
  });
 
 }
 
 
-/* CONTROL CENTER */
+/* =====================================================
+   CONTROL CENTER
+===================================================== */
 
-function toggleControlCenter(){
+function toggleWifi(){
 
- document
- .getElementById("controlCenter")
- .classList.toggle("hidden");
+ state.wifi=!state.wifi;
+
+ saveState();
+
+ updateIndicators();
+
+ notify(
+  "Wi-Fi",
+  state.wifi
+   ?"Connected"
+   :"Disconnected"
+ );
+
+}
+
+function toggleBluetooth(){
+
+ state.bluetooth=!state.bluetooth;
+
+ saveState();
+
+ document.getElementById("ccBluetoothText")
+  .textContent=
+  state.bluetooth
+   ?"On"
+   :"Off";
+
+ notify(
+  "Bluetooth",
+  state.bluetooth
+   ?"Bluetooth enabled"
+   :"Bluetooth disabled"
+ );
+
+}
+
+function updateIndicators(){
+
+ document.getElementById("wifiIndicator")
+  .textContent=
+  state.wifi
+   ?"⌁ Wi-Fi"
+   :"⌁ Off";
+
+ document.getElementById("ccWifi")
+  .textContent=
+  state.wifi
+   ?"⌁ Wi-Fi"
+   :"⌁ Wi-Fi Off";
+
+ document.getElementById("ccWifiText")
+  .textContent=
+  state.wifi
+   ?"Connected"
+   :"Disconnected";
+
+}
+
+function setBrightness(value){
+
+ state.brightness=value;
+
+ document.getElementById("desktop")
+  .style.filter=
+  `brightness(${value/100})`;
+
+ saveState();
+
+}
+
+function setVolume(value){
+
+ state.volume=value;
+
+ saveState();
 
 }
 
 
-/* WALLPAPER */
+/* =====================================================
+   WALLPAPER
+===================================================== */
 
 function changeWallpaper(){
 
@@ -2190,19 +4110,19 @@ function changeWallpaper(){
   "default",
   "purple",
   "blue",
-  "dark",
-  "sunset"
+  "sunset",
+  "dark"
  ];
 
- const current=wallpapers.indexOf(state.wallpaper);
+ const index=
+  wallpapers.indexOf(state.wallpaper);
 
  state.wallpaper=
- wallpapers[(current+1)%wallpapers.length];
+  wallpapers[
+   (index+1)%wallpapers.length
+  ];
 
- localStorage.setItem(
-  "glass_wallpaper",
-  state.wallpaper
- );
+ saveState();
 
  applyWallpaper();
 
@@ -2215,54 +4135,123 @@ function changeWallpaper(){
 
 function applyWallpaper(){
 
- const d=document.getElementById("desktop");
+ const d=
+  document.getElementById("desktop");
 
- if(!d)return;
+ const wallpapers={
 
- const backgrounds={
+  default:
+  "radial-gradient(circle at 75% 5%,rgba(110,145,225,.48),transparent 33%),linear-gradient(135deg,#1c273c,#080d15 75%)",
 
- default:
- "radial-gradient(circle at 75% 5%,rgba(125,150,220,.55),transparent 32%),linear-gradient(135deg,#1d2940,#080d15 75%)",
+  purple:
+  "radial-gradient(circle at 30% 20%,#8b6bb5,transparent 40%),linear-gradient(135deg,#332047,#090b12)",
 
- purple:
- "radial-gradient(circle at 30% 20%,#8b6bb5,transparent 40%),linear-gradient(135deg,#332047,#090b12)",
+  blue:
+  "radial-gradient(circle at 70% 20%,#4f8fbd,transparent 40%),linear-gradient(135deg,#102d47,#060d16)",
 
- blue:
- "radial-gradient(circle at 70% 20%,#4f8fbd,transparent 40%),linear-gradient(135deg,#102d47,#060d16)",
+  sunset:
+  "radial-gradient(circle at 70% 20%,#bd765b,transparent 35%),linear-gradient(135deg,#472a32,#090b12)",
 
- dark:
- "linear-gradient(135deg,#141414,#030303)",
-
- sunset:
- "radial-gradient(circle at 70% 20%,#bd765b,transparent 35%),linear-gradient(135deg,#472a32,#090b12)"
+  dark:
+  "linear-gradient(135deg,#141414,#030303)"
 
  };
 
- d.style.background=backgrounds[state.wallpaper];
+ d.style.background=
+  wallpapers[state.wallpaper];
 
 }
 
 
-/* LOCK */
+/* =====================================================
+   POWER
+===================================================== */
+
+function showPower(){
+
+ document
+  .getElementById("power")
+  .classList.remove("hidden");
+
+}
+
+function hidePower(){
+
+ document
+  .getElementById("power")
+  .classList.add("hidden");
+
+}
+
+function restartOS(){
+
+ document
+  .getElementById("power")
+  .classList.add("hidden");
+
+ document
+  .getElementById("shutdown")
+  .classList.remove("hidden");
+
+ document.getElementById("shutdownText")
+  .textContent=
+  "Restarting GlassOS...";
+
+ setTimeout(()=>{
+
+  location.reload();
+
+ },2200);
+
+}
+
+function shutdownOS(){
+
+ hidePower();
+
+ document
+  .getElementById("shutdown")
+  .classList.remove("hidden");
+
+ document.getElementById("shutdownText")
+  .textContent=
+  "GlassOS is shutting down...";
+
+}
+
+function sleepOS(){
+
+ hidePower();
+
+ document
+  .getElementById("lock")
+  .classList.remove("hidden");
+
+}
+
+
+/* =====================================================
+   LOCK
+===================================================== */
 
 function lockOS(){
 
  document
- .getElementById("lock")
- .classList.remove("hidden");
+  .getElementById("lock")
+  .classList.remove("hidden");
 
- document.getElementById("lockUser").textContent=
- state.user;
+ document.getElementById("unlockPin")
+  .value="";
 
- document.getElementById("unlockPin").value="";
-
- document.getElementById("unlockPin").focus();
+ document.getElementById("unlockPin")
+  .focus();
 
 }
 
 function unlockOS(){
 
- const pin=document.getElementById("unlockPin").value;
+ const pin=
+  document.getElementById("unlockPin").value;
 
  if(pin===state.pin){
 
@@ -2282,47 +4271,100 @@ function unlockOS(){
 }
 
 
-/* POWER */
+/* =====================================================
+   LAUNCHER
+===================================================== */
 
-function showPower(){
+function toggleLauncher(){
 
- document
- .getElementById("power")
- .classList.remove("hidden");
+ const launcher=
+  document.getElementById("launcher");
 
-}
+ launcher.classList.toggle("hidden");
 
-function hidePower(){
+ if(!launcher.classList.contains("hidden")){
 
- document
- .getElementById("power")
- .classList.add("hidden");
-
-}
-
-function restartOS(){
-
- location.reload();
-
-}
-
-
-/* RESET */
-
-function resetOS(){
-
- if(confirm("Reset GlassOS and erase the simulator data?")){
-
-  localStorage.clear();
-
-  location.reload();
+  document.getElementById("launcherSearch")
+   .focus();
 
  }
 
 }
 
+function openFromLauncher(app){
 
-/* CONTEXT MENU */
+ document
+  .getElementById("launcher")
+  .classList.add("hidden");
+
+ openApp(app);
+
+}
+
+function filterLauncher(value){
+
+ document
+  .querySelectorAll(".launcher-app")
+  .forEach(app=>{
+
+   app.style.display=
+    app.dataset.name
+    .toLowerCase()
+    .includes(value.toLowerCase())
+    ?"block"
+    :"none";
+
+  });
+
+}
+
+function toggleControlCenter(){
+
+ document
+  .getElementById("controlCenter")
+  .classList.toggle("hidden");
+
+}
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+function notify(title,text){
+
+ const box=
+  document.getElementById("notifications");
+
+ const n=
+  document.createElement("div");
+
+ n.className="notification";
+
+ n.innerHTML=`
+
+ <strong>
+ ${escapeHtml(title)}
+ </strong>
+
+ <small>
+ ${escapeHtml(text)}
+ </small>
+
+ `;
+
+ box.appendChild(n);
+
+ setTimeout(()=>{
+  n.remove();
+ },3500);
+
+}
+
+
+/* =====================================================
+   CONTEXT MENU
+===================================================== */
 
 document.addEventListener("contextmenu",e=>{
 
@@ -2334,10 +4376,14 @@ document.addEventListener("contextmenu",e=>{
 
  e.preventDefault();
 
- const menu=document.getElementById("contextMenu");
+ const menu=
+  document.getElementById("contextMenu");
 
- menu.style.left=e.clientX+"px";
- menu.style.top=e.clientY+"px";
+ menu.style.left=
+  e.clientX+"px";
+
+ menu.style.top=
+  e.clientY+"px";
 
  menu.classList.remove("hidden");
 
@@ -2353,13 +4399,15 @@ document.addEventListener("click",e=>{
 function hideContext(){
 
  document
- .getElementById("contextMenu")
- .classList.add("hidden");
+  .getElementById("contextMenu")
+  .classList.add("hidden");
 
 }
 
 
-/* KEYBOARD SHORTCUTS */
+/* =====================================================
+   KEYBOARD SHORTCUTS
+===================================================== */
 
 document.addEventListener("keydown",e=>{
 
@@ -2375,16 +4423,22 @@ document.addEventListener("keydown",e=>{
 
  }
 
- if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="t"){
+ if(e.ctrlKey &&
+    e.altKey &&
+    e.key.toLowerCase()==="t"){
 
   e.preventDefault();
+
   openApp("terminal");
 
  }
 
- if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="l"){
+ if(e.ctrlKey &&
+    e.altKey &&
+    e.key.toLowerCase()==="l"){
 
   e.preventDefault();
+
   lockOS();
 
  }
@@ -2392,7 +4446,26 @@ document.addEventListener("keydown",e=>{
 });
 
 
-/* ESCAPE HTML */
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetOS(){
+
+ if(!confirm(
+  "Reset GlassOS? All simulator data will be erased."
+ ))return;
+
+ localStorage.clear();
+
+ location.reload();
+
+}
+
+
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
 
 function escapeHtml(s){
 
@@ -2410,7 +4483,9 @@ function escapeHtml(s){
 }
 
 
-/* INITIALIZE */
+/* =====================================================
+   START
+===================================================== */
 
 if(state.setup){
 
@@ -2418,7 +4493,7 @@ if(state.setup){
 
 }else{
 
- updateProgress();
+ showInstallStep(1);
 
 }
 
@@ -2426,3 +4501,4 @@ if(state.setup){
 
 </body>
 </html>
+```
